@@ -1,0 +1,5 @@
+# artifacts
+.solid
+node_modules
+coverage
+.env.*.local

@@ -1,6 +1,6 @@
 // @refresh reload
-import { SessionProvider } from "@solid-auth/base/client";
-import { Suspense } from "solid-js";
+import { SessionProvider } from '@solid-auth/base/client'
+import { Suspense } from 'solid-js'
 import {
   A,
   Body,
@@ -12,10 +12,10 @@ import {
   Routes,
   Scripts,
   Title,
-} from "solid-start";
+} from 'solid-start'
 
-import './font.css';
-import "./root.css";
+import './font.css'
+import './root.css'
 
 export default function Root() {
   return (
@@ -41,5 +41,5 @@ export default function Root() {
         <Scripts />
       </Body>
     </Html>
-  );
+  )
 }
