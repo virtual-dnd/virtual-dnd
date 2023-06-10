@@ -8,7 +8,7 @@ import { authOptions } from "~/server/auth";
 export const routeData = () => {
   return createServerData$(async (_, event) => {
     const session = await getSession(event.request, authOptions);
-    return { session: session };
+    return { session };
   });
 };
 
