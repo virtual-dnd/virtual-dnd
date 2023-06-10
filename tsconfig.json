@@ -1,10 +1,12 @@
 {
   "compilerOptions": {
+    "allowImportingTsExtensions": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "node",
+    "noEmit": true,
     "jsxImportSource": "solid-js",
     "jsx": "preserve",
     "strict": true,
