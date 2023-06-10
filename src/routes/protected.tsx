@@ -1,22 +1,22 @@
-import { getSession } from "@solid-auth/base";
-import { signOut } from "@solid-auth/base/client";
-import { Show, type VoidComponent } from "solid-js";
-import { useRouteData } from "solid-start";
-import { createServerData$, redirect } from "solid-start/server";
-import { authOptions } from "~/server/auth";
+import { getSession } from '@solid-auth/base'
+import { signOut } from '@solid-auth/base/client'
+import { Show, type VoidComponent } from 'solid-js'
+import { useRouteData } from 'solid-start'
+import { createServerData$, redirect } from 'solid-start/server'
+import { authOptions } from '~/server/auth.ts'
 
 export const routeData = () => {
   return createServerData$(async (_, event) => {
-    const session = await getSession(event.request, authOptions);
+    const session = await getSession(event.request, authOptions)
     if (!session) {
-      throw redirect("/");
+      throw redirect('/')
     }
-    return session;
-  });
-};
+    return session
+  })
+}
 
 const Protected: VoidComponent = () => {
-  const session = useRouteData<typeof routeData>();
+  const session = useRouteData<typeof routeData>()
   return (
     <Show when={session()} keyed>
       {(us) => (
@@ -27,7 +27,7 @@ const Protected: VoidComponent = () => {
           <button
             onClick={() =>
               void signOut({
-                redirectTo: "/",
+                redirectTo: '/',
                 redirect: true,
               })
             }
@@ -37,7 +37,7 @@ const Protected: VoidComponent = () => {
         </main>
       )}
     </Show>
-  );
-};
+  )
+}
 
-export default Protected;
+export default Protected

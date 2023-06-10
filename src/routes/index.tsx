@@ -1,26 +1,26 @@
-import { getSession } from "@solid-auth/base";
-import { signIn } from "@solid-auth/base/client";
-import { createSignal, onCleanup, Show } from "solid-js";
-import { Navigate, useRouteData } from "solid-start";
-import { createServerData$ } from "solid-start/server";
-import { authOptions } from "~/server/auth";
+import { getSession } from '@solid-auth/base'
+import { signIn } from '@solid-auth/base/client'
+import { createSignal, onCleanup, Show } from 'solid-js'
+import { Navigate, useRouteData } from 'solid-start'
+import { createServerData$ } from 'solid-start/server'
+import { authOptions } from '~/server/auth.ts'
 
 export const routeData = () => {
   return createServerData$(async (_, event) => {
-    const session = await getSession(event.request, authOptions);
-    return { session };
-  });
-};
+    const session = await getSession(event.request, authOptions)
+    return { session }
+  })
+}
 
 export default function Home() {
-  const session = useRouteData<typeof routeData>();
-  const [redirectIn, setRedirectIn] = createSignal(3);
+  const session = useRouteData<typeof routeData>()
+  const [redirectIn, setRedirectIn] = createSignal(3)
 
   const int = setInterval(() => {
-    setRedirectIn((prev) => prev - 1);
-  }, 1000);
+    setRedirectIn((prev) => prev - 1)
+  }, 1000)
 
-  onCleanup(() => clearInterval(int));
+  onCleanup(() => clearInterval(int))
 
   return (
     <main>
@@ -30,7 +30,7 @@ export default function Home() {
         fallback={
           <>
             <span>You are not signed in.</span>
-            <button onClick={() => signIn("discord")}>Sign In</button>
+            <button onClick={() => signIn('discord')}>Sign In</button>
           </>
         }
       >
@@ -40,5 +40,5 @@ export default function Home() {
         </Show>
       </Show>
     </main>
-  );
+  )
 }

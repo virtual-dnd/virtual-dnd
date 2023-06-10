@@ -32,6 +32,7 @@ export default function Root() {
             <ErrorBoundary>
               <A href="/">Home</A>
               <A href="/protected">Protected</A>
+
               <Routes>
                 <FileRoutes />
               </Routes>

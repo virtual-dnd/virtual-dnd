@@ -1,5 +1,6 @@
 body {
-  font-family: 'gg sans Normal Regular', Gordita, Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-family: 'gg sans Normal Regular', Gordita, Roboto, Oxygen, Ubuntu,
+    Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 main {
@@ -38,7 +39,6 @@ h1 {
 main button {
   width: 3.5rem;
   padding: 0.5rem;
-  width: 12rem;
   border: none;
   border-radius: 0.25rem;
   background: #335d92;
