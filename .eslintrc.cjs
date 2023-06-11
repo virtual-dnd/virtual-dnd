@@ -23,7 +23,7 @@ module.exports = {
   plugins: ['import'],
   rules: {
     'import/extensions': [ERROR, 'always', { ignorePackages: true }],
-    'import/no-unresolved': [2, { ignore: ['solid-start/*', '~/server/*'] }],
+    'import/no-unresolved': [2, { ignore: ['solid-start/*', '~/*/*'] }],
     'import/order': [
       WARN,
       {

@@ -1,0 +1,9 @@
+.header {
+  height: 3rem;
+}
+
+.nav {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}

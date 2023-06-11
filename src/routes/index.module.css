@@ -1,0 +1,26 @@
+.wrapper {
+  background-color: var(--discord-blue);
+  color: var(--ps-text-inverse);
+}
+
+.feature {
+  height: 66vh;
+  padding: 1rem;
+}
+
+.main {
+  padding-top: 2rem;
+}
+
+.section {
+  background-color: var(--ps-surface);
+  color: var(--ps-text);
+  height: 33vh;
+  padding: 1rem;
+}
+
+.footer {
+  background-color: var(--ps-surface-inverse);
+  height: 33vh;
+  padding: 1rem;
+}
