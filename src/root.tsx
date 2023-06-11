@@ -2,7 +2,6 @@
 import { SessionProvider } from '@solid-auth/base/client'
 import { Suspense } from 'solid-js'
 import {
-  A,
   Body,
   ErrorBoundary,
   FileRoutes,
