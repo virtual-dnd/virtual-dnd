@@ -10,7 +10,7 @@ interface NavProps {
 
 export default function Nav(props: NavProps) {
   function handleSignIn() {
-    signIn('google')
+    signIn()
   }
 
   return (

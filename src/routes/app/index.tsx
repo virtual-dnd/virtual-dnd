@@ -1,31 +1,35 @@
 import { getSession } from '@solid-auth/base'
 import { signOut } from '@solid-auth/base/client'
-import { Show, onMount, type VoidComponent } from 'solid-js'
+import { Show, type VoidComponent } from 'solid-js'
 import { useRouteData } from 'solid-start'
 import { createServerData$, redirect } from 'solid-start/server'
 import styles from './app.module.css'
 import { authOptions } from '~/server/auth.ts'
-import { setTheme } from '~/store/theme.ts'
+import { supabase } from '~/lib/solidbaseClient.ts'
 
 export const routeData = () => {
   return createServerData$(async (_, event) => {
     const session = await getSession(event.request, authOptions)
+    const { data } = await supabase
+      .from('users')
+      .select('*')
+      .eq('email', session?.user?.email)
+
     if (!session) {
       throw redirect('/')
     }
-    return session
+
+    return { session, user: data?.[0] ?? [] }
   })
 }
 
 const Protected: VoidComponent = () => {
   const session = useRouteData<typeof routeData>()
 
-  onMount(() => {
-    setTheme('dark')
-  })
+  console.log('user', session()?.user)
 
   return (
-    <Show when={session()} keyed>
+    <Show when={session()?.session} keyed>
       {(us) => (
         <div>
           <header class={styles.header}>
