@@ -1,5 +1,4 @@
 // @refresh reload
-import { SessionProvider } from '@solid-auth/base/client'
 import { Suspense } from 'solid-js'
 import {
   Body,
@@ -34,13 +33,11 @@ export default function Root() {
 
       <Body>
         <Suspense>
-          <SessionProvider>
-            <ErrorBoundary>
-              <Routes>
-                <FileRoutes />
-              </Routes>
-            </ErrorBoundary>
-          </SessionProvider>
+          <ErrorBoundary>
+            <Routes>
+              <FileRoutes />
+            </Routes>
+          </ErrorBoundary>
         </Suspense>
         <Scripts />
       </Body>

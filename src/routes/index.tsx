@@ -7,21 +7,25 @@ import { getUserSession } from '~/db/session.ts'
 export const routeData = () => {
   return createServerData$(async (_, event) => {
     const session = await getUserSession(event.request)
-    return { session }
+    console.log('session', session)
+    return null
+    // return { session }
   })
 }
 
 export default function Home() {
   const session = useRouteData<typeof routeData>()
 
-  if (session()?.session) {
+  console.log('session', session())
+
+  if (session()) {
     return <Navigate href="/app" />
   }
 
   return (
     <div class={styles.wrapper}>
       <div class={styles.feature}>
-        <Nav session={session()?.session} />
+        <Nav session={session()} />
 
         <main class={styles.main}>
           <h1>Home</h1>

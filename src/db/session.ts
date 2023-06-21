@@ -42,7 +42,7 @@ export const storage = createCookieSessionStorage({
     name: 'VDND_session',
     // secure doesn't work on localhost for Safari
     // https://web.dev/when-to-use-local-https/
-    secure: true,
+    secure: import.meta.env.PROD,
     secrets: [sessionSecret],
     sameSite: 'lax',
     path: '/',
