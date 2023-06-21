@@ -1,6 +1,5 @@
 import { A } from 'solid-start'
 import { Show } from 'solid-js'
-import { signIn } from '@solid-auth/base/client'
 import { Session } from '@auth/core/types'
 import styles from './nav.module.css'
 
@@ -9,10 +8,6 @@ interface NavProps {
 }
 
 export default function Nav(props: NavProps) {
-  function handleSignIn() {
-    signIn()
-  }
-
   return (
     <header class={styles.header}>
       <nav class={styles.nav}>
@@ -21,9 +16,9 @@ export default function Nav(props: NavProps) {
         <Show
           when={props.session}
           fallback={
-            <button class="round" onClick={handleSignIn}>
+            <A class="round" href="/signin">
               Sign In
-            </button>
+            </A>
           }
         >
           <A class="round" href="/app">
