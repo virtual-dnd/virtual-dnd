@@ -1,13 +1,12 @@
-import { getSession } from '@solid-auth/base'
 import { Navigate, useRouteData } from 'solid-start'
 import { createServerData$ } from 'solid-start/server'
 import styles from './index.module.css'
-import { authOptions } from '~/server/auth.ts'
 import Nav from '~/components/nav/nav.tsx'
+import { getUserSession } from '~/db/session.ts'
 
 export const routeData = () => {
   return createServerData$(async (_, event) => {
-    const session = await getSession(event.request, authOptions)
+    const session = await getUserSession(event.request)
     return { session }
   })
 }
