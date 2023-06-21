@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
+import { storage } from '~/db/session.ts'
 
 export const supabase = createClient(
   `https://${import.meta.env.VITE_SUPABASE_ID}.supabase.co`,
@@ -6,7 +7,19 @@ export const supabase = createClient(
   {
     auth: {
       flowType: 'pkce',
-      // storage: TODO: add custom cookie storage here
+      storage: {
+        getItem: async (key: string) => {
+          const session = await storage.getSession()
+          session.get(key)
+        },
+        setItem: async (key: string, value: string) => {
+          const session = await storage.getSession()
+          session.set(key, value)
+        },
+        removeItem: (key) => {
+          console.log(key)
+        },
+      },
     },
   }
 )
