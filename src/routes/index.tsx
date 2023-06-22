@@ -1,13 +1,31 @@
-import { Navigate, useRouteData } from 'solid-start'
+import { Navigate, type RouteDataArgs, useRouteData } from 'solid-start'
 import { createServerData$ } from 'solid-start/server'
 import styles from './index.module.css'
 import Nav from '~/components/nav/nav.tsx'
-import { getUserSession } from '~/db/session.ts'
+import { getUserSession, verifyMagicLink } from '~/db/session.ts'
 
-export const routeData = () => {
+export function routeData({ location: { search } }: RouteDataArgs) {
+  const codeKey = 'code='
+
+  if (search.includes(codeKey)) {
+    return createServerData$(
+      async ([code]) => {
+        // TODO: Figure out why we are getting this error:
+        // entry-client.tsx:3 AuthApiError: invalid request: both auth code and code verifier should be non-empty
+
+        await verifyMagicLink(code)
+        return null
+        // return { session }
+      },
+      {
+        key: () => [search.split(codeKey)[1]],
+      }
+    )
+  }
+
   return createServerData$(async (_, event) => {
-    const session = await getUserSession(event.request)
-    console.log('session', session)
+    // const session = await getUserSession(event.request)
+    // console.log('session', session)
     return null
     // return { session }
   })
@@ -16,7 +34,7 @@ export const routeData = () => {
 export default function Home() {
   const session = useRouteData<typeof routeData>()
 
-  console.log('session', session())
+  // console.log('session', session())
 
   if (session()) {
     return <Navigate href="/app" />

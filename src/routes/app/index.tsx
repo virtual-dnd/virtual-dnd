@@ -1,9 +1,8 @@
-import { signOut } from '@solid-auth/base/client'
 import { Show, type VoidComponent } from 'solid-js'
 import { useRouteData } from 'solid-start'
 import { createServerData$, redirect } from 'solid-start/server'
 import styles from './app.module.css'
-import { getUserSession } from '~/db/session.ts'
+import { getUserSession, signOut } from '~/db/session.ts'
 
 export const routeData = () => {
   return createServerData$(async (_, event) => {
@@ -37,15 +36,7 @@ const Protected: VoidComponent = () => {
               </span>
             ) : null}
 
-            <button
-              class="round action"
-              onClick={() =>
-                void signOut({
-                  redirectTo: '/',
-                  redirect: true,
-                })
-              }
-            >
+            <button class="round action" onClick={() => void signOut()}>
               Sign Out
             </button>
           </header>
