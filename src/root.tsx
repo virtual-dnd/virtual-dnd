@@ -13,7 +13,6 @@ import {
   Title,
 } from 'solid-start'
 import { theme } from './store/theme.ts'
-
 import './root.css'
 
 export default function Root() {
