@@ -1,6 +1,8 @@
 import { redirect } from 'solid-start/server'
 import { createCookieSessionStorage } from 'solid-start/session'
 import { type Provider } from '@supabase/supabase-js'
+// import { createServerClient } from '@supabase/auth-helpers-remix'
+import { createServerClient } from '@supabase/auth-helpers-remix'
 import { supabase } from '~/lib/solidbaseClient.ts'
 
 const sessionSecret = import.meta.env.VITE_SESSION_SECRET
@@ -31,8 +33,27 @@ export async function createUserSession(userId: string, redirectTo: string) {
   })
 }
 
-export function getUserSession(request: Request) {
-  return storage.getSession(request.headers.get('Cookie'))
+export async function getUserSession(request: Request) {
+  // return storage.getSession(request.headers.get('Cookie'))
+
+  const response = new Response()
+  const serverSupabase = createServerClient(
+    import.meta.env.VITE_SUPABASE_URL,
+    import.meta.env.VITE_SUPABASE_KEY,
+    { request, response }
+  )
+
+  const {
+    data: { session },
+    error,
+  } = await serverSupabase.auth.getSession()
+
+  if (error) throw error
+
+  return {
+    session,
+    headers: response.headers,
+  }
 }
 
 export async function getUserId(request: Request) {
@@ -97,7 +118,7 @@ export async function signInWithMagicLink(email: string) {
   const { data, error } = await supabase.auth.signInWithOtp({
     email,
     options: {
-      emailRedirectTo: `${import.meta.env.BASE_URL}/api/auth/callback`,
+      emailRedirectTo: `http://localhost:3000/api/auth/callback`,
     },
   })
 
@@ -106,33 +127,25 @@ export async function signInWithMagicLink(email: string) {
   return data.user
 }
 
-export async function verifyMagicLink(code: string) {
-  const { data, error } = await supabase.auth.exchangeCodeForSession(code)
-
-  console.log('veryfyMagicLink', data)
-
-  if (error) throw error
-
-  return redirect('/signin')
-}
-
 export async function signInWithProvider(provider: Provider, request: Request) {
   const { data, error } = await supabase.auth.signInWithOAuth({ provider })
 
   console.log('signInWithProvider', data)
 
   if (error) throw error
+
+  return redirect(data.url, {
+    headers: request.headers,
+  })
 }
 
 export async function signOut(request: Request) {
-  const session = await storage.getSession(request.headers.get('Cookie'))
+  // const session = await storage.getSession(request.headers.get('Cookie'))
   const { error } = await supabase.auth.signOut()
 
   if (error) throw error
 
-  return redirect('/signin', {
-    headers: {
-      'Set-Cookie': await storage.destroySession(session),
-    },
+  return redirect('/', {
+    headers: request.headers,
   })
 }

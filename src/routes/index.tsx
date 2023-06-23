@@ -1,49 +1,33 @@
-import { Navigate, type RouteDataArgs, useRouteData } from 'solid-start'
-import { createServerData$ } from 'solid-start/server'
+import { Navigate, useRouteData } from 'solid-start'
+import { createServerData$, json } from 'solid-start/server'
+import { type Session } from '@supabase/supabase-js'
 import styles from './index.module.css'
 import Nav from '~/components/nav/nav.tsx'
-import { getUserSession, verifyMagicLink } from '~/db/session.ts'
+import { getUserSession } from '~/db/session.ts'
 
-export function routeData({ location: { search } }: RouteDataArgs) {
-  const codeKey = 'code='
-
-  if (search.includes(codeKey)) {
-    return createServerData$(
-      async ([code]) => {
-        // TODO: Figure out why we are getting this error:
-        // entry-client.tsx:3 AuthApiError: invalid request: both auth code and code verifier should be non-empty
-
-        await verifyMagicLink(code)
-        return null
-        // return { session }
-      },
-      {
-        key: () => [search.split(codeKey)[1]],
-      }
-    )
-  }
-
-  return createServerData$(async (_, event) => {
-    // const session = await getUserSession(event.request)
-    // console.log('session', session)
-    return null
-    // return { session }
-  })
-}
+// export function routeData() {
+//   return createServerData$(async (_, event) => {
+//     const sessionData = await getUserSession(event.request)
+//     return json(
+//       { session: sessionData.session },
+//       { headers: sessionData.headers }
+//     )
+//   })
+// }
 
 export default function Home() {
-  const session = useRouteData<typeof routeData>()
+  const session = useRouteData<Session>()
 
-  // console.log('session', session())
+  console.log('session', session)
 
-  if (session()) {
+  if (session === true) {
     return <Navigate href="/app" />
   }
 
   return (
     <div class={styles.wrapper}>
       <div class={styles.feature}>
-        <Nav session={session()} />
+        <Nav session={false} />
 
         <main class={styles.main}>
           <h1>Home</h1>
