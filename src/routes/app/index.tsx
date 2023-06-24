@@ -36,7 +36,7 @@ const Protected: VoidComponent = () => {
               </span>
             ) : null}
 
-            <button class="round action" onClick={() => void signOut()}>
+            <button class="round action" onClick={signOut}>
               Sign Out
             </button>
           </header>

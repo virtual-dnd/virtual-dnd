@@ -1,26 +1,24 @@
 import { Navigate, useRouteData } from 'solid-start'
-import { createServerData$, json } from 'solid-start/server'
+import { createServerData$ } from 'solid-start/server'
 import { type Session } from '@supabase/supabase-js'
 import styles from './index.module.css'
 import Nav from '~/components/nav/nav.tsx'
 import { getUserSession } from '~/db/session.ts'
 
-// export function routeData() {
-//   return createServerData$(async (_, event) => {
-//     const sessionData = await getUserSession(event.request)
-//     return json(
-//       { session: sessionData.session },
-//       { headers: sessionData.headers }
-//     )
-//   })
-// }
+export function routeData() {
+  return createServerData$(async (_, event) => {
+    const sessionJSON = await getUserSession(event.request)
+    const session = await sessionJSON.json()
+    return session
+  })
+}
 
 export default function Home() {
   const session = useRouteData<Session>()
 
-  console.log('session', session)
+  // TODO: Discord shows button switching to app if logged in
 
-  if (session === true) {
+  if (session().user) {
     return <Navigate href="/app" />
   }
 
