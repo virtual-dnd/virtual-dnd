@@ -43,18 +43,6 @@ export async function signOut() {
 
 // Session
 
-// export async function createUserSession(userId: string, redirectTo: string) {
-//   const session = await storage.getSession()
-
-//   session.set('userId', userId)
-
-//   return redirect(redirectTo, {
-//     headers: {
-//       'Set-Cookie': await storage.commitSession(session),
-//     },
-//   })
-// }
-
 export async function getUserSession(request: Request) {
   const response = new Response()
   const serverSupabase = createServerClient(
@@ -68,47 +56,45 @@ export async function getUserSession(request: Request) {
     error,
   } = await serverSupabase.auth.getSession()
 
-  console.log('getUserSession session', session)
-
   if (error) throw error
 
   return json(session, { headers: response.headers })
 }
 
-export async function getUserId(request: Request) {
-  const session = await getUserSession(request)
-  const userId = session.get('userId')
-  if (!userId || typeof userId !== 'string') return null
-  return userId
-}
+// export async function getUserId(request: Request) {
+//   const session = await getUserSession(request)
+//   const userId = session.get('userId')
+//   if (!userId || typeof userId !== 'string') return null
+//   return userId
+// }
 
-export async function requireUserSession(
-  request: Request,
-  redirectTo: string = new URL(request.url).pathname
-) {
-  const session = await getUserSession(request)
-  const userId = session.get('userId')
+// export async function requireUserSession(
+//   request: Request,
+//   redirectTo: string = new URL(request.url).pathname
+// ) {
+//   const session = await getUserSession(request)
+//   const userId = session.get('userId')
 
-  if (!userId || typeof userId !== 'string') {
-    const searchParams = new URLSearchParams([['redirectTo', redirectTo]])
-    throw redirect(`/login?${searchParams}`)
-  }
+//   if (!userId || typeof userId !== 'string') {
+//     const searchParams = new URLSearchParams([['redirectTo', redirectTo]])
+//     throw redirect(`/login?${searchParams}`)
+//   }
 
-  return userId
-}
+//   return userId
+// }
 
-export async function getUser(request: Request) {
-  const userId = await getUserId(request)
-  if (typeof userId !== 'string') {
-    return null
-  }
+// export async function getUser(request: Request) {
+//   const userId = await getUserId(request)
+//   if (typeof userId !== 'string') {
+//     return null
+//   }
 
-  try {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser(userId)
-    return user
-  } catch {
-    throw signOut(request)
-  }
-}
+//   try {
+//     const {
+//       data: { user },
+//     } = await supabase.auth.getUser(userId)
+//     return user
+//   } catch {
+//     throw signOut(request)
+//   }
+// }

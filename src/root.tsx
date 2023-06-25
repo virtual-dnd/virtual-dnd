@@ -17,13 +17,10 @@ import './root.css'
 
 export default function Root() {
   return (
-    <Html lang="en" data-theme={theme()}>
+    <Html lang="en" class={theme()}>
       <Head>
+        <Link rel="stylesheet" href="/fonts/dmvendor.css" />
         <Link rel="stylesheet" href="/fonts/styles.css" />
-        <link
-          rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/@pluralsight/design-tokens@next/npm/normalize/normalize.css"
-        />
 
         <Title>Virtual DnD</Title>
         <Meta charset="utf-8" />
