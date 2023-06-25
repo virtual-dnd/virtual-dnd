@@ -1,8 +1,7 @@
-import { Navigate, useRouteData } from 'solid-start'
+import { A, useRouteData } from 'solid-start'
 import { createServerData$ } from 'solid-start/server'
+import { Show } from 'solid-js'
 import { type Session } from '@supabase/supabase-js'
-import styles from './index.module.css'
-import Nav from '~/components/nav/nav.tsx'
 import { getUserSession } from '~/db/session.ts'
 
 export function routeData() {
@@ -16,30 +15,59 @@ export function routeData() {
 export default function Home() {
   const session = useRouteData<Session>()
 
-  // TODO: Discord shows button switching to app if logged in
-
-  if (session().user) {
-    return <Navigate href="/app" />
-  }
-
   return (
-    <div class={styles.wrapper}>
-      <div class={styles.feature}>
-        <Nav session={false} />
+    <div class="h-full min-h-screen">
+      <div class="bg-background  pb-2">
+        <header class="align-center flex justify-between p-4">
+          <h1 class="action-text self-center">
+            <A class="text-text-100" href="/">
+              :crossed_swords: Virtual DnD
+            </A>
+          </h1>
 
-        <main class={styles.main}>
-          <h1>Home</h1>
-          <p>This will have some cool marketing stuff later...</p>
+          <Show
+            when={session()?.user}
+            fallback={
+              <A class="action-link action-inverse-btn" href="/signin">
+                Sign in
+              </A>
+            }
+          >
+            <A class="action-inverse-btn action-link" href="/app">
+              Go to app
+            </A>
+          </Show>
+        </header>
+
+        <main class="px-4 py-12">
+          <h1 class="font-display text-6xl text-action-text">HOME</h1>
+          <p class="text-action-text">
+            This will have some cool marketing stuff later...
+          </p>
         </main>
       </div>
 
-      <section class={styles.section}>
-        <h2>Another cool saying...</h2>
+      <section class="bg-white px-4 py-12">
+        <h2 class="font-display text-2xl">Another cool saying...</h2>
         <p>More wow factor...</p>
       </section>
 
-      <footer class={styles.footer}>
-        <small>Please fund me...</small>
+      <section class="bg-surface-inverse px-4 py-12">
+        <h2 class="font-display text-2xl">Demo thing...</h2>
+        <code class="block py-4">
+          Here is a code snippet just in case you need it...
+        </code>
+      </section>
+
+      <footer class="bg-surface-100 px-4 py-12">
+        <small class="text-text-100">Please fund me footer...</small>
+        <ul>
+          <li>
+            <A class="action-link" href="/signin">
+              Sign in
+            </A>
+          </li>
+        </ul>
       </footer>
     </div>
   )

@@ -1,32 +1,31 @@
-:root {
-  --discord-blue: #404eee;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-body {
-  font-family: 'gg sans Normal Regular', Gordita, Roboto, Oxygen, Ubuntu,
-    Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
+@layer components {
+  *:focus-visible {
+    box-shadow: none;
+    outline: 3px solid #3895ff;
+    outline-offset: 2px;
+  }
 
-:is(button, a).round {
-  background-color: var(--ps-text-inverse);
-  border: none;
-  border-radius: 3rem;
-  color: var(--discord-blue);
-  cursor: pointer;
-  font-family: 'gg sans Medium Regular';
-  font-size: 1rem;
-  height: 3rem;
-  padding-inline-end: 1rem;
-  padding-inline-start: 1rem;
-  min-width: 6rem;
-}
+  .btn {
+    @apply mt-2 h-10 rounded-full px-6 py-2 transition ease-in-out;
+  }
 
-:is(button, a).action {
-  background-color: var(--ps-action-background);
-  color: var(--ps-action-text);
-  transition: background 200ms ease-in-out;
-}
+  .action-btn {
+    @apply btn bg-action-background text-action-text hover:bg-action-background-hover;
+  }
 
-:is(button, a).action:hover {
-  background-color: var(--ps-action-background-hover);
+  .action-inverse-btn {
+    @apply btn bg-action-text text-text-inverse hover:text-action-link-text hover:shadow-xl;
+  }
+
+  .action-secondary-btn {
+    @apply btn bg-action-secondary-background text-action-secondary-text hover:bg-action-secondary-background-hover hover:shadow-xl;
+  }
+
+  .action-link {
+    @apply text-action-link-text;
+  }
 }

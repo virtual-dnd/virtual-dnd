@@ -1,5 +1,5 @@
-import { Show, type VoidComponent } from 'solid-js'
-import { useRouteData } from 'solid-start'
+import { Show } from 'solid-js'
+import { createRouteAction, useRouteData } from 'solid-start'
 import { createServerData$, redirect } from 'solid-start/server'
 import styles from './app.module.css'
 import { getUserSession, signOut } from '~/db/session.ts'
@@ -16,8 +16,12 @@ export const routeData = () => {
   })
 }
 
-const Protected: VoidComponent = () => {
+export default function App() {
   const session = useRouteData<typeof routeData>()
+
+  const [, handleSignout] = createRouteAction(async () => {
+    return signOut()
+  })
 
   console.log('session', session())
 
@@ -36,7 +40,7 @@ const Protected: VoidComponent = () => {
               </span>
             ) : null}
 
-            <button class="round action" onClick={signOut}>
+            <button class="round action" onClick={handleSignout}>
               Sign Out
             </button>
           </header>
@@ -49,5 +53,3 @@ const Protected: VoidComponent = () => {
     </Show>
   )
 }
-
-export default Protected
