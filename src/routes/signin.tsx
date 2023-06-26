@@ -1,20 +1,17 @@
+import { type Provider } from '@supabase/supabase-js'
 import { Show } from 'solid-js'
 import { createRouteAction } from 'solid-start'
 import { signInWithMagicLink, signInWithProvider } from '~/db/session.ts'
 
 export default function Signin() {
-  const [submission, handleSubmission] = createRouteAction(async (e: Event) => {
-    const target = e.target as HTMLFormElement
-    const intent = target.intent.value
+  const [submission, { Form }] = createRouteAction(async (form: FormData) => {
+    const intent = form.get('intent')
 
-    e.preventDefault()
-
-    switch (intent) {
-      case 'magicLink':
-        return signInWithMagicLink(target.email.value)
-
-      default:
-        return signInWithProvider(target.intent.value)
+    if (intent === 'magicLink') {
+      signInWithMagicLink(form.get('email') as string)
+      return 'magicLink'
+    } else {
+      return signInWithProvider(intent as Provider)
     }
   })
 
@@ -30,13 +27,13 @@ export default function Signin() {
           </div>
         </Show>
 
-        <Show when={submission.input} fallback={null}>
+        <Show when={submission.result === 'magicLink'} fallback={null}>
           <div class="mb-2 rounded-lg bg-success-background p-2 text-text-inverse">
             <p>Check your email for a magic link!</p>
           </div>
         </Show>
 
-        <form onSubmit={handleSubmission} class="mb-6">
+        <Form class="mb-6">
           <label class="mb-1 block" html-for="email">
             Email (required)
           </label>
@@ -65,13 +62,13 @@ export default function Signin() {
               ...sending
             </Show>
           </button>
-        </form>
+        </Form>
       </div>
 
       <div class="max-w-xl rounded-md bg-surface-inverse p-4">
         <p class="mb-4">Or sign in with a provider</p>
 
-        <form onSubmit={handleSubmission}>
+        <Form>
           <input type="hidden" name="intent" value="google" />
           <button
             class="action-secondary-btn"
@@ -80,9 +77,9 @@ export default function Signin() {
           >
             Sign in with Google
           </button>
-        </form>
+        </Form>
 
-        <form onSubmit={handleSubmission}>
+        <Form>
           <input type="hidden" name="intent" value="discord" />
           <button
             class="action-secondary-btn"
@@ -91,7 +88,7 @@ export default function Signin() {
           >
             Sign in with Discord
           </button>
-        </form>
+        </Form>
       </div>
     </div>
   )

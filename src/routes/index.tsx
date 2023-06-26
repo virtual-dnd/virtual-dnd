@@ -28,12 +28,12 @@ export default function Home() {
           <Show
             when={session()?.user}
             fallback={
-              <A class="action-link action-inverse-btn" href="/signin">
+              <A class="action-link action-inverse-btn" href="./signin">
                 Sign in
               </A>
             }
           >
-            <A class="action-inverse-btn action-link" href="/app">
+            <A class="action-inverse-btn action-link" href="./app">
               Go to app
             </A>
           </Show>
@@ -63,7 +63,7 @@ export default function Home() {
         <small class="text-text-100">Please fund me footer...</small>
         <ul>
           <li>
-            <A class="action-link" href="/signin">
+            <A class="action-link" href="./signin">
               Sign in
             </A>
           </li>
