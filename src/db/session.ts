@@ -1,5 +1,5 @@
 import { json, redirect } from 'solid-start/server'
-import { Session, type Provider } from '@supabase/supabase-js'
+import { type Provider } from '@supabase/supabase-js'
 import { createServerClient } from '@supabase/auth-helpers-remix'
 import { supabase } from '~/lib/solidbaseClient.ts'
 
