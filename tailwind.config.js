@@ -55,7 +55,7 @@ export default {
       mono: ['dm', 'monospace'],
       // custom
       display: [
-        'gg sans bold',
+        'ginto nord',
         'Gordita',
         'Roboto',
         'Oxygen',
