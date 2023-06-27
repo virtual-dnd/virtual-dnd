@@ -17,10 +17,10 @@ export default function Home() {
 
   return (
     <div class="h-full min-h-screen">
-      <div class="bg-background  pb-2">
+      <div class="bg-background pb-2">
         <header class="align-center flex justify-between p-4">
-          <h1 class="action-text self-center">
-            <A class="text-text-100" href="/">
+          <h1 class="self-center">
+            <A class="text-text-inverse" href="/">
               :crossed_swords: Virtual DnD
             </A>
           </h1>
@@ -28,12 +28,15 @@ export default function Home() {
           <Show
             when={session()?.user}
             fallback={
-              <A class="action-link action-inverse-btn" href="./signin">
+              <A
+                class="action-link action-inverse-btn marketing"
+                href="./signin"
+              >
                 Sign in
               </A>
             }
           >
-            <A class="action-inverse-btn action-link" href="./app">
+            <A class="action-inverse-btn action-link marketing" href="./app">
               Go to app
             </A>
           </Show>
@@ -52,14 +55,14 @@ export default function Home() {
         <p>More wow factor...</p>
       </section>
 
-      <section class="bg-surface-inverse px-4 py-12">
+      <section class="bg-surface-200 px-4 py-12">
         <h2 class="font-display text-2xl">Demo thing...</h2>
         <code class="block py-4">
           Here is a code snippet just in case you need it...
         </code>
       </section>
 
-      <footer class="bg-surface-100 px-4 py-12">
+      <footer class="bg-surface-inverse px-4 py-12">
         <small class="text-text-100">Please fund me footer...</small>
         <ul>
           <li>

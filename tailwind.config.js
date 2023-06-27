@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 
-const SURFACE_100 = '#292841'
+const SURFACE_100 = '#313339'
 const WHITE = '#ffffff'
 
 export default {
@@ -13,32 +13,69 @@ export default {
     colors: {
       // default
       background: '#414eed',
-      border: '#3d3c62',
-      'surface-100': SURFACE_100,
-      'surface-200': '#302f50',
-      'surface-300': '#4b4d6a',
-      'surface-400': '#1c1b29',
-      'surface-inverse': '#dcddde',
-      'text-100': WHITE,
-      'text-200': '#dcddde',
-      'text-inverse': SURFACE_100,
+      border: '#d7d9dc',
+      'surface-100': WHITE,
+      'surface-200': '#f2f3f5',
+      'surface-300': '#ebedef',
+      'surface-400': '#e3e5e8',
+      'surface-inverse': '#060607',
+      'text-100': '#4e5058',
+      'text-200': '#060607',
+      'text-inverse': WHITE,
       // action
       'action-text': WHITE,
       'action-text-100': SURFACE_100,
-      'action-link-text': '#414eed',
-      'action-background': '#5865F2',
-      'action-background-hover': '#4F5AD1',
-      'action-secondary-background': SURFACE_100,
-      'action-secondary-background-hover': '#3d3c62',
+      'action-link-text': '#006ce7',
+      'action-background': '#5764f2',
+      'action-background-hover': '#2a3aef',
+      'action-secondary-background': '#6d6f78',
+      'action-secondary-background-hover': '#55565e',
       'action-secondary-text': WHITE,
       // info
       'info-background': '#EB459E',
       // success
-      'success-background': '#57F287',
+      'success-background': '#23a559',
+      'success-text': WHITE,
       // warning
       'warning-background': '#FEE75C',
       // danger
-      'danger-background': '#ED4245',
+      'danger-background': '#da373c',
+      'danger-background-hover': '#9b1c21',
+      'danger-text': WHITE,
+
+      darkMode: {
+        // default
+        background: '#414eed',
+        border: '#3c3d44',
+        'surface-100': SURFACE_100,
+        'surface-200': '#2b2d30',
+        'surface-300': '#232428',
+        'surface-400': '#1e1f22',
+        'surface-inverse': '#dcddde',
+        'text-100': WHITE,
+        'text-200': '#b5bac1',
+        'text-inverse': SURFACE_100,
+        // action
+        'action-text': WHITE,
+        'action-text-100': SURFACE_100,
+        'action-link-text': '#09a7fc',
+        'action-background': '#5764f2',
+        'action-background-hover': '#2a3aef',
+        'action-secondary-background': SURFACE_100,
+        'action-secondary-background-hover': '#3d3c62',
+        'action-secondary-text': WHITE,
+        // info
+        'info-background': '#EB459E',
+        // success
+        'success-background': '#257f46',
+        'success-text': WHITE,
+        // warning
+        'warning-background': '#FEE75C',
+        // danger
+        'danger-background': '#da373c',
+        'danger-background-hover': '#b8191d',
+        'danger-text': WHITE,
+      },
     },
 
     fontFamily: {

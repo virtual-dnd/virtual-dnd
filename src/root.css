@@ -10,7 +10,11 @@
   }
 
   .btn {
-    @apply mt-2 h-10 rounded-full px-6 py-2 transition ease-in-out;
+    @apply mt-2 h-10 rounded-lg px-6 py-2 transition ease-in-out;
+  }
+
+  .marketing {
+    @apply rounded-full;
   }
 
   .action-btn {
@@ -27,5 +31,26 @@
 
   .action-link {
     @apply text-action-link-text;
+  }
+
+  .app-grid {
+    @apply grid h-screen w-screen overflow-hidden;
+    grid-template-areas: 'server-bar side-bar feature';
+    grid-template-columns: 3.75rem 15.5rem 1fr;
+  }
+
+  .server-bar {
+    @apply bg-surface-400 p-2;
+    grid-area: server-bar;
+  }
+
+  .side-bar {
+    @apply bg-surface-200 p-2;
+    grid-area: side-bar;
+  }
+
+  .feature {
+    @apply bg-surface-100 pe-2 ps-2;
+    grid-area: feature;
   }
 }
