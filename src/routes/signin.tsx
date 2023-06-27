@@ -17,7 +17,7 @@ export default function Signin() {
 
   return (
     <div class="min-h-screen p-6">
-      <h1 class="font-display text-4xl text-text-inverse">WELCOME BACK!</h1>
+      <h1 class="font-display text-4xl text-text-200">WELCOME BACK!</h1>
       <p>It's so good to see you again.</p>
 
       <div class="mt-4 max-w-xl px-4 py-6">
@@ -49,7 +49,7 @@ export default function Signin() {
               required
             />
           </div>
-          <small class="mb-3 block text-xs">
+          <small class="mb-3 block text-xs text-text-100">
             Enter your email to recieve a magic link.
           </small>
 
@@ -65,7 +65,7 @@ export default function Signin() {
         </Form>
       </div>
 
-      <div class="max-w-xl rounded-md bg-surface-inverse p-4">
+      <div class="max-w-xl rounded-md bg-surface-200 p-4">
         <p class="mb-4">Or sign in with a provider</p>
 
         <Form>

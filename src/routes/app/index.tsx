@@ -1,55 +1,31 @@
-import { Show } from 'solid-js'
-import { createRouteAction, useRouteData } from 'solid-start'
-import { createServerData$, redirect } from 'solid-start/server'
-import styles from './app.module.css'
-import { getUserSession, signOut } from '~/db/session.ts'
-
-export const routeData = () => {
-  return createServerData$(async (_, event) => {
-    const session = await getUserSession(event.request)
-
-    if (!session) {
-      throw redirect('/')
-    }
-
-    return session
-  })
-}
+import { createRouteAction } from 'solid-start'
+import { signOut } from '~/db/session.ts'
 
 export default function App() {
-  const session = useRouteData<typeof routeData>()
-
-  const [, handleSignout] = createRouteAction(async () => {
+  const [, { Form }] = createRouteAction(async () => {
     return signOut()
   })
 
-  console.log('session', session())
-
   return (
-    <Show when={session()} keyed>
-      {(us) => (
-        <div>
-          <header class={styles.header}>
-            {us?.user?.image ? (
-              <span class={styles.avatar}>
-                <img
-                  alt={us.user?.name ?? 'user avatar'}
-                  class={styles.avatarImg}
-                  src={us.user?.image}
-                />
-              </span>
-            ) : null}
+    <div class="app-grid">
+      <div class="server-bar">+</div>
 
-            <button class="round action" onClick={handleSignout}>
-              Sign Out
+      <div class="side-bar relative">
+        Channels
+        <div class="left-0flex absolute bottom-0 left-0 right-0 w-full justify-between bg-surface-300 p-2">
+          <Form>
+            <button class="action-secondary-btn w-full" type="submit">
+              sign out
             </button>
-          </header>
-
-          <main class={styles.main}>
-            <span>Hey there {us.user?.name}! You are signed in!</span>
-          </main>
+          </Form>
         </div>
-      )}
-    </Show>
+      </div>
+
+      <main class="feature">
+        <header>App bar</header>
+        <section>main page content</section>
+        <section>Notes/discord</section>
+      </main>
+    </div>
   )
 }
