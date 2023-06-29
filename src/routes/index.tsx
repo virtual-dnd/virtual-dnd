@@ -36,8 +36,8 @@ export default function Home() {
               </A>
             }
           >
-            <A class="action-inverse-btn action-link marketing" href="./app">
-              Go to app
+            <A class="action-inverse-rounded-btn action-link" href="./app">
+              Open app
             </A>
           </Show>
         </header>
