@@ -9,28 +9,44 @@
     outline-offset: 2px;
   }
 
-  .btn {
-    @apply mt-2 h-10 rounded-lg px-6 py-2 transition ease-in-out;
+  hr {
+    @apply my-2 border-0 border-t border-border;
   }
 
-  .marketing {
-    @apply rounded-full;
+  .active-link {
+    @apply font-bold text-action-link-text underline;
+  }
+
+  .btn {
+    @apply inline-flex h-10 justify-around gap-2 px-6 py-2 transition ease-in-out;
   }
 
   .action-btn {
-    @apply btn bg-action-background text-action-text hover:bg-action-background-hover;
+    @apply btn rounded-lg bg-action-background text-action-text hover:bg-action-background-hover;
   }
 
   .action-inverse-btn {
-    @apply btn bg-action-text text-text-inverse hover:text-action-link-text hover:shadow-xl;
+    @apply btn rounded-lg bg-action-text text-text-inverse hover:text-action-link-text hover:shadow-xl;
+  }
+
+  .action-inverse-rounded-btn {
+    @apply btn rounded-full bg-action-text text-text-inverse hover:text-action-link-text hover:shadow-xl;
   }
 
   .action-secondary-btn {
-    @apply btn bg-action-secondary-background text-action-secondary-text hover:bg-action-secondary-background-hover hover:shadow-xl;
+    @apply btn rounded-lg bg-action-secondary-background fill-action-secondary-text text-action-secondary-text hover:bg-action-secondary-background-hover hover:shadow-xl;
   }
 
   .action-link {
     @apply text-action-link-text;
+  }
+
+  .secondary-icon-btn {
+    @apply rounded-full bg-surface-100 fill-action-background p-2 transition ease-in-out hover:animate-grow-radius hover:bg-action-background-hover hover:fill-action-text;
+  }
+
+  .secondary-active-icon-btn {
+    @apply animate-grow-radius bg-action-background-hover fill-action-text;
   }
 
   .app-grid {
@@ -40,7 +56,7 @@
   }
 
   .server-bar {
-    @apply bg-surface-400 p-2;
+    @apply flex flex-col items-center justify-between bg-surface-400 p-2;
     grid-area: server-bar;
   }
 

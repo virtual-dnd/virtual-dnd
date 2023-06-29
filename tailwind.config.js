@@ -8,12 +8,22 @@ export default {
   darkMode: 'class',
 
   theme: {
-    extend: {},
+    extend: {
+      animation: {
+        'grow-radius': 'growRadius 250ms ease-in-out forwards',
+      },
+      keyframes: {
+        growRadius: {
+          '0%': { borderRadius: '50%' },
+          '100%': { borderRadius: '33%' },
+        },
+      },
+    },
 
     colors: {
       // default
       background: '#414eed',
-      border: '#d7d9dc',
+      border: '#b6b8be',
       'surface-100': WHITE,
       'surface-200': '#f2f3f5',
       'surface-300': '#ebedef',
