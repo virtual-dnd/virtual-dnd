@@ -6,9 +6,8 @@ import { getUserSession } from '~/db/session.ts'
 
 export function routeData() {
   return createServerData$(async (_, event) => {
-    const sessionJSON = await getUserSession(event.request)
-    const session = await sessionJSON.json()
-    return session
+    const response = await getUserSession(event.request)
+    return response.data
   })
 }
 
@@ -28,10 +27,7 @@ export default function Home() {
           <Show
             when={session()?.user}
             fallback={
-              <A
-                class="action-link action-inverse-btn marketing"
-                href="./signin"
-              >
+              <A class="action-inverse-rounded-btn action-link" href="./signin">
                 Sign in
               </A>
             }
