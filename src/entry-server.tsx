@@ -15,10 +15,9 @@ export default createHandler(
       const isProtected = pathname.includes(protectedRoute())
 
       if (isProtected) {
-        const sessionJSON = await getUserSession(event.request)
-        const session = await sessionJSON.json()
+        const { data } = await getUserSession(event.request)
 
-        if (!session) {
+        if (!data) {
           return redirect('/')
         }
       }

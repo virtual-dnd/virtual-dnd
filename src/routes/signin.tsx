@@ -54,7 +54,7 @@ export default function Signin() {
           </small>
 
           <button
-            class="action-btn"
+            class="action-rounded-btn"
             disabled={submission.pending}
             type="submit"
           >
@@ -65,13 +65,13 @@ export default function Signin() {
         </Form>
       </div>
 
-      <div class="max-w-xl rounded-md bg-surface-200 p-4">
-        <p class="mb-4">Or sign in with a provider</p>
+      <div class="flex max-w-xl flex-col gap-2 rounded-md bg-surface-200 p-4">
+        <p>Or sign in with a provider</p>
 
         <Form>
           <input type="hidden" name="intent" value="google" />
           <button
-            class="action-secondary-btn"
+            class="action-secondary-rounded-btn"
             disabled={submission.pending}
             type="submit"
           >
@@ -82,7 +82,7 @@ export default function Signin() {
         <Form>
           <input type="hidden" name="intent" value="discord" />
           <button
-            class="action-secondary-btn"
+            class="action-secondary-rounded-btn"
             disabled={submission.pending}
             type="submit"
           >

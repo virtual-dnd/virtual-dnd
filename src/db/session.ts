@@ -1,4 +1,4 @@
-import { json, redirect } from 'solid-start/server'
+import { redirect } from 'solid-start/server'
 import { type Provider } from '@supabase/supabase-js'
 import { createServerClient } from '@supabase/auth-helpers-remix'
 import { supabase } from '~/lib/solidbaseClient.ts'
@@ -58,43 +58,5 @@ export async function getUserSession(request: Request) {
 
   if (error) throw error
 
-  return json(session, { headers: response.headers })
+  return { data: session, headers: response.headers }
 }
-
-// export async function getUserId(request: Request) {
-//   const session = await getUserSession(request)
-//   const userId = session.get('userId')
-//   if (!userId || typeof userId !== 'string') return null
-//   return userId
-// }
-
-// export async function requireUserSession(
-//   request: Request,
-//   redirectTo: string = new URL(request.url).pathname
-// ) {
-//   const session = await getUserSession(request)
-//   const userId = session.get('userId')
-
-//   if (!userId || typeof userId !== 'string') {
-//     const searchParams = new URLSearchParams([['redirectTo', redirectTo]])
-//     throw redirect(`/login?${searchParams}`)
-//   }
-
-//   return userId
-// }
-
-// export async function getUser(request: Request) {
-//   const userId = await getUserId(request)
-//   if (typeof userId !== 'string') {
-//     return null
-//   }
-
-//   try {
-//     const {
-//       data: { user },
-//     } = await supabase.auth.getUser(userId)
-//     return user
-//   } catch {
-//     throw signOut(request)
-//   }
-// }

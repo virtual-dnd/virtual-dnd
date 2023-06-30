@@ -13,6 +13,14 @@
     @apply my-2 border-0 border-t border-border;
   }
 
+  label {
+    @apply mb-2 block text-sm font-bold uppercase text-text-100;
+  }
+
+  input {
+    @apply block h-10 w-full rounded-sm border-0 border-border bg-surface-200 px-2 text-text-200 focus:ring-2 focus:ring-action-background focus:ring-opacity-50;
+  }
+
   .active-link {
     @apply font-bold text-action-link-text underline;
   }
@@ -23,6 +31,14 @@
 
   .action-btn {
     @apply btn rounded-lg bg-action-background text-action-text hover:bg-action-background-hover;
+  }
+
+  .action-text-btn {
+    @apply btn font-bold text-action-background hover:text-action-text-100;
+  }
+
+  .action-rounded-btn {
+    @apply btn rounded-full bg-action-background text-action-text hover:bg-action-background-hover;
   }
 
   .action-inverse-btn {
@@ -37,8 +53,12 @@
     @apply btn rounded-lg bg-action-secondary-background fill-action-secondary-text text-action-secondary-text hover:bg-action-secondary-background-hover hover:shadow-xl;
   }
 
+  .action-secondary-rounded-btn {
+    @apply btn rounded-full bg-action-secondary-background fill-action-secondary-text text-action-secondary-text hover:bg-action-secondary-background-hover hover:shadow-xl;
+  }
+
   .action-link {
-    @apply text-action-link-text;
+    @apply text-action-link-text hover:text-text-200;
   }
 
   .secondary-icon-btn {
@@ -48,6 +68,12 @@
   .secondary-active-icon-btn {
     @apply animate-grow-radius bg-action-background-hover fill-action-text;
   }
+
+  .help-text {
+    @apply text-xs text-text-100;
+  }
+
+  /* layout */
 
   .app-grid {
     @apply grid h-screen w-screen overflow-hidden;
@@ -61,7 +87,7 @@
   }
 
   .side-bar {
-    @apply bg-surface-200 p-2;
+    @apply bg-surface-200;
     grid-area: side-bar;
   }
 
