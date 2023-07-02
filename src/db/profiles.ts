@@ -17,6 +17,29 @@ export async function getUserProfile(request: Request) {
   return { data: data[0], headers: response.headers }
 }
 
+// CREATE
+
+export async function createUserProfile(
+  payload: UserProfileForm,
+  request: Request
+) {
+  const response = new Response()
+  const serverSupabase = createServerClient(
+    import.meta.env.VITE_SUPABASE_URL,
+    import.meta.env.VITE_SUPABASE_KEY,
+    { request, response }
+  )
+
+  const { error } = await serverSupabase
+    .from('profiles')
+    .insert([payload])
+    .select()
+
+  if (error) throw error
+
+  return { headers: response.headers }
+}
+
 // UPDATE
 
 export async function updateUserAvatar(
@@ -70,10 +93,7 @@ export async function updateUserProfile(
 
 // DELETE
 
-export async function deleteUserAvatar(
-  payload: { path: UserProfile['avatar'] },
-  request: Request
-) {
+export async function removeUserAvatar(payload: string, request: Request) {
   const response = new Response()
   const serverSupabase = createServerClient(
     import.meta.env.VITE_SUPABASE_URL,
@@ -83,7 +103,7 @@ export async function deleteUserAvatar(
 
   const { data, error } = await serverSupabase.storage
     .from('avatars')
-    .remove([payload.path])
+    .remove([payload])
 
   if (error) throw error
 
@@ -93,12 +113,11 @@ export async function deleteUserAvatar(
 // TYPES
 
 export interface UserProfile {
-  avatar: string
-  display_name: string
-  email?: string
+  avatar?: string | null
+  display_name?: string | null
   id: string
-  user_name: string
-  pronouns: string
+  profile_banner?: string | null
+  pronouns?: string | null
 }
 
 // types

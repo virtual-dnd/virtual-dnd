@@ -1,7 +1,6 @@
 import { A, useRouteData } from 'solid-start'
 import { createServerData$ } from 'solid-start/server'
 import { Show } from 'solid-js'
-import { type Session } from '@supabase/supabase-js'
 import { getUserSession } from '~/db/session.ts'
 
 export function routeData() {
@@ -12,7 +11,7 @@ export function routeData() {
 }
 
 export default function Home() {
-  const session = useRouteData<Session>()
+  const session = useRouteData<typeof routeData>()
 
   return (
     <div class="h-full min-h-screen">
