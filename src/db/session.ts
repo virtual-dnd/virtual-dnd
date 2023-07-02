@@ -5,7 +5,7 @@ import { supabase } from '~/lib/solidbaseClient.ts'
 
 // Auth
 
-const redirectTo = 'http://localhost:3000/api/auth/callback'
+const redirectTo = `${import.meta.env.VITE_HOST}/api/auth/callback}`
 
 export async function signInWithMagicLink(email: string) {
   const { data, error } = await supabase.auth.signInWithOtp({
@@ -42,6 +42,24 @@ export async function signOut() {
 }
 
 // Session
+
+export async function getUser(request: Request) {
+  const response = new Response()
+  const serverSupabase = createServerClient(
+    import.meta.env.VITE_SUPABASE_URL,
+    import.meta.env.VITE_SUPABASE_KEY,
+    { request, response }
+  )
+
+  const {
+    data: { user },
+    error,
+  } = await serverSupabase.auth.getUser()
+
+  if (error) throw error
+
+  return { user, headers: response.headers }
+}
 
 export async function getUserSession(request: Request) {
   const response = new Response()

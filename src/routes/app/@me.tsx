@@ -8,26 +8,34 @@ import {
 } from 'solid-start'
 import { createServerAction$, createServerData$ } from 'solid-start/server'
 import {
+  createUserProfile,
   getUserProfile,
+  removeUserAvatar,
   updateUserAvatar,
   updateUserProfile,
-  type UserProfile,
   type UserProfileForm,
 } from '~/db/profiles.ts'
-import { signOut } from '~/db/session.ts'
+import { getUser, signOut } from '~/db/session.ts'
 
 export function routeData() {
   return createServerData$(async (_, { request }) => {
-    const response = await getUserProfile(request)
-    return response.data
+    try {
+      const { user } = await getUser(request)
+      const profile = await getUserProfile(request)
+      return {
+        user,
+        profile: profile.data ?? null,
+      }
+    } catch (error) {
+      // TODO: Handle error
+    }
   })
 }
 
 export default function Me() {
-  const user = useRouteData<UserProfile>()
+  const data = useRouteData<typeof routeData>()
   const [searchParams] = useSearchParams()
   const [showFooter, setShowFooter] = createSignal<boolean>(false)
-  let avatarRef: HTMLInputElement
 
   const [, { Form }] = createRouteAction(async () => {
     return signOut()
@@ -37,6 +45,7 @@ export default function Me() {
     async (formData: FormData, { request }) => {
       const avatar = formData.get('avatar') as File
       const id = formData.get('id') as string
+      const hasProfile = formData.get('has_profile') as string
       let avatarUrl = ''
 
       if (avatar?.name) {
@@ -44,6 +53,19 @@ export default function Me() {
         avatarUrl = `${
           import.meta.env.VITE_SUPABASE_URL
         }/storage/v1/object/public/avatars/${avatarResponse.data.path}`
+      }
+
+      if (hasProfile === 'false') {
+        await createUserProfile(
+          {
+            id,
+            avatar: avatarUrl ?? null,
+            display_name: formData.get('display_name'),
+            pronouns: formData.get('pronouns'),
+          } as UserProfileForm,
+          request
+        )
+        return
       }
 
       const response = await updateUserProfile(
@@ -60,14 +82,31 @@ export default function Me() {
     }
   )
 
-  // TODO: Add new delete avatar action and replace this with it
-  function handleRemoveAvatar() {
-    avatarRef.value = ''
-    setShowFooter(true)
-  }
+  const [removingAvatar, handleRemoveAvatar] = createServerAction$(
+    async (
+      options: {
+        path: string
+        id: string
+      },
+      { request }
+    ) => {
+      const { path, id } = options
+
+      if (!path) return
+
+      await updateUserProfile(
+        {
+          id,
+          avatar: null,
+        } as UserProfileForm,
+        request
+      )
+      await removeUserAvatar(path.split('avatars/').pop() as string, request)
+    }
+  )
 
   createEffect(() => {
-    if (updating.pending) setShowFooter(false)
+    if (updating.pending || removingAvatar.pending) setShowFooter(false)
   })
 
   return (
@@ -111,13 +150,13 @@ export default function Me() {
         <div class="mt-6 ">
           <div class="relative mb-6 rounded-lg bg-surface-400 p-2">
             <div class="h-20 overflow-hidden rounded-sm bg-surface-100">
-              <Show when={user()?.profile_banner}>
+              <Show when={data()?.profile?.profile_banner}>
                 <img alt="Profile banner" class="h-full w-full" src="" />
               </Show>
 
               <div class="absolute left-4 top-14 flex h-14 w-14 flex-col items-center justify-center overflow-hidden rounded-full border-2 bg-background fill-white">
                 <Show
-                  when={user()?.avatar}
+                  when={data()?.profile?.avatar}
                   fallback={
                     <OcCopilot2
                       aria-hidden="true"
@@ -129,20 +168,26 @@ export default function Me() {
                   <img
                     alt="Avatar"
                     class="h-full w-full"
-                    src={user()?.avatar}
+                    src={data()?.profile?.avatar}
                   />
                 </Show>
               </div>
             </div>
 
             <div class="px-4 pb-2 pt-8">
-              <p class="font-extrabold">{user()?.display_name}</p>
-              <small class="text-text-100">{user()?.pronouns}</small>
+              <p class="font-extrabold">{data()?.profile?.display_name}</p>
+              <small class="text-text-100">{data()?.profile?.pronouns}</small>
             </div>
           </div>
 
           <ProfileForm>
-            <input type="hidden" id="id" name="id" value={user()?.id} />
+            <input type="hidden" id="id" name="id" value={data()?.user?.id} />
+            <input
+              type="hidden"
+              id="has_profile"
+              name="has_profile"
+              value={Boolean(data()?.profile).toString()}
+            />
 
             <label class="block" html-for="display_name">
               Display Name
@@ -152,8 +197,8 @@ export default function Me() {
               type="text"
               name="display_name"
               onKeyPress={() => setShowFooter(true)}
-              placeholder='e.g. "Jane Doe"'
-              value={user()?.display_name}
+              placeholder={data()?.user?.email ?? ''}
+              value={data()?.profile?.display_name ?? ''}
             />
             <small class="text-help">
               The name everyone in your party will see.
@@ -168,9 +213,9 @@ export default function Me() {
               id="pronouns"
               name="pronouns"
               onKeyPress={() => setShowFooter(true)}
-              placeholder='e.g. "he/him", "she/her", "they/them"'
+              placeholder="Add your pronouns"
               type="text"
-              value={user()?.pronouns}
+              value={data()?.profile?.pronouns ?? ''}
             />
             <small class="text-help">The pronouns you identify with.</small>
 
@@ -183,7 +228,6 @@ export default function Me() {
               id="avatar"
               name="avatar"
               onChange={() => setShowFooter(true)}
-              ref={avatarRef}
               type="file"
             >
               Change Avatar
@@ -192,7 +236,13 @@ export default function Me() {
               class="action-text-btn"
               id="avatar"
               name="avatar"
-              onClick={handleRemoveAvatar}
+              onClick={() => {
+                setShowFooter(true)
+                handleRemoveAvatar({
+                  id: data()?.user?.id ?? '',
+                  path: data()?.profile?.avatar,
+                })
+              }}
               type="button"
             >
               Remove Avatar
@@ -221,7 +271,8 @@ export default function Me() {
 
         <Show when={searchParams.debug}>
           <code class=" mt-10 block bg-surface-200 p-2">
-            <pre>{JSON.stringify(user(), null, 2)}</pre>
+            <pre>user: {JSON.stringify(data()?.user, null, 2)}</pre>
+            <pre>profile: {JSON.stringify(data()?.profile, null, 2)}</pre>
           </code>
         </Show>
       </main>

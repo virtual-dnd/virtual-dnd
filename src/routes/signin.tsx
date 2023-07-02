@@ -5,20 +5,24 @@ import { signInWithMagicLink, signInWithProvider } from '~/db/session.ts'
 
 export default function Signin() {
   const [submission, { Form }] = createRouteAction(async (form: FormData) => {
-    const intent = form.get('intent')
-
-    if (intent === 'magicLink') {
-      signInWithMagicLink(form.get('email') as string)
-      return 'magicLink'
-    } else {
-      return signInWithProvider(intent as Provider)
-    }
+    signInWithMagicLink(form.get('email') as string)
+    return 'magicLink'
   })
+
+  const [, { Form: ProviderForm }] = createRouteAction(
+    async (form: FormData) => {
+      const intent = form.get('intent') as Provider
+      return signInWithProvider(intent)
+    }
+  )
 
   return (
     <div class="min-h-screen p-6">
-      <h1 class="font-display text-4xl text-text-200">WELCOME BACK!</h1>
-      <p>It's so good to see you again.</p>
+      <h1 class="font-display text-4xl text-text-200">HELLO, FRIEND!</h1>
+      <p>
+        It's so good to see you. Use any of the methods below to sign in or
+        magically create a new account.
+      </p>
 
       <div class="mt-4 max-w-xl px-4 py-6">
         <Show when={submission.error}>
@@ -68,7 +72,7 @@ export default function Signin() {
       <div class="flex max-w-xl flex-col gap-2 rounded-md bg-surface-200 p-4">
         <p>Or sign in with a provider</p>
 
-        <Form>
+        <ProviderForm>
           <input type="hidden" name="intent" value="google" />
           <button
             class="action-secondary-rounded-btn"
@@ -77,9 +81,9 @@ export default function Signin() {
           >
             Sign in with Google
           </button>
-        </Form>
+        </ProviderForm>
 
-        <Form>
+        <ProviderForm>
           <input type="hidden" name="intent" value="discord" />
           <button
             class="action-secondary-rounded-btn"
@@ -88,7 +92,7 @@ export default function Signin() {
           >
             Sign in with Discord
           </button>
-        </Form>
+        </ProviderForm>
       </div>
     </div>
   )
