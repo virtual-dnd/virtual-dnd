@@ -189,7 +189,7 @@ export default function Me() {
               value={Boolean(data()?.profile).toString()}
             />
 
-            <label class="block" html-for="display_name">
+            <label class="block" for="display_name">
               Display Name
             </label>
             <input
@@ -206,7 +206,7 @@ export default function Me() {
 
             <hr class="my-6" />
 
-            <label class="block" html-for="pronouns">
+            <label class="block" for="pronouns">
               Pronouns
             </label>
             <input
@@ -221,7 +221,7 @@ export default function Me() {
 
             <hr class="my-6" />
 
-            <label class="block" html-for="avatar">
+            <label class="block" for="avatar">
               Avatar
             </label>
             <input
