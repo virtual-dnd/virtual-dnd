@@ -13,7 +13,7 @@ export default function App() {
             class="secondary-icon-btn block"
             href="/app/@me"
           >
-            <OcCopilot2 aria-hidden="true" size={24} title="Add party" />
+            <OcCopilot2 aria-hidden="true" size={24} title="User Profile" />
           </A>
 
           <hr />

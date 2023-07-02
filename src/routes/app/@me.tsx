@@ -1,4 +1,4 @@
-import { OcSignout2 } from 'solid-icons/oc'
+import { OcCopilot2, OcSignout2 } from 'solid-icons/oc'
 import { Show, createEffect, createSignal } from 'solid-js'
 import {
   A,
@@ -9,6 +9,7 @@ import {
 import { createServerAction$, createServerData$ } from 'solid-start/server'
 import {
   getUserProfile,
+  updateUserAvatar,
   updateUserProfile,
   type UserProfile,
   type UserProfileForm,
@@ -26,6 +27,7 @@ export default function Me() {
   const user = useRouteData<UserProfile>()
   const [searchParams] = useSearchParams()
   const [showFooter, setShowFooter] = createSignal<boolean>(false)
+  let avatarRef: HTMLInputElement
 
   const [, { Form }] = createRouteAction(async () => {
     return signOut()
@@ -33,13 +35,23 @@ export default function Me() {
 
   const [updating, { Form: ProfileForm }] = createServerAction$(
     async (formData: FormData, { request }) => {
+      const avatar = formData.get('avatar') as File
+      const id = formData.get('id') as string
+      let avatarUrl = ''
+
+      if (avatar?.name) {
+        const avatarResponse = await updateUserAvatar({ avatar, id }, request)
+        avatarUrl = `${
+          import.meta.env.VITE_SUPABASE_URL
+        }/storage/v1/object/public/avatars/${avatarResponse.data.path}`
+      }
+
       const response = await updateUserProfile(
         {
-          avatar: formData.get('avatar'),
+          id,
+          avatar: avatarUrl ?? null,
           display_name: formData.get('display_name'),
-          id: formData.get('id'),
           pronouns: formData.get('pronouns'),
-          user_name: formData.get('user_name'),
         } as UserProfileForm,
         request
       )
@@ -47,6 +59,12 @@ export default function Me() {
       return response.data
     }
   )
+
+  // TODO: Add new delete avatar action and replace this with it
+  function handleRemoveAvatar() {
+    avatarRef.value = ''
+    setShowFooter(true)
+  }
 
   createEffect(() => {
     if (updating.pending) setShowFooter(false)
@@ -79,8 +97,8 @@ export default function Me() {
         </div>
       </div>
 
-      <main class="feature relative w-[46.25rem] px-12 pt-10">
-        <h1 class="bolder text-xl font-black">My Account</h1>
+      <main class="feature relative w-[46.25rem] overflow-y-auto px-12 pb-6 pt-10">
+        <h1 class="bolder text-xl font-black">User Profile</h1>
 
         <Show when={updating.error}>
           <div class="mb-2 rounded-lg bg-danger-background p-2 text-text-100">
@@ -90,7 +108,39 @@ export default function Me() {
           </div>
         </Show>
 
-        <div class="mt-6">
+        <div class="mt-6 ">
+          <div class="relative mb-6 rounded-lg bg-surface-400 p-2">
+            <div class="h-20 overflow-hidden rounded-sm bg-surface-100">
+              <Show when={user()?.profile_banner}>
+                <img alt="Profile banner" class="h-full w-full" src="" />
+              </Show>
+
+              <div class="absolute left-4 top-14 flex h-14 w-14 flex-col items-center justify-center overflow-hidden rounded-full border-2 bg-background fill-white">
+                <Show
+                  when={user()?.avatar}
+                  fallback={
+                    <OcCopilot2
+                      aria-hidden="true"
+                      size={24}
+                      title="User Profile"
+                    />
+                  }
+                >
+                  <img
+                    alt="Avatar"
+                    class="h-full w-full"
+                    src={user()?.avatar}
+                  />
+                </Show>
+              </div>
+            </div>
+
+            <div class="px-4 pb-2 pt-8">
+              <p class="font-extrabold">{user()?.display_name}</p>
+              <small class="text-text-100">{user()?.pronouns}</small>
+            </div>
+          </div>
+
           <ProfileForm>
             <input type="hidden" id="id" name="id" value={user()?.id} />
 
@@ -133,6 +183,7 @@ export default function Me() {
               id="avatar"
               name="avatar"
               onChange={() => setShowFooter(true)}
+              ref={avatarRef}
               type="file"
             >
               Change Avatar
@@ -141,8 +192,8 @@ export default function Me() {
               class="action-text-btn"
               id="avatar"
               name="avatar"
+              onClick={handleRemoveAvatar}
               type="button"
-              value="remove"
             >
               Remove Avatar
             </button>

@@ -1,5 +1,7 @@
 import { createServerClient } from '@supabase/auth-helpers-remix'
 
+// READ
+
 export async function getUserProfile(request: Request) {
   const response = new Response()
   const serverSupabase = createServerClient(
@@ -18,7 +20,7 @@ export async function getUserProfile(request: Request) {
 // UPDATE
 
 export async function updateUserAvatar(
-  payload: { avatar: File | null },
+  payload: { avatar: File; id: UserProfileForm['id'] },
   request: Request
 ) {
   const response = new Response()
@@ -29,20 +31,16 @@ export async function updateUserAvatar(
   )
   const { avatar } = payload
 
-  if (avatar?.name) {
-    const { data, error } = await serverSupabase.storage
-      .from('avatars')
-      .upload(`users/${avatar?.name}`, avatar, {
-        cacheControl: '3600',
-        upsert: false,
-      })
+  const { data, error } = await serverSupabase.storage
+    .from('avatars')
+    .upload(`${payload.id}/${avatar?.name}`, avatar, {
+      cacheControl: '3600',
+      upsert: false,
+    })
 
-    if (error) throw error
+  if (error) throw error
 
-    return { data, headers: response.headers }
-  }
-
-  return { data: null, headers: response.headers }
+  return { data, headers: response.headers }
 }
 
 export async function updateUserProfile(
@@ -55,15 +53,12 @@ export async function updateUserProfile(
     import.meta.env.VITE_SUPABASE_KEY,
     { request, response }
   )
-  const { id, avatar, ...profileForm } = payload
-
-  const { data: avatarData } = await updateUserAvatar({ avatar }, request)
+  const { id, ...profileForm } = payload
 
   const { data, error } = await serverSupabase
     .from('profiles')
     .update({
       ...profileForm,
-      avatar: avatarData?.path ?? null,
     })
     .eq('id', id)
     .select()
@@ -73,11 +68,29 @@ export async function updateUserProfile(
   return { data, headers: response.headers }
 }
 
-// types
+// DELETE
 
-export interface UserProfileForm extends Omit<UserProfile, 'avatar'> {
-  avatar: File | null
+export async function deleteUserAvatar(
+  payload: { path: UserProfile['avatar'] },
+  request: Request
+) {
+  const response = new Response()
+  const serverSupabase = createServerClient(
+    import.meta.env.VITE_SUPABASE_URL,
+    import.meta.env.VITE_SUPABASE_KEY,
+    { request, response }
+  )
+
+  const { data, error } = await serverSupabase.storage
+    .from('avatars')
+    .remove([payload.path])
+
+  if (error) throw error
+
+  return { data, headers: response.headers }
 }
+
+// TYPES
 
 export interface UserProfile {
   avatar: string
@@ -87,3 +100,7 @@ export interface UserProfile {
   user_name: string
   pronouns: string
 }
+
+// types
+
+export type UserProfileForm = Omit<UserProfile, 'email' | 'user_name'>
