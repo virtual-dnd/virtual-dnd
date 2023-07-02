@@ -1,7 +1,18 @@
 import { OcSignout2 } from 'solid-icons/oc'
-import { A, createRouteAction, useRouteData } from 'solid-start'
+import { Show, createEffect, createSignal } from 'solid-js'
+import {
+  A,
+  createRouteAction,
+  useRouteData,
+  useSearchParams,
+} from 'solid-start'
 import { createServerAction$, createServerData$ } from 'solid-start/server'
-import { getUserProfile, type User } from '~/db/profiles.ts'
+import {
+  getUserProfile,
+  updateUserProfile,
+  type UserProfile,
+  type UserProfileForm,
+} from '~/db/profiles.ts'
 import { signOut } from '~/db/session.ts'
 
 export function routeData() {
@@ -12,25 +23,34 @@ export function routeData() {
 }
 
 export default function Me() {
-  const user = useRouteData<User>()
+  const user = useRouteData<UserProfile>()
+  const [searchParams] = useSearchParams()
+  const [showFooter, setShowFooter] = createSignal<boolean>(false)
 
   const [, { Form }] = createRouteAction(async () => {
     return signOut()
   })
 
-  // TODO: Figure out how to update user profile
+  const [updating, { Form: ProfileForm }] = createServerAction$(
+    async (formData: FormData, { request }) => {
+      const response = await updateUserProfile(
+        {
+          avatar: formData.get('avatar'),
+          display_name: formData.get('display_name'),
+          id: formData.get('id'),
+          pronouns: formData.get('pronouns'),
+          user_name: formData.get('user_name'),
+        } as UserProfileForm,
+        request
+      )
 
-  // 1. on-change show footer pop-up that changes have been made and not saved
-  // like Discord
-  // 2. on button submit in pop-up, update user profile
+      return response.data
+    }
+  )
 
-  // const [updating, { Form: ProfileForm }] = createServerAction$(async (form: FormData) => {
-  //   const name = form.get('name') as string
-  //   const email = form.get('email') as string
-  //   const { data, error } = await supabase.from('profiles')
-  //     .update({ other_column: 'otherValue' })
-  //     .eq('some_column', 'someValue')
-  //     .select()
+  createEffect(() => {
+    if (updating.pending) setShowFooter(false)
+  })
 
   return (
     <>
@@ -59,27 +79,45 @@ export default function Me() {
         </div>
       </div>
 
-      <main class="feature relative px-8 pt-10">
+      <main class="feature relative w-[46.25rem] px-12 pt-10">
         <h1 class="bolder text-xl font-black">My Account</h1>
 
-        <div class="mt-6 max-w-md">
-          <form>
-            <label class="block" html-for="name">
+        <Show when={updating.error}>
+          <div class="mb-2 rounded-lg bg-danger-background p-2 text-text-100">
+            <p class="text-danger-text">
+              Something went wrong: {updating.error.message}
+            </p>
+          </div>
+        </Show>
+
+        <div class="mt-6">
+          <ProfileForm>
+            <input type="hidden" id="id" name="id" value={user()?.id} />
+
+            <label class="block" html-for="display_name">
               Display Name
             </label>
-            <input id="name" type="text" name="name" value={user()?.name} />
+            <input
+              id="display_name"
+              type="text"
+              name="display_name"
+              onKeyPress={() => setShowFooter(true)}
+              placeholder='e.g. "Jane Doe"'
+              value={user()?.display_name}
+            />
             <small class="text-help">
               The name everyone in your party will see.
             </small>
 
             <hr class="my-6" />
 
-            <label class="block" html-for="prounouns">
+            <label class="block" html-for="pronouns">
               Pronouns
             </label>
             <input
-              id="prounouns"
-              name="prounouns"
+              id="pronouns"
+              name="pronouns"
+              onKeyPress={() => setShowFooter(true)}
               placeholder='e.g. "he/him", "she/her", "they/them"'
               type="text"
               value={user()?.pronouns}
@@ -87,36 +125,54 @@ export default function Me() {
             <small class="text-help">The pronouns you identify with.</small>
 
             <hr class="my-6" />
-          </form>
 
-          <form>
             <label class="block" html-for="avatar">
               Avatar
             </label>
-            <button
-              class="action-secondary-btn"
+            <input
               id="avatar"
               name="avatar"
-              type="submit"
-              value="change"
+              onChange={() => setShowFooter(true)}
+              type="file"
             >
               Change Avatar
-            </button>
+            </input>
             <button
               class="action-text-btn"
               id="avatar"
               name="avatar"
-              type="submit"
+              type="button"
               value="remove"
             >
-              Change Avatar
+              Remove Avatar
             </button>
-          </form>
+
+            <Show when={showFooter()}>
+              <div class="align-center absolute bottom-4 left-0 right-0 mx-4 flex w-full flex-1 animate-bounce-in-from-bottom items-center justify-between rounded-md bg-surface-100 px-4 py-2 drop-shadow-2xl">
+                <p>Careful -- you have unsaved changes!</p>
+
+                <div class="flex grow gap-2 px-2">
+                  <button
+                    class="action-text-btn w-full"
+                    onClick={() => setShowFooter(false)}
+                    type="button"
+                  >
+                    Cancel
+                  </button>
+                  <button class="action-btn w-full" type="submit">
+                    Save Changes
+                  </button>
+                </div>
+              </div>
+            </Show>
+          </ProfileForm>
         </div>
 
-        <code class=" mt-10 block bg-surface-200 p-2">
-          <pre>{JSON.stringify(user(), null, 2)}</pre>
-        </code>
+        <Show when={searchParams.debug}>
+          <code class=" mt-10 block bg-surface-200 p-2">
+            <pre>{JSON.stringify(user(), null, 2)}</pre>
+          </code>
+        </Show>
       </main>
     </>
   )
