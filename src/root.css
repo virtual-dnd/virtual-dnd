@@ -18,7 +18,7 @@
   }
 
   input:not([type='file']) {
-    @apply block h-10 w-full rounded-sm border-0 border-border bg-surface-200 px-2 text-text-200 focus:ring-2 focus:ring-action-background focus:ring-opacity-50;
+    @apply block h-10 w-full rounded-sm border-0 border-border bg-surface-200 px-2 text-text-200 focus:ring-2 focus:ring-action-background-50 focus:ring-opacity-50;
   }
 
   input[type='file'] {
@@ -34,43 +34,43 @@
   }
 
   .action-btn {
-    @apply btn rounded-lg bg-action-background text-action-text hover:bg-action-background-hover;
+    @apply btn rounded-lg bg-action-background-50 text-action-text-50 hover:bg-action-background-hover;
   }
 
   .action-text-btn {
-    @apply btn font-bold text-action-background hover:text-action-text-100;
+    @apply btn font-bold text-action-background-50 hover:text-action-text-100;
   }
 
   .action-rounded-btn {
-    @apply btn rounded-full bg-action-background text-action-text hover:bg-action-background-hover;
+    @apply btn rounded-full bg-action-background-50 text-action-text-50 hover:bg-action-background-hover;
   }
 
   .action-inverse-btn {
-    @apply btn rounded-lg bg-action-text text-text-inverse hover:text-action-link-text hover:shadow-xl;
+    @apply btn bg-action-text rounded-lg text-text-inverse hover:text-action-link-text hover:shadow-xl;
   }
 
   .action-inverse-rounded-btn {
-    @apply btn rounded-full bg-action-text text-text-inverse hover:text-action-link-text hover:shadow-xl;
+    @apply btn rounded-full bg-action-background-inverse text-action-text-inverse hover:text-action-link-text hover:shadow-xl;
   }
 
   .action-secondary-btn {
-    @apply btn rounded-lg bg-action-secondary-background fill-action-secondary-text text-action-secondary-text hover:bg-action-secondary-background-hover hover:shadow-xl;
+    @apply btn rounded-lg bg-action-secondary-background-50 fill-action-secondary-text text-action-secondary-text hover:bg-action-secondary-background-hover hover:shadow-xl;
   }
 
   .action-secondary-rounded-btn {
-    @apply btn rounded-full bg-action-secondary-background fill-action-secondary-text text-action-secondary-text hover:bg-action-secondary-background-hover hover:shadow-xl;
+    @apply btn rounded-full bg-action-secondary-background-50 fill-action-secondary-text text-action-secondary-text hover:bg-action-secondary-background-hover hover:shadow-xl;
   }
 
   .action-link {
-    @apply text-action-link-text hover:text-text-200;
+    @apply text-action-link-text hover:underline;
   }
 
   .secondary-icon-btn {
-    @apply rounded-full bg-surface-100 fill-action-background p-2 transition ease-in-out hover:animate-grow-radius hover:bg-action-background-hover hover:fill-action-text;
+    @apply rounded-full bg-surface-100 fill-action-background-50 p-2 transition ease-in-out hover:animate-grow-radius hover:bg-action-background-hover hover:fill-action-text-50;
   }
 
   .secondary-active-icon-btn {
-    @apply animate-grow-radius bg-action-background-hover fill-action-text;
+    @apply animate-grow-radius bg-action-background-hover fill-action-text-50;
   }
 
   .help-text {
@@ -86,17 +86,17 @@
   }
 
   .server-bar {
-    @apply flex flex-col items-center justify-between bg-surface-400 p-2;
+    @apply flex flex-col items-center justify-between bg-surface-400 p-2 dark:bg-surface-400-dark;
     grid-area: server-bar;
   }
 
   .side-bar {
-    @apply bg-surface-200;
+    @apply bg-surface-200 dark:bg-surface-200-dark;
     grid-area: side-bar;
   }
 
   .feature {
-    @apply bg-surface-100 pe-2 ps-2;
+    @apply bg-surface-100 pe-2 ps-2 dark:bg-surface-100-dark;
     grid-area: feature;
   }
 }

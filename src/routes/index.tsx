@@ -38,27 +38,29 @@ export default function Home() {
         </header>
 
         <main class="px-4 py-12">
-          <h1 class="font-display text-6xl text-action-text">HOME</h1>
-          <p class="text-action-text">
+          <h1 class="font-display text-6xl text-text-inverse">HOME</h1>
+          <p class="text-text-inverse">
             This will have some cool marketing stuff later...
           </p>
         </main>
       </div>
 
-      <section class="bg-white px-4 py-12">
-        <h2 class="font-display text-2xl">Another cool saying...</h2>
+      <section class="bg-white px-4 py-12 text-text-300">
+        <h2 class="font-display text-2xl text-text-200">
+          Another cool saying...
+        </h2>
         <p>More wow factor...</p>
       </section>
 
       <section class="bg-surface-200 px-4 py-12">
-        <h2 class="font-display text-2xl">Demo thing...</h2>
-        <code class="block py-4">
+        <h2 class="font-display text-2xl text-text-300">Demo thing...</h2>
+        <code class="block py-4 text-text-100">
           Here is a code snippet just in case you need it...
         </code>
       </section>
 
       <footer class="bg-surface-inverse px-4 py-12">
-        <small class="text-text-100">Please fund me footer...</small>
+        <small class="text-text-inverse">Please fund me footer...</small>
         <ul>
           <li>
             <A class="action-link" href="./signin">
