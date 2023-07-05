@@ -1,11 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 
-import colors from 'tailwindcss/colors'
-
-const ACTION_BG = '#5764f2'
-
 export default {
-  content: ['./src/**/*.tsx'],
+  content: ['./src/**/*.{ts,tsx}'],
   darkMode: 'class',
 
   theme: {
@@ -37,228 +33,104 @@ export default {
       },
 
       colors: {
-        background: {
-          DEFAULT: '#414eed',
-          light: '#414eed',
-          dark: '#414eed',
-        },
-        border: {
-          DEFAULT: '#b6b8be',
-          light: '#b6b8be',
-          dark: '#3c3d44',
-        },
-        surface: {
-          100: {
-            DEFAULT: colors.white,
-            light: colors.white,
-            dark: '#313338',
+        neutral: {
+          bg: {
+            100: 'var(--neutral-bg-100)',
           },
-          200: {
-            DEFAULT: colors.gray[50],
-            light: colors.gray[50],
-            dark: '#2b2d31',
+          border: {
+            100: 'var(--neutral-border-100)',
+            200: 'var(--neutral-border-200)',
+            300: 'var(--neutral-border-300)',
           },
-          300: {
-            DEFAULT: colors.gray[100],
-            light: colors.gray[100],
-            dark: '#232428',
+          focus: 'var(--neutral-focus)',
+          surface: {
+            100: 'var(--neutral-surface-100)',
+            200: 'var(--neutral-surface-200)',
+            300: 'var(--neutral-surface-300)',
+            400: 'var(--neutral-surface-400)',
+            inverse: 'var(--neutral-surface-inverse)',
           },
-          400: {
-            DEFAULT: colors.gray[200],
-            light: colors.gray[200],
-            dark: '#1e1f22',
-          },
-          inverse: {
-            DEFAULT: colors.gray[950],
-            light: colors.gray[950],
-            dark: colors.white,
-          },
-        },
-        text: {
-          100: {
-            DEFAULT: colors.gray[800],
-            light: colors.gray[800],
-            dark: colors.gray[200],
-          },
-          200: {
-            DEFAULT: colors.gray[900],
-            light: colors.gray[900],
-            dark: colors.gray[100],
-          },
-          300: {
-            DEFAULT: colors.gray[950],
-            light: colors.gray[950],
-            dark: colors.gray[50],
-          },
-          inverse: {
-            DEFAULT: colors.white,
-            light: colors.white,
-            dark: colors.gray[950],
+          text: {
+            100: 'var(--neutral-text-100)',
+            200: 'var(--neutral-text-200)',
+            300: 'var(--neutral-text-300)',
+            400: 'var(--neutral-text-400)',
+            inverse: 'var(--neutral-text-inverse)',
           },
         },
         action: {
-          text: {
-            50: {
-              DEFAULT: colors.white,
-              light: colors.white,
-              dark: colors.blue[200],
-            },
+          border: 'var(--action-border)',
+          bg: {
             100: {
-              DEFAULT: colors.white,
-              light: colors.white,
-              dark: colors.blue[100],
+              DEFAULT: 'var(--action-bg-100)',
+              hover: 'var(--action-bg-100-hover)',
+              inverse: 'var(--action-bg-100-inverse)',
             },
-            inverse: {
-              DEFAULT: ACTION_BG,
-              light: ACTION_BG,
-              dark: ACTION_BG,
-            },
-          },
-          background: {
-            50: {
-              DEFAULT: ACTION_BG,
-              light: ACTION_BG,
-              dark: ACTION_BG,
-            },
-            inverse: {
-              DEFAULT: colors.blue[50],
-              light: colors.blue[50],
-              dark: colors.blue[50],
-            },
-            hover: {
-              DEFAULT: '#2a3aef',
-              light: '#2a3aef',
-              dark: '#2a3aef',
-            },
-          },
-          secondary: {
-            text: {
-              DEFAULT: colors.white,
-              light: colors.white,
-              dark: colors.slate[200],
-            },
-            background: {
-              50: {
-                DEFAULT: colors.slate[500],
-                light: colors.slate[500],
-                dark: colors.slate[100],
-              },
-              hover: {
-                DEFAULT: colors.slate[600],
-                light: colors.slate[600],
-                dark: colors.slate[200],
-              },
+            200: {
+              DEFAULT: 'var(--action-bg-200)',
+              hover: 'var(--action-bg-200-hover)',
             },
           },
           link: {
-            text: {
-              DEFAULT: colors.blue[600],
-              light: colors.blue[600],
-              dark: colors.blue[500],
-            },
+            DEFAULT: 'var(--action-link)',
+            active: 'var(--action-link-active)',
+            hover: 'var(--action-link-hover)',
+          },
+          text: {
+            100: 'var(--action-text-100)',
+            200: 'var(--action-text-200)',
+            300: 'var(--action-text-300)',
+            inverse: 'var(--action-text-inverse)',
           },
         },
         info: {
+          border: 'var(--info-border)',
+          surface: {
+            100: 'var(--info-surface-100)',
+          },
           text: {
-            100: {
-              DEFAULT: colors.sky[200],
-              light: colors.sky[200],
-              dark: colors.sky[300],
-            },
-            200: {
-              DEFAULT: colors.sky[50],
-              light: colors.sky[50],
-              dark: colors.sky[300],
-            },
-          },
-          background: {
-            DEFAULT: colors.sky[600],
-            light: colors.sky[600],
-            dark: colors.sky[500],
-          },
-          border: {
-            DEFAULT: colors.sky[800],
-            light: colors.sky[800],
-            dark: colors.sky[700],
+            100: 'var(--info-text-100)',
+            200: 'var(--info-text-200)',
           },
         },
         success: {
+          border: 'var(--success-border)',
+          bg: {
+            100: 'var(--success-bg-100)',
+          },
+          surface: {
+            100: 'var(--success-surface-100)',
+          },
           text: {
-            100: {
-              DEFAULT: colors.emerald[200],
-              light: colors.emerald[200],
-              dark: colors.emerald[300],
-            },
-            200: {
-              DEFAULT: colors.sky[50],
-              light: colors.sky[50],
-              dark: colors.emerald[100],
-            },
-          },
-          background: {
-            DEFAULT: colors.emerald[600],
-            light: colors.emerald[600],
-            dark: colors.emerald[500],
-          },
-          border: {
-            DEFAULT: colors.emerald[800],
-            light: colors.emerald[800],
-            dark: colors.emerald[700],
+            100: 'var(--success-text-100)',
+            200: 'var(--success-text-200)',
+            inverse: 'var(--success-text-inverse)',
           },
         },
         warning: {
+          border: 'var(--warning-border)',
+          surface: {
+            100: 'var(--warning-surface-100)',
+          },
           text: {
-            100: {
-              DEFAULT: colors.yellow[200],
-              light: colors.yellow[200],
-              dark: colors.yellow[300],
-            },
-            200: {
-              DEFAULT: colors.yellow[50],
-              light: colors.yellow[50],
-              dark: colors.yellow[100],
-            },
-          },
-          background: {
-            DEFAULT: colors.yellow[600],
-            light: colors.yellow[600],
-            dark: colors.yellow[500],
-          },
-          border: {
-            DEFAULT: colors.yellow[800],
-            light: colors.yellow[800],
-            dark: colors.yellow[700],
+            100: 'var(--warning-text-100)',
+            200: 'var(--warning-text-200)',
           },
         },
         danger: {
-          text: {
+          border: 'var(--danger-border)',
+          bg: {
             100: {
-              DEFAULT: colors.rose[200],
-              light: colors.rose[200],
-              dark: colors.rose[300],
-            },
-            200: {
-              DEFAULT: colors.rose[50],
-              light: colors.rose[50],
-              dark: colors.rose[50],
+              DEFAULT: 'var(--danger-background-100)',
+              hover: 'var(--danger-bg-100-hover)',
             },
           },
-          background: {
-            50: {
-              DEFAULT: colors.rose[800],
-              light: colors.rose[800],
-              dark: colors.rose[700],
-            },
-            hover: {
-              DEFAULT: colors.rose[900],
-              light: colors.rose[900],
-              dark: colors.rose[800],
-            },
+          surface: {
+            100: 'var(--danger-surface-100)',
           },
-          border: {
-            DEFAULT: colors.rose[900],
-            light: colors.rose[900],
-            dark: colors.rose[900],
+          text: {
+            100: 'var(--danger-text-100)',
+            200: 'var(--danger-text-200)',
           },
         },
       },
@@ -276,7 +148,6 @@ export default {
       ],
       serif: ['Inter', 'sans-serif'],
       mono: ['dm', 'monospace'],
-      // custom
       display: [
         'ginto nord',
         'Gordita',
@@ -288,5 +159,5 @@ export default {
       ],
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/forms')],
 }

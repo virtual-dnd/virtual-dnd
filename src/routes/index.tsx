@@ -15,10 +15,10 @@ export default function Home() {
 
   return (
     <div class="h-full min-h-screen">
-      <div class="bg-background pb-2">
+      <div class="bg-[#5764f2] pb-2">
         <header class="align-center flex justify-between p-4">
           <h1 class="self-center">
-            <A class="text-text-inverse" href="/">
+            <A class="text-neutral-text-inverse" href="/">
               :crossed_swords: Virtual DnD
             </A>
           </h1>
@@ -26,44 +26,54 @@ export default function Home() {
           <Show
             when={session()?.user}
             fallback={
-              <A class="action-inverse-rounded-btn action-link" href="./signin">
+              <A
+                class="rounded-full bg-action-bg-100-inverse px-6 py-2 hover:shadow-lg"
+                href="./signin"
+              >
                 Sign in
               </A>
             }
           >
-            <A class="action-inverse-rounded-btn action-link" href="./app">
+            <A
+              class="rounded-full bg-action-bg-100-inverse px-6 py-2 hover:shadow-lg"
+              href="./app"
+            >
               Open app
             </A>
           </Show>
         </header>
 
-        <main class="px-4 py-12">
-          <h1 class="font-display text-6xl text-text-inverse">HOME</h1>
-          <p class="text-text-inverse">
+        <main class="min-h-[66vh] px-4 py-12 sm:min-h-[33vh]">
+          <h1 class="font-display text-6xl text-neutral-text-inverse">HOME</h1>
+          <p class="text-neutral-text-inverse">
             This will have some cool marketing stuff later...
           </p>
         </main>
       </div>
 
-      <section class="bg-white px-4 py-12 text-text-300">
-        <h2 class="font-display text-2xl text-text-200">
+      <section class="min-h-[33vh] bg-white px-4 py-12">
+        <h2 class="font-display text-2xl text-neutral-text-400">
           Another cool saying...
         </h2>
         <p>More wow factor...</p>
       </section>
 
-      <section class="bg-surface-200 px-4 py-12">
-        <h2 class="font-display text-2xl text-text-300">Demo thing...</h2>
-        <code class="block py-4 text-text-100">
+      <section class="bg-neutral-surface-200 px-4 py-12">
+        <h2 class="font-display text-2xl text-neutral-text-400">
+          Demo thing...
+        </h2>
+        <code class="block py-4 text-neutral-text-100">
           Here is a code snippet just in case you need it...
         </code>
       </section>
 
-      <footer class="bg-surface-inverse px-4 py-12">
-        <small class="text-text-inverse">Please fund me footer...</small>
+      <footer class="min-h-[33vh] bg-neutral-surface-inverse px-4 py-12">
+        <small class="text-neutral-text-inverse">
+          Please fund me footer...
+        </small>
         <ul>
           <li>
-            <A class="action-link" href="./signin">
+            <A class="hover:text-action-text-100" href="./signin">
               Sign in
             </A>
           </li>

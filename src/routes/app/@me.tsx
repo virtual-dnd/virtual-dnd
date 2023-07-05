@@ -7,6 +7,7 @@ import {
   useSearchParams,
 } from 'solid-start'
 import { createServerAction$, createServerData$ } from 'solid-start/server'
+import { FormErrorMessage } from '~/components/index.ts'
 import {
   createUserProfile,
   getUserProfile,
@@ -19,15 +20,11 @@ import { getUser, signOut } from '~/db/session.ts'
 
 export function routeData() {
   return createServerData$(async (_, { request }) => {
-    try {
-      const { user } = await getUser(request)
-      const profile = await getUserProfile(request)
-      return {
-        user,
-        profile: profile.data ?? null,
-      }
-    } catch (error) {
-      // TODO: Handle error
+    const { user } = await getUser(request)
+    const profile = await getUserProfile(request)
+    return {
+      user,
+      profile: profile.data ?? null,
     }
   })
 }
@@ -112,23 +109,29 @@ export default function Me() {
   return (
     <>
       <div class="side-bar relative">
-        <div class="h-20 bg-info-background p-2 text-text-inverse">
+        <div class="h-20 bg-info-surface-100 p-2 text-neutral-text-inverse">
           Profile banner
         </div>
 
         <nav class="p-2">
           <ul>
             <li>
-              <A activeClass="active-link" href="/app/@me">
+              <A
+                activeClass="text-action-link-hover decoration-action-link underline"
+                href="/app/@me"
+              >
                 Profile
               </A>
             </li>
           </ul>
         </nav>
 
-        <div class="left-0flex absolute bottom-0 left-0 right-0 w-full justify-between bg-surface-300 p-2">
+        <div class="left-0flex absolute bottom-0 left-0 right-0 w-full justify-between bg-neutral-surface-300 p-2">
           <Form>
-            <button class="action-secondary-btn w-full" type="submit">
+            <button
+              class="w-full bg-action-bg-200 fill-slate-300 text-action-text-200"
+              type="submit"
+            >
               Sign out
               <OcSignout2 aria-hidden="true" size={24} title="Sign out" />
             </button>
@@ -137,24 +140,20 @@ export default function Me() {
       </div>
 
       <main class="feature relative w-[46.25rem] overflow-y-auto px-12 pb-6 pt-10">
-        <h1 class="bolder text-xl font-black">User Profile</h1>
+        <h1 class="bolder text-xl text-neutral-text-400">User Profile</h1>
 
         <Show when={updating.error}>
-          <div class="mb-2 rounded-lg bg-danger-background p-2 text-text-100">
-            <p class="text-danger-text">
-              Something went wrong: {updating.error.message}
-            </p>
-          </div>
+          <FormErrorMessage error={updating.error} />
         </Show>
 
         <div class="mt-6 ">
-          <div class="relative mb-6 rounded-lg bg-surface-400 p-2">
-            <div class="h-20 overflow-hidden rounded-sm bg-surface-100">
+          <div class="relative mb-6 rounded-lg bg-neutral-surface-400 p-2">
+            <div class="h-20 overflow-hidden rounded-sm bg-neutral-surface-100">
               <Show when={data()?.profile?.profile_banner}>
                 <img alt="Profile banner" class="h-full w-full" src="" />
               </Show>
 
-              <div class="absolute left-4 top-14 flex h-14 w-14 flex-col items-center justify-center overflow-hidden rounded-full border-2 bg-background fill-white">
+              <div class=" absolute left-4 top-14 flex h-14 w-14 flex-col items-center justify-center overflow-hidden rounded-full border-2 bg-info-surface-100 fill-white">
                 <Show
                   when={data()?.profile?.avatar}
                   fallback={
@@ -175,8 +174,12 @@ export default function Me() {
             </div>
 
             <div class="px-4 pb-2 pt-8">
-              <p class="font-extrabold">{data()?.profile?.display_name}</p>
-              <small class="text-text-100">{data()?.profile?.pronouns}</small>
+              <p class="font-extrabold text-neutral-text-400">
+                {data()?.profile?.display_name}
+              </p>
+              <small class="text-neutral-text-200">
+                {data()?.profile?.pronouns}
+              </small>
             </div>
           </div>
 
@@ -204,9 +207,7 @@ export default function Me() {
               The name everyone in your party will see.
             </small>
 
-            <hr class="my-6" />
-
-            <label class="block" for="pronouns">
+            <label class="mt-4 block" for="pronouns">
               Pronouns
             </label>
             <input
@@ -219,7 +220,7 @@ export default function Me() {
             />
             <small class="text-help">The pronouns you identify with.</small>
 
-            <hr class="my-6" />
+            <hr class="my-8" />
 
             <label class="block" for="avatar">
               Avatar
@@ -233,7 +234,7 @@ export default function Me() {
               Change Avatar
             </input>
             <button
-              class="action-text-btn"
+              class="text-action-bg-100 hover:text-action-text-inverse"
               id="avatar"
               name="avatar"
               onClick={() => {
@@ -249,18 +250,21 @@ export default function Me() {
             </button>
 
             <Show when={showFooter()}>
-              <div class="align-center absolute bottom-4 left-0 right-0 mx-4 flex w-full flex-1 animate-bounce-in-from-bottom items-center justify-between rounded-md bg-surface-100 px-4 py-2 drop-shadow-2xl">
+              <div class="align-center shadow-m absolute bottom-4 left-0 mx-2 flex w-[95%] flex-1 animate-bounce-in-from-bottom items-center justify-between rounded-md bg-neutral-surface-400 px-4 py-2">
                 <p>Careful -- you have unsaved changes!</p>
 
-                <div class="flex grow gap-2 px-2">
+                <div class="align-center flex grow justify-center gap-2 px-2">
                   <button
-                    class="action-text-btn w-full"
+                    class="w-full text-action-bg-100  hover:text-action-text-inverse"
                     onClick={() => setShowFooter(false)}
                     type="button"
                   >
                     Cancel
                   </button>
-                  <button class="action-btn w-full" type="submit">
+                  <button
+                    class="w-full bg-action-bg-100 text-action-text-300 hover:bg-action-bg-100-hover"
+                    type="submit"
+                  >
                     Save Changes
                   </button>
                 </div>
@@ -270,7 +274,7 @@ export default function Me() {
         </div>
 
         <Show when={searchParams.debug}>
-          <code class=" mt-10 block bg-surface-200 p-2">
+          <code class=" bg-surface-200 mt-10 block p-2">
             <pre>user: {JSON.stringify(data()?.user, null, 2)}</pre>
             <pre>profile: {JSON.stringify(data()?.profile, null, 2)}</pre>
           </code>

@@ -12,6 +12,7 @@
   },
   "type": "module",
   "devDependencies": {
+    "@tailwindcss/forms": "^0.5.3",
     "@types/node": "^18.11.18",
     "@typescript-eslint/eslint-plugin": "^5.59.9",
     "@typescript-eslint/parser": "^5.59.9",
@@ -36,6 +37,7 @@
     "@solidjs/router": "^0.8.2",
     "@supabase/auth-helpers-remix": "^0.2.1",
     "@supabase/supabase-js": "^2.25.0",
+    "rollbar": "^2.26.2",
     "solid-icons": "^1.0.8",
     "solid-js": "^1.7.7",
     "solid-start": "^0.2.26",

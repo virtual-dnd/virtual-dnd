@@ -13,6 +13,7 @@ import {
   Title,
 } from 'solid-start'
 import { theme } from './store/theme.ts'
+import { ErrorMessage } from './components/ErrorMessage.tsx'
 import './root.css'
 
 export default function Root() {
@@ -29,7 +30,7 @@ export default function Root() {
 
       <Body>
         <Suspense>
-          <ErrorBoundary>
+          <ErrorBoundary fallback={(error) => <ErrorMessage error={error} />}>
             <Routes>
               <FileRoutes />
             </Routes>
