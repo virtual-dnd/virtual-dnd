@@ -53,21 +53,21 @@ export default function Signin() {
         </Show>
 
         <Form class="mb-6 ">
-          <label class="mb-1 block" html-for="email">
+          <label class="mb-1 block" for="email">
             Email (required)
+            <input type="hidden" name="intent" value="magicLink" />
+            <div class="border-border mb-2 block w-full border">
+              <input
+                class="block w-full p-2"
+                type="tel"
+                id="email"
+                name="email"
+                placeholder="youremail@example.com"
+                required
+              />
+            </div>
           </label>
-          <input type="hidden" name="intent" value="magicLink" />
 
-          <div class="border-border mb-2 block w-full border">
-            <input
-              class="block w-full p-2"
-              type="tel"
-              id="email"
-              name="email"
-              placeholder="youremail@example.com"
-              required
-            />
-          </div>
           <small class="text-text-100 mb-3 block text-xs">
             Enter your email to recieve a magic link.
           </small>

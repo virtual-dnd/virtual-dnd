@@ -194,60 +194,60 @@ export default function Me() {
 
             <label class="block" for="display_name">
               Display Name
+              <input
+                id="display_name"
+                type="text"
+                name="display_name"
+                onKeyPress={() => setShowFooter(true)}
+                placeholder={data()?.user?.email ?? ''}
+                value={data()?.profile?.display_name ?? ''}
+              />
             </label>
-            <input
-              id="display_name"
-              type="text"
-              name="display_name"
-              onKeyPress={() => setShowFooter(true)}
-              placeholder={data()?.user?.email ?? ''}
-              value={data()?.profile?.display_name ?? ''}
-            />
             <small class="text-help">
               The name everyone in your party will see.
             </small>
 
             <label class="mt-4 block" for="pronouns">
               Pronouns
+              <input
+                id="pronouns"
+                name="pronouns"
+                onKeyPress={() => setShowFooter(true)}
+                placeholder="Add your pronouns"
+                type="text"
+                value={data()?.profile?.pronouns ?? ''}
+              />
             </label>
-            <input
-              id="pronouns"
-              name="pronouns"
-              onKeyPress={() => setShowFooter(true)}
-              placeholder="Add your pronouns"
-              type="text"
-              value={data()?.profile?.pronouns ?? ''}
-            />
             <small class="text-help">The pronouns you identify with.</small>
 
             <hr class="my-8" />
 
-            <label class="block" for="avatar">
-              Avatar
-            </label>
-            <input
-              id="avatar"
-              name="avatar"
-              onChange={() => setShowFooter(true)}
-              type="file"
-            >
-              Change Avatar
-            </input>
-            <button
-              class="text-action-bg-100 hover:text-action-text-inverse"
-              id="avatar"
-              name="avatar"
-              onClick={() => {
-                setShowFooter(true)
-                handleRemoveAvatar({
-                  id: data()?.user?.id ?? '',
-                  path: data()?.profile?.avatar,
-                })
-              }}
-              type="button"
-            >
-              Remove Avatar
-            </button>
+            <div class="flex items-center justify-start">
+              <label class="block" for="avatar">
+                Avatar
+                <input
+                  id="avatar"
+                  name="avatar"
+                  onChange={() => setShowFooter(true)}
+                  type="file"
+                />
+              </label>
+              <button
+                class="text-action-bg-100 hover:text-action-text-inverse"
+                id="avatar"
+                name="avatar"
+                onClick={() => {
+                  setShowFooter(true)
+                  handleRemoveAvatar({
+                    id: data()?.user?.id ?? '',
+                    path: data()?.profile?.avatar,
+                  })
+                }}
+                type="button"
+              >
+                Remove Avatar
+              </button>
+            </div>
 
             <Show when={showFooter()}>
               <div class="align-center shadow-m absolute bottom-4 left-0 mx-2 flex w-[95%] flex-1 animate-bounce-in-from-bottom items-center justify-between rounded-md bg-neutral-surface-400 px-4 py-2">
