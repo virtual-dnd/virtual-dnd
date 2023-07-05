@@ -10,8 +10,10 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:import/recommended',
+    'plugin:jsx-a11y/recommended',
     'plugin:import/typescript',
     'plugin:@typescript-eslint/recommended',
+    'plugin:solid/typescript',
     // this must be last
     'prettier',
   ],

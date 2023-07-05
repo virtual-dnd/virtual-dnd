@@ -127,11 +127,15 @@
   /* forms */
 
   label {
-    @apply mb-2 block text-sm font-bold uppercase text-neutral-text-300;
+    @apply block text-sm font-bold uppercase text-neutral-text-300;
   }
 
   input:not([type='file']) {
-    @apply focus:focus block h-10 w-full rounded-sm border-0 bg-neutral-surface-400 px-2 text-neutral-text-400 placeholder:text-neutral-text-100;
+    @apply focus:focus mt-2 block h-10 w-full rounded-sm border-0 bg-neutral-surface-400 px-2 text-neutral-text-400 placeholder:text-neutral-text-100;
+  }
+
+  input[type='file'] {
+    @apply mt-2 block;
   }
 
   /* actions */
