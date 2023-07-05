@@ -2,79 +2,148 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
-  *:focus-visible {
-    box-shadow: none;
-    outline: 3px solid #3895ff;
-    outline-offset: 2px;
+@layer base {
+  :root {
+    --neutral-border-100: theme(colors.gray.300);
+    --neutral-border-200: theme(colors.gray.400);
+    --neutral-border-300: theme(colors.gray.500);
+
+    --neutral-focus: theme(colors.indigo.400);
+
+    --neutral-bg-100: theme(colors.gray.300);
+    --neutral-bg-100-hover: theme(colors.transparent);
+
+    --neutral-surface-100: theme(colors.white);
+    --neutral-surface-200: theme(colors.gray.50);
+    --neutral-surface-300: theme(colors.gray.100);
+    --neutral-surface-400: theme(colors.gray.200);
+    --neutral-surface-inverse: theme(colors.black);
+
+    --neutral-text-100: theme(colors.gray.700);
+    --neutral-text-200: theme(colors.gray.800);
+    --neutral-text-300: theme(colors.gray.950);
+    --neutral-text-400: theme(colors.black);
+    --neutral-text-inverse: theme(colors.white);
+
+    --action-border: #5764f2;
+
+    --action-bg-100: #5764f2;
+    --action-bg-100-hover: #2a3aef;
+    --action-bg-100-inverse: theme(colors.white);
+
+    --action-bg-200: theme(colors.slate.500);
+    --action-bg-200-hover: theme(colors.slate.600);
+
+    --action-link: theme(colors.blue.600);
+    --action-link-hover: theme(colors.black);
+    --action-link-active: theme(colors.blue.600);
+
+    --action-text-100: theme(colors.purple.50);
+    --action-text-200: theme(colors.slate.100);
+    --action-text-300: theme(colors.white);
+    --action-text-inverse: theme(colors.purple.950);
+
+    --info-border: theme(colors.sky.800);
+    --info-surface-100: theme(colors.sky.600);
+    --info-text-100: theme(colors.sky.200);
+    --info-text-200: theme(colors.sky.50);
+
+    --success-border: theme(colors.green.600);
+    --success-bg-100: theme(colors.green.600);
+    --success-surface-100: theme(colors.green.700);
+    --success-text-100: theme(colors.green.200);
+    --success-text-200: theme(colors.green.50);
+    --success-text-inverse: theme(colors.green.600);
+
+    --warning-border: theme(colors.yellow.800);
+    --warning-surface-100: theme(colors.yellow.600);
+    --warning-text-100: theme(colors.yellow.200);
+    --warning-text-200: theme(colors.yellow.50);
+
+    --danger-border: theme(colors.rose.800);
+    --danger-background-100: theme(colors.rose.600);
+    --danger-background-100-hover: theme(colors.rose.700);
+    --danger-surface-100: theme(colors.rose.600);
+    --danger-text-100: theme(colors.rose.200);
+    --danger-text-200: theme(colors.rose.50);
   }
+
+  html[data-theme='dark'],
+  .dark {
+    --neutral-border-100: theme(colors.gray.600);
+    --neutral-border-200: theme(colors.gray.700);
+    --neutral-border-300: theme(colors.gray.800);
+
+    --neutral-focus: theme(colors.indigo.400);
+
+    --neutral-bg-100: theme(colors.gray.300);
+    --neutral-bg-100-hover: theme(colors.transparent);
+
+    --neutral-surface-100: #313338;
+    --neutral-surface-200: #2b2d31;
+    --neutral-surface-300: #232428;
+    --neutral-surface-400: #1e1f22;
+    --neutral-surface-inverse: theme(colors.white);
+
+    --neutral-text-100: theme(colors.gray.500);
+    --neutral-text-200: theme(colors.gray.400);
+    --neutral-text-300: theme(colors.gray.300);
+    --neutral-text-400: theme(colors.gray.100);
+    --neutral-text-inverse: theme(colors.black);
+
+    --action-text-inverse: theme(colors.purple.50);
+  }
+}
+
+@layer components {
+  .focus {
+    @apply shadow-none outline outline-[3px] outline-offset-2 outline-blue-600;
+  }
+
+  html {
+    @apply bg-neutral-surface-100 text-neutral-text-100;
+  }
+
+  *:focus {
+    @apply focus;
+  }
+
+  /* layout */
 
   hr {
-    @apply my-2 border-0 border-t border-border;
+    @apply my-2 border-0 border-t border-neutral-border-200;
   }
 
+  /* typography */
+
+  small {
+    @apply text-sm text-neutral-text-200;
+  }
+
+  code {
+    @apply overflow-scroll rounded-lg bg-neutral-surface-200 p-4;
+  }
+
+  /* forms */
+
   label {
-    @apply mb-2 block text-sm font-bold uppercase text-text-100;
+    @apply mb-2 block text-sm font-bold uppercase text-neutral-text-300;
   }
 
   input:not([type='file']) {
-    @apply block h-10 w-full rounded-sm border-0 border-border bg-surface-200 px-2 text-text-200 focus:ring-2 focus:ring-action-background-50 focus:ring-opacity-50;
+    @apply focus:focus block h-10 w-full rounded-sm border-0 bg-neutral-surface-400 px-2 text-neutral-text-400 placeholder:text-neutral-text-100;
   }
 
-  input[type='file'] {
-    @apply appearance-none;
+  /* actions */
+
+  a,
+  .link {
+    @apply text-action-link decoration-action-link hover:text-action-link-hover hover:underline;
   }
 
-  .active-link {
-    @apply font-bold text-action-link-text underline;
-  }
-
+  button,
   .btn {
-    @apply inline-flex h-10 justify-around gap-2 px-6 py-2 transition ease-in-out;
-  }
-
-  .action-btn {
-    @apply btn rounded-lg bg-action-background-50 text-action-text-50 hover:bg-action-background-hover;
-  }
-
-  .action-text-btn {
-    @apply btn font-bold text-action-background-50 hover:text-action-text-100;
-  }
-
-  .action-rounded-btn {
-    @apply btn rounded-full bg-action-background-50 text-action-text-50 hover:bg-action-background-hover;
-  }
-
-  .action-inverse-btn {
-    @apply btn bg-action-text rounded-lg text-text-inverse hover:text-action-link-text hover:shadow-xl;
-  }
-
-  .action-inverse-rounded-btn {
-    @apply btn rounded-full bg-action-background-inverse text-action-text-inverse hover:text-action-link-text hover:shadow-xl;
-  }
-
-  .action-secondary-btn {
-    @apply btn rounded-lg bg-action-secondary-background-50 fill-action-secondary-text text-action-secondary-text hover:bg-action-secondary-background-hover hover:shadow-xl;
-  }
-
-  .action-secondary-rounded-btn {
-    @apply btn rounded-full bg-action-secondary-background-50 fill-action-secondary-text text-action-secondary-text hover:bg-action-secondary-background-hover hover:shadow-xl;
-  }
-
-  .action-link {
-    @apply text-action-link-text hover:underline;
-  }
-
-  .secondary-icon-btn {
-    @apply rounded-full bg-surface-100 fill-action-background-50 p-2 transition ease-in-out hover:animate-grow-radius hover:bg-action-background-hover hover:fill-action-text-50;
-  }
-
-  .secondary-active-icon-btn {
-    @apply animate-grow-radius bg-action-background-hover fill-action-text-50;
-  }
-
-  .help-text {
-    @apply text-xs text-text-100;
+    @apply inline-flex h-12 items-center justify-center gap-4 rounded-lg px-6 py-2 text-base transition ease-in-out;
   }
 
   /* layout */
@@ -82,21 +151,21 @@
   .app-grid {
     @apply grid h-screen w-screen overflow-hidden;
     grid-template-areas: 'server-bar side-bar feature';
-    grid-template-columns: 3.75rem 15.5rem 1fr;
+    grid-template-columns: 4.5rem 15.5rem 1fr;
   }
 
   .server-bar {
-    @apply flex flex-col items-center justify-between bg-surface-400 p-2 dark:bg-surface-400-dark;
+    @apply flex flex-col items-center justify-between bg-neutral-surface-400 p-2;
     grid-area: server-bar;
   }
 
   .side-bar {
-    @apply bg-surface-200 dark:bg-surface-200-dark;
+    @apply bg-neutral-surface-200;
     grid-area: side-bar;
   }
 
   .feature {
-    @apply bg-surface-100 pe-2 ps-2 dark:bg-surface-100-dark;
+    @apply bg-neutral-surface-100 pe-2 ps-2;
     grid-area: feature;
   }
 }
