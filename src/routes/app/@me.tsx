@@ -8,7 +8,8 @@ import {
   useSearchParams,
 } from 'solid-start'
 import { createServerAction$, createServerData$ } from 'solid-start/server'
-import { FormErrorMessage } from '~/components/index.ts'
+import { Puff } from 'solid-spinner'
+import { FormErrorMessage, FormFooter } from '~/components/index.ts'
 import {
   createUserProfile,
   getUserProfile,
@@ -254,25 +255,24 @@ export default function Me() {
             <small class="text-help">The pronouns you identify with.</small>
 
             <Show when={showFooter.profile}>
-              <div class="align-center shadow-m absolute bottom-4 left-0 mx-2 flex w-[95%] flex-1 animate-bounce-in-from-bottom items-center justify-between rounded-md bg-neutral-surface-400 px-4 py-2">
-                <p>Careful -- you have unsaved changes!</p>
-
-                <div class="align-center flex grow justify-center gap-2 px-2">
-                  <button
-                    class="w-full text-action-bg-100  hover:text-action-text-inverse"
-                    onClick={() => setShowFooter('profile', true)}
-                    type="button"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    class="w-full bg-action-bg-100 text-action-text-300 hover:bg-action-bg-100-hover"
-                    type="submit"
-                  >
-                    Save Changes
-                  </button>
-                </div>
-              </div>
+              <FormFooter>
+                <button
+                  class="w-full text-action-bg-100  hover:text-action-text-inverse"
+                  onClick={() => setShowFooter('profile', false)}
+                  type="button"
+                >
+                  Cancel
+                </button>
+                <button
+                  class="w-full bg-action-bg-100 text-action-text-300 hover:bg-action-bg-100-hover"
+                  type="submit"
+                >
+                  <Show when={updating?.pending} fallback={'Save Changes'}>
+                    Updating
+                    <Puff aria-hidden="true" color="white" width="30" />
+                  </Show>
+                </button>
+              </FormFooter>
             </Show>
           </ProfileForm>
 
@@ -318,30 +318,27 @@ export default function Me() {
             </div>
 
             <Show when={showFooter.avatar}>
-              <div class="align-center shadow-m absolute bottom-4 left-0 mx-2 flex w-[95%] flex-1 animate-bounce-in-from-bottom items-center justify-between rounded-md bg-neutral-surface-400 px-4 py-2">
-                <p>Careful -- you have unsaved changes!</p>
-
-                <div class="align-center flex grow justify-center gap-2 px-2">
-                  <button
-                    class="w-full text-action-bg-100  hover:text-action-text-inverse"
-                    onClick={() => setShowFooter({ avatar: false })}
-                    type="button"
+              <FormFooter>
+                <button
+                  class="w-full text-action-bg-100  hover:text-action-text-inverse"
+                  onClick={() => setShowFooter({ avatar: false })}
+                  type="button"
+                >
+                  Cancel
+                </button>
+                <button
+                  class="w-full bg-action-bg-100 text-action-text-300 hover:bg-action-bg-100-hover"
+                  type="submit"
+                >
+                  <Show
+                    when={updatingAvatar?.pending}
+                    fallback={'Save Changes'}
                   >
-                    Cancel
-                  </button>
-                  <button
-                    class="w-full bg-action-bg-100 text-action-text-300 hover:bg-action-bg-100-hover"
-                    type="submit"
-                  >
-                    <Show
-                      when={updatingAvatar?.pending}
-                      fallback={'Save Changes'}
-                    >
-                      ...updating
-                    </Show>
-                  </button>
-                </div>
-              </div>
+                    Updating
+                    <Puff aria-hidden="true" color="white" width="30" />
+                  </Show>
+                </button>
+              </FormFooter>
             </Show>
           </AvatarForm>
         </div>

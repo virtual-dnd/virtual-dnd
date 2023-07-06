@@ -2,6 +2,7 @@ import { type Provider } from '@supabase/supabase-js'
 import { For, Show } from 'solid-js'
 import { createRouteAction } from 'solid-start'
 import { BsDiscord, BsGoogle } from 'solid-icons/bs'
+import { Puff } from 'solid-spinner'
 import { object, string } from 'yup'
 import { signInWithMagicLink, signInWithProvider } from '~/db/session.ts'
 
@@ -88,7 +89,8 @@ export default function Signin() {
             type="submit"
           >
             <Show when={submission.pending} fallback={'Sign in'}>
-              ...sending
+              Sending
+              <Puff aria-hidden="true" color="white" width="30" />
             </Show>
           </button>
         </Form>

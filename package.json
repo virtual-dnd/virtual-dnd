@@ -43,6 +43,7 @@
     "rollbar": "^2.26.2",
     "solid-icons": "^1.0.8",
     "solid-js": "^1.7.7",
+    "solid-spinner": "^0.1.9",
     "solid-start": "^0.2.26",
     "undici": "^5.15.1",
     "yup": "^1.2.0"
