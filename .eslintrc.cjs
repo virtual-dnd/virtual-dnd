@@ -25,7 +25,7 @@ module.exports = {
   plugins: ['import'],
   rules: {
     'import/extensions': [ERROR, 'always', { ignorePackages: true }],
-    'import/no-unresolved': [2, { ignore: ['solid-start/*', '~/*/*'] }],
+    'import/no-unresolved': [2, { ignore: ['solid-start/*', '~/*/*', '@src'] }],
     'import/order': [
       WARN,
       {
