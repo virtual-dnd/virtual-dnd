@@ -1,6 +1,7 @@
 import { Suspense } from 'solid-js'
 import { A, ErrorBoundary, Outlet } from 'solid-start'
 import { OcPlus2, OcCopilot2 } from 'solid-icons/oc'
+import { ErrorMessage } from '~/components/index.ts'
 
 export default function App() {
   return (
@@ -30,7 +31,7 @@ export default function App() {
       </div>
 
       <Suspense>
-        <ErrorBoundary>
+        <ErrorBoundary fallback={(error) => <ErrorMessage error={error} />}>
           <Outlet />
         </ErrorBoundary>
       </Suspense>

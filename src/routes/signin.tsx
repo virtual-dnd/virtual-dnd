@@ -2,11 +2,21 @@ import { type Provider } from '@supabase/supabase-js'
 import { For, Show } from 'solid-js'
 import { createRouteAction } from 'solid-start'
 import { BsDiscord, BsGoogle } from 'solid-icons/bs'
+import { object, string } from 'yup'
 import { signInWithMagicLink, signInWithProvider } from '~/db/session.ts'
-import { FormErrorMessage } from '~/components/index.ts'
 
 export default function Signin() {
   const [submission, { Form }] = createRouteAction(async (form: FormData) => {
+    const magicLinkSchema = object({
+      email: string().email().required(),
+    })
+
+    try {
+      await magicLinkSchema.validate({ email: form.get('email') })
+    } catch (error: Error | unknown) {
+      throw new Error('A valid email is required.')
+    }
+
     signInWithMagicLink(form.get('email') as string)
     return 'magicLink'
   })
@@ -42,10 +52,6 @@ export default function Signin() {
       </p>
 
       <div class="mb-4 mt-4 w-full rounded-l bg-neutral-surface-200 px-2 py-6 sm:mt-8 sm:px-6">
-        <Show when={submission.error}>
-          <FormErrorMessage error={submission.error} />
-        </Show>
-
         <Show when={submission.result === 'magicLink'} fallback={null}>
           <div class="text-text-inverse bg-success-background mb-2 rounded-lg p-2">
             <p>Check your email for a magic link!</p>
@@ -56,20 +62,24 @@ export default function Signin() {
           <label class="mb-1 block" for="email">
             Email (required)
             <input type="hidden" name="intent" value="magicLink" />
-            <div class="border-border mb-2 block w-full border">
-              <input
-                class="block w-full p-2"
-                type="tel"
-                id="email"
-                name="email"
-                placeholder="youremail@example.com"
-                required
-              />
-            </div>
+            <input
+              aria-invalid={submission.error ? 'true' : 'false'}
+              class="peer block w-full p-2"
+              type="tel"
+              id="email"
+              name="email"
+              placeholder="youremail@example.com"
+              required
+            />
           </label>
 
-          <small class="text-text-100 mb-3 block text-xs">
-            Enter your email to recieve a magic link.
+          <small class="text-text-100 peer-invalid: mb-3 block text-xs text-danger-bg-100">
+            <Show
+              when={submission.error}
+              fallback={'Enter your email to recieve a magic link.'}
+            >
+              Please enter a valid email.
+            </Show>
           </small>
 
           <button

@@ -2,21 +2,16 @@ import { createEffect, resetErrorBoundaries } from 'solid-js'
 import { rollbar } from '~/lib/rollbar.ts'
 
 export function ErrorMessage(props: { error: Error }) {
-  createEffect(() => rollbar.error(props.error))
+  createEffect(() => {
+    if (import.meta.env.PROD) {
+      rollbar.error(props.error)
+    }
+  })
 
   return (
-    <div style={{ padding: '16px' }}>
-      <div
-        style={{
-          'background-color': 'rgba(252, 165, 165)',
-          color: 'rgb(153, 27, 27)',
-          'border-radius': '5px',
-          overflow: 'scroll',
-          padding: '16px',
-          'margin-bottom': '8px',
-        }}
-      >
-        <p style={{ 'font-weight': 'bold' }} id="error-message">
+    <div class="w-full bg-danger-surface-100 p-8 font-mono text-danger-text-200">
+      <div class="mb-8 overflow-scroll">
+        <p class="font-bold" id="error-message">
           {props.error.message}
         </p>
 

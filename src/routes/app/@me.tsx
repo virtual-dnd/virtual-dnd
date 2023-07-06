@@ -1,5 +1,6 @@
 import { OcCopilot2, OcSignout2 } from 'solid-icons/oc'
-import { Show, createEffect, createSignal } from 'solid-js'
+import { Show, createEffect } from 'solid-js'
+import { createStore } from 'solid-js/store'
 import {
   A,
   createRouteAction,
@@ -32,7 +33,10 @@ export function routeData() {
 export default function Me() {
   const data = useRouteData<typeof routeData>()
   const [searchParams] = useSearchParams()
-  const [showFooter, setShowFooter] = createSignal<boolean>(false)
+  const [showFooter, setShowFooter] = createStore({
+    profile: false,
+    avatar: false,
+  })
 
   const [, { Form }] = createRouteAction(async () => {
     return signOut()
@@ -40,25 +44,17 @@ export default function Me() {
 
   const [updating, { Form: ProfileForm }] = createServerAction$(
     async (formData: FormData, { request }) => {
-      const avatar = formData.get('avatar') as File
       const id = formData.get('id') as string
       const hasProfile = formData.get('has_profile') as string
-      let avatarUrl = ''
-
-      if (avatar?.name) {
-        const avatarResponse = await updateUserAvatar({ avatar, id }, request)
-        avatarUrl = `${
-          import.meta.env.VITE_SUPABASE_URL
-        }/storage/v1/object/public/avatars/${avatarResponse.data.path}`
-      }
+      const fallbackDisplayName = `#${id.substring(0, 7)}`
 
       if (hasProfile === 'false') {
         await createUserProfile(
           {
             id,
-            avatar: avatarUrl ?? null,
-            display_name: formData.get('display_name'),
-            pronouns: formData.get('pronouns'),
+            avatar: null,
+            display_name: fallbackDisplayName,
+            pronouns: null,
           } as UserProfileForm,
           request
         )
@@ -68,9 +64,38 @@ export default function Me() {
       const response = await updateUserProfile(
         {
           id,
-          avatar: avatarUrl ?? null,
-          display_name: formData.get('display_name'),
+          display_name: formData.get('display_name') || fallbackDisplayName,
           pronouns: formData.get('pronouns'),
+        } as UserProfileForm,
+        request
+      )
+
+      return response.data
+    }
+  )
+
+  const [updatingAvatar, { Form: AvatarForm }] = createServerAction$(
+    async (formData: FormData, { request }) => {
+      const avatar = formData.get('avatar') as File
+      const currentAvatar = formData.get('current_avatar') as string
+      const id = formData.get('id') as string
+      let avatarUrl = ''
+
+      if (currentAvatar.includes(avatar.name)) {
+        return 'same avatar'
+      }
+
+      if (avatar?.name) {
+        const avatarResponse = await updateUserAvatar({ avatar, id }, request)
+        avatarUrl = `${
+          import.meta.env.VITE_SUPABASE_URL
+        }/storage/v1/object/public/avatars/${avatarResponse.data.path}`
+      }
+
+      const response = await updateUserProfile(
+        {
+          id,
+          avatar: avatarUrl ?? null,
         } as UserProfileForm,
         request
       )
@@ -103,7 +128,13 @@ export default function Me() {
   )
 
   createEffect(() => {
-    if (updating.pending || removingAvatar.pending) setShowFooter(false)
+    if (updating.result) {
+      setShowFooter('profile', false)
+    }
+
+    if (updatingAvatar.result || removingAvatar.result) {
+      setShowFooter('avatar', false)
+    }
   })
 
   return (
@@ -195,10 +226,11 @@ export default function Me() {
             <label class="block" for="display_name">
               Display Name
               <input
+                aria-invalid={updating.error ? 'true' : 'false'}
                 id="display_name"
                 type="text"
                 name="display_name"
-                onKeyPress={() => setShowFooter(true)}
+                onKeyPress={() => setShowFooter('profile', true)}
                 placeholder={data()?.user?.email ?? ''}
                 value={data()?.profile?.display_name ?? ''}
               />
@@ -210,9 +242,10 @@ export default function Me() {
             <label class="mt-4 block" for="pronouns">
               Pronouns
               <input
+                aria-invalid={updating.error ? 'true' : 'false'}
                 id="pronouns"
                 name="pronouns"
-                onKeyPress={() => setShowFooter(true)}
+                onKeyPress={() => setShowFooter('profile', true)}
                 placeholder="Add your pronouns"
                 type="text"
                 value={data()?.profile?.pronouns ?? ''}
@@ -220,43 +253,14 @@ export default function Me() {
             </label>
             <small class="text-help">The pronouns you identify with.</small>
 
-            <hr class="my-8" />
-
-            <div class="flex items-center justify-start">
-              <label class="block" for="avatar">
-                Avatar
-                <input
-                  id="avatar"
-                  name="avatar"
-                  onChange={() => setShowFooter(true)}
-                  type="file"
-                />
-              </label>
-              <button
-                class="text-action-bg-100 hover:text-action-text-inverse"
-                id="avatar"
-                name="avatar"
-                onClick={() => {
-                  setShowFooter(true)
-                  handleRemoveAvatar({
-                    id: data()?.user?.id ?? '',
-                    path: data()?.profile?.avatar,
-                  })
-                }}
-                type="button"
-              >
-                Remove Avatar
-              </button>
-            </div>
-
-            <Show when={showFooter()}>
+            <Show when={showFooter.profile}>
               <div class="align-center shadow-m absolute bottom-4 left-0 mx-2 flex w-[95%] flex-1 animate-bounce-in-from-bottom items-center justify-between rounded-md bg-neutral-surface-400 px-4 py-2">
                 <p>Careful -- you have unsaved changes!</p>
 
                 <div class="align-center flex grow justify-center gap-2 px-2">
                   <button
                     class="w-full text-action-bg-100  hover:text-action-text-inverse"
-                    onClick={() => setShowFooter(false)}
+                    onClick={() => setShowFooter('profile', true)}
                     type="button"
                   >
                     Cancel
@@ -271,6 +275,75 @@ export default function Me() {
               </div>
             </Show>
           </ProfileForm>
+
+          <hr class="my-8" />
+
+          <AvatarForm>
+            <input type="hidden" id="id" name="id" value={data()?.user?.id} />
+            <input
+              type="hidden"
+              name="current_avatar"
+              value={data()?.profile.avatar ?? ''}
+            />
+
+            <div class="flex items-center justify-start gap-2">
+              <label
+                class="btn cursor-pointer rounded-lg bg-action-bg-100 normal-case text-action-text-100 hover:bg-action-bg-100-hover"
+                for="avatar"
+              >
+                Change Avatar
+                <input
+                  accept=".jp,.jpeg,.png,.gif,.svg"
+                  id="avatar"
+                  name="avatar"
+                  onChange={() => setShowFooter('avatar', true)}
+                  type="file"
+                />
+              </label>
+              <button
+                class="text-action-bg-100 hover:text-action-text-inverse"
+                id="avatar"
+                name="avatar"
+                onClick={() => {
+                  setShowFooter('avatar', true)
+                  handleRemoveAvatar({
+                    id: data()?.user?.id ?? '',
+                    path: data()?.profile?.avatar,
+                  })
+                }}
+                type="button"
+              >
+                Remove Avatar
+              </button>
+            </div>
+
+            <Show when={showFooter.avatar}>
+              <div class="align-center shadow-m absolute bottom-4 left-0 mx-2 flex w-[95%] flex-1 animate-bounce-in-from-bottom items-center justify-between rounded-md bg-neutral-surface-400 px-4 py-2">
+                <p>Careful -- you have unsaved changes!</p>
+
+                <div class="align-center flex grow justify-center gap-2 px-2">
+                  <button
+                    class="w-full text-action-bg-100  hover:text-action-text-inverse"
+                    onClick={() => setShowFooter({ avatar: false })}
+                    type="button"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    class="w-full bg-action-bg-100 text-action-text-300 hover:bg-action-bg-100-hover"
+                    type="submit"
+                  >
+                    <Show
+                      when={updatingAvatar?.pending}
+                      fallback={'Save Changes'}
+                    >
+                      ...updating
+                    </Show>
+                  </button>
+                </div>
+              </div>
+            </Show>
+          </AvatarForm>
         </div>
 
         <Show when={searchParams.debug}>
