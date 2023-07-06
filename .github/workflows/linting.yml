@@ -3,18 +3,6 @@ name: 💅 Lint Checks
 on: [merge_group, pull_request]
 
 jobs:
-  # lint-css:
-  #   runs-on: ubuntu-latest
-  #   name: CSS valid
-  #   steps:
-  #     - uses: actions/checkout@v3.5.3
-  #     - uses: actions/setup-node@v3
-  #       with:
-  #         node-version: '14'
-  #         cache: 'npm'
-  #     - run: npm install
-  #     - run: npm run lint:css
-
   lint-js:
     runs-on: ubuntu-latest
     name: JS valid
@@ -23,9 +11,9 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '14'
-          cache: 'npm'
-      - run: npm install
-      - run: npm run lint:js
+          cache: 'pnpm'
+      - run: pnpm install
+      - run: pnpm run lint:js
 
   # TODO: fix lint:ts - solid still has bad internal types
 
@@ -37,6 +25,6 @@ jobs:
   #     - uses: actions/setup-node@v3
   #       with:
   #         node-version: '14'
-  #         cache: 'npm'
+  #         cache: 'pnpm'
   #     - run: npm install
   #     - run: npm run lint:ts
