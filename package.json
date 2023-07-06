@@ -44,7 +44,8 @@
     "solid-icons": "^1.0.8",
     "solid-js": "^1.7.7",
     "solid-start": "^0.2.26",
-    "undici": "^5.15.1"
+    "undici": "^5.15.1",
+    "yup": "^1.2.0"
   },
   "engines": {
     "node": ">=16.8"

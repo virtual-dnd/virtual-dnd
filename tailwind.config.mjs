@@ -9,6 +9,8 @@ export default {
       animation: {
         'bounce-in-from-bottom':
           'bounceInFromBottom 300ms cubic-bezier(0.5, 1, 0.89, 1) forwards',
+        'bounce-out-to-bottom':
+          'bounceOutToBottom 300ms cubic-bezier(0.5, 1, 0.89, 1) forwards',
         'grow-radius': 'growRadius 250ms ease-in-out forwards',
       },
 
@@ -18,6 +20,19 @@ export default {
           '100%': { borderRadius: '33%' },
         },
         bounceInFromBottom: {
+          '0%': {
+            opacity: 0,
+            transform: 'translateY(100%)',
+          },
+          '75%': {
+            transform: 'translateY(-20%)',
+          },
+          '100%': {
+            opacity: 1,
+            transform: 'translateY(0)',
+          },
+        },
+        bounceOutToBottom: {
           '0%': {
             opacity: 0,
             transform: 'translateY(100%)',
@@ -127,6 +142,7 @@ export default {
           },
           surface: {
             100: 'var(--danger-surface-100)',
+            200: 'var(--danger-surface-200)',
           },
           text: {
             100: 'var(--danger-text-100)',

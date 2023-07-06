@@ -63,7 +63,8 @@
     --danger-border: theme(colors.rose.800);
     --danger-background-100: theme(colors.rose.600);
     --danger-background-100-hover: theme(colors.rose.700);
-    --danger-surface-100: theme(colors.rose.600);
+    --danger-surface-100: theme(colors.rose.400);
+    --danger-surface-200: theme(colors.rose.600);
     --danger-text-100: theme(colors.rose.200);
     --danger-text-200: theme(colors.rose.50);
   }
@@ -131,11 +132,11 @@
   }
 
   input:not([type='file']) {
-    @apply focus:focus mt-2 block h-10 w-full rounded-sm border-0 bg-neutral-surface-400 px-2 text-neutral-text-400 placeholder:text-neutral-text-100;
+    @apply focus:focus mt-2 block h-10 w-full rounded-sm border-0 bg-neutral-surface-400 px-2 text-neutral-text-400 placeholder:text-neutral-text-100 aria-[invalid=true]:border-2 aria-[invalid=true]:border-danger-border aria-[invalid=true]:bg-danger-surface-100;
   }
 
   input[type='file'] {
-    @apply mt-2 block;
+    @apply hidden;
   }
 
   /* actions */
