@@ -1,9 +1,24 @@
-import { Suspense } from 'solid-js'
-import { A, ErrorBoundary, Outlet } from 'solid-start'
+import { For, Suspense } from 'solid-js'
+import { A, ErrorBoundary, Outlet, useRouteData } from 'solid-start'
+import { createServerData$ } from 'solid-start/server'
 import { OcPlus2, OcCopilot2 } from 'solid-icons/oc'
 import { ErrorMessage } from '~/components/index.ts'
+import { getUser } from '~/db/session.ts'
+import { getUserGroups } from '~/db/groups.ts'
+
+export function routeData() {
+  return createServerData$(async (_, { request }) => {
+    const { user } = await getUser(request)
+    const groups = await getUserGroups(user?.id, request)
+    return {
+      groups: groups.data ?? [],
+    }
+  })
+}
 
 export default function App() {
+  const data = useRouteData<typeof routeData>()
+
   return (
     <div class="app-grid">
       <div class="server-bar">
@@ -18,6 +33,19 @@ export default function App() {
           </A>
 
           <hr />
+
+          <For each={data()?.groups}>
+            {(group) => (
+              <A
+                aria-label={group.name}
+                activeClass="animate-grow-radius"
+                class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-info-surface-100 p-2 text-info-text-100 transition ease-in-out hover:animate-grow-radius aria-[current=page]:bg-action-link-active"
+                href={`/app/${group.id}`}
+              >
+                {group.name[0]}
+              </A>
+            )}
+          </For>
 
           <A
             aria-label="Add party"
