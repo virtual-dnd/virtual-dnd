@@ -1,6 +1,7 @@
 import { colors } from 'unocss/preset-mini'
+import { generateTheme } from './utils/helpers.ts'
 
-export const darkTheme = {
+export const dark = {
   nuetral: {
     border: {
       100: colors.dark[50],
@@ -34,3 +35,5 @@ export const darkTheme = {
     },
   },
 }
+
+export const darkTheme = generateTheme(dark)

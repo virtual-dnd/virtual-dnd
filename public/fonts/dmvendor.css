@@ -6,7 +6,7 @@
  */
 
 @font-face {
-  font-family: 'dm italic italic italic italic italic';
+  font-family: 'dm';
   font-weight: normal;
   font-style: normal;
   unicode-range: U+0000-007F;
@@ -15,7 +15,7 @@
       format('woff2');
 }
 @font-face {
-  font-family: 'dm italic italic italic italic italic';
+  font-family: 'dm';
   font-weight: normal;
   font-style: normal;
   unicode-range: U+0080-1AFF;
@@ -24,7 +24,7 @@
       format('woff2');
 }
 @font-face {
-  font-family: 'dm italic italic italic italic italic';
+  font-family: 'dm';
   font-weight: normal;
   font-style: normal;
   unicode-range: U+1B00-218F;
@@ -33,7 +33,7 @@
       format('woff2');
 }
 @font-face {
-  font-family: 'dm italic italic italic italic italic';
+  font-family: 'dm';
   font-weight: normal;
   font-style: normal;
   unicode-range: U+2190-21FF;
@@ -42,7 +42,7 @@
       format('woff2');
 }
 @font-face {
-  font-family: 'dm italic italic italic italic italic';
+  font-family: 'dm';
   font-weight: normal;
   font-style: normal;
   unicode-range: U+F8FF-10FFFF;
@@ -51,7 +51,7 @@
       format('woff2');
 }
 @font-face {
-  font-family: 'dm italic italic italic italic italic';
+  font-family: 'dm';
   font-weight: normal;
   font-style: italic;
   unicode-range: U+0000-007F;
@@ -60,7 +60,7 @@
       format('woff2');
 }
 @font-face {
-  font-family: 'dm italic italic italic italic';
+  font-family: 'dm italic';
   font-weight: normal;
   font-style: italic;
   unicode-range: U+0080-1AFF;
@@ -69,7 +69,7 @@
       format('woff2');
 }
 @font-face {
-  font-family: 'dm italic italic italic';
+  font-family: 'dm italic';
   font-weight: normal;
   font-style: italic;
   unicode-range: U+1B00-218F;
@@ -78,7 +78,7 @@
       format('woff2');
 }
 @font-face {
-  font-family: 'dm italic italic';
+  font-family: 'dm italic';
   font-weight: normal;
   font-style: italic;
   unicode-range: U+2190-21FF;

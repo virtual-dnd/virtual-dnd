@@ -44,18 +44,20 @@ export default function Signin() {
 
   return (
     <div class="min-h-screen p-4 sm:mx-auto sm:flex sm:max-w-3xl sm:flex-col sm:items-center sm:justify-center sm:p-8">
-      <h1 class="font-display text-4xl text-neutral-text-400 sm:text-6xl">
+      <h1 class="font-display text-neutral-text-400 text-4xl sm:text-6xl">
         HELLO, FRIEND!
       </h1>
-      <p class="pt-2 text-neutral-text-300 sm:pt-6">
+      <p class="text-neutral-text-300 pt-2 sm:pt-6">
         It's so good to see you. Use any of the methods below to sign in or
         magically create a new account.
       </p>
 
-      <div class="mb-4 mt-4 w-full rounded-l bg-neutral-surface-200 px-2 py-6 sm:mt-8 sm:px-6">
+      <div class="bg-neutral-surface-200 mb-4 mt-4 w-full rounded-l px-2 py-6 sm:mt-8 sm:px-6">
         <Show when={submission.result === 'magicLink'} fallback={null}>
-          <div class="text-text-inverse bg-success-background mb-2 rounded-lg p-2">
-            <p>Check your email for a magic link!</p>
+          <div class="bg-success-surface-100 mb-4 rounded-lg">
+            <p class="text-success-text-200 px-4 py-2">
+              Check your email for a magic link!
+            </p>
           </div>
         </Show>
 
@@ -65,8 +67,8 @@ export default function Signin() {
             <input type="hidden" name="intent" value="magicLink" />
             <input
               aria-invalid={submission.error ? 'true' : 'false'}
-              class="peer block w-full p-2"
-              type="tel"
+              class="block w-full p-2"
+              type="email"
               id="email"
               name="email"
               placeholder="youremail@example.com"
@@ -74,7 +76,7 @@ export default function Signin() {
             />
           </label>
 
-          <small class="text-text-100 peer-invalid: mb-3 block text-xs text-danger-bg-100">
+          <small class="text-neutral-text-100 mb-3 block text-xs">
             <Show
               when={submission.error}
               fallback={'Enter your email to recieve a magic link.'}
@@ -84,7 +86,7 @@ export default function Signin() {
           </small>
 
           <button
-            class="mt-4 w-full rounded-full bg-action-bg-100 text-action-text-100 hover:bg-action-bg-100-hover sm:w-40"
+            class="bg-action-bg-100 text-action-text-100 hover:bg-action-bg-100-hover mt-4 w-full rounded-full sm:w-40"
             disabled={submission.pending}
             type="submit"
           >
@@ -96,7 +98,7 @@ export default function Signin() {
         </Form>
       </div>
 
-      <div class="flex flex-col items-center gap-2 bg-neutral-surface-200 px-2 py-6 sm:w-1/2 sm:px-6">
+      <div class="bg-neutral-surface-200 flex flex-col items-center gap-2 px-2 py-6 sm:w-1/2 sm:px-6">
         <p class="mb-2">Or sign in with a provider</p>
 
         <For each={providerData}>
@@ -104,7 +106,7 @@ export default function Signin() {
             <ProviderForm class="w-full">
               <input type="hidden" name="intent" value={provider.id} />
               <button
-                class="w-full rounded-full bg-action-bg-200 text-action-text-200 first-of-type:mb-2 hover:bg-action-bg-200-hover"
+                class="bg-action-bg-200 text-action-text-200 hover:bg-action-bg-200-hover w-full rounded-full first-of-type:mb-2"
                 disabled={submission.pending}
                 type="submit"
               >

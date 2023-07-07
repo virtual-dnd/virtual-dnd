@@ -16,10 +16,11 @@ import { theme } from './store/theme.ts'
 import { ErrorMessage } from './components/ErrorMessage.tsx'
 
 import 'virtual:uno.css'
+
 import 'sanitize.css'
 import 'sanitize.css/forms.css'
 import 'sanitize.css/typography.css'
-// import './root.css'
+import './root.css'
 
 export default function Root() {
   return (

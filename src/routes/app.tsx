@@ -25,21 +25,21 @@ export default function App() {
         <nav class="flex flex-col gap-2 py-1">
           <A
             aria-label="Me page"
-            activeClass="animate-grow-radius fill-action-text-300"
-            class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-neutral-surface-100 fill-action-bg-200 p-2 transition ease-in-out hover:animate-grow-radius hover:bg-action-link-hover hover:fill-action-text-300 aria-[current=page]:bg-action-link-active"
+            activeClass="animate-grow-radius text-action-text-300"
+            class="bg-neutral-surface-100 hover:(animate-grow-radius bg-action-link-hover text-action-text-300) aria-[current=page]:bg-action-link-active transition-2 inline-flex h-12 w-12 items-center justify-center rounded-full p-2"
             href="/app/@me"
           >
             <OcCopilot2 aria-hidden="true" size={24} title="User Profile" />
           </A>
 
-          <hr />
+          <hr class="bg-neutral-border-300 h-2px w-full border-none" />
 
           <For each={data()?.groups}>
             {(group) => (
               <A
                 aria-label={group.name}
                 activeClass="animate-grow-radius"
-                class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-info-surface-100 p-2 text-info-text-100 transition ease-in-out hover:animate-grow-radius aria-[current=page]:bg-action-link-active"
+                class="bg-info-surface-100 text-info-text-100 hover:animate-grow-radius aria-[current=page]:bg-action-link-active inline-flex h-12 w-12 items-center justify-center rounded-full p-2 transition ease-in-out"
                 href={`/app/${group.id}`}
               >
                 {group.name[0]}
@@ -48,12 +48,12 @@ export default function App() {
           </For>
 
           <A
-            aria-label="Add party"
-            activeClass="animate-grow-radius fill-success-text-200"
-            class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-neutral-surface-100 fill-success-text-inverse p-2 transition ease-in-out hover:animate-grow-radius hover:bg-success-bg-100 hover:fill-success-text-200 aria-[current=page]:bg-success-bg-100"
-            href="/app/create-party"
+            aria-label="Add group"
+            activeClass="animate-grow-radius text-success-text-200"
+            class="bg-neutral-surface-100 text-success-text-inverse hover:(animate-grow-radius bg-success-bg-100 text-success-text-200) aria-[current=page]:(bg-success-bg-100 text-success-text-200) inline-flex h-12 w-12 items-center justify-center rounded-full p-2 transition ease-in-out"
+            href="/app/create-group"
           >
-            <OcPlus2 aria-hidden="true" size={24} title="Add party" />
+            <OcPlus2 aria-hidden="true" size={24} title="Add group" />
           </A>
         </nav>
       </div>

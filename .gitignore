@@ -9,6 +9,7 @@ netlify
 # dependencies
 /node_modules
 test/node_modules
+coverage
 
 # IDEs and editors
 /.idea
