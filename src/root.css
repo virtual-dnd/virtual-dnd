@@ -1,39 +1,38 @@
 .focus {
-  @apply shadow-none outline outline-[3px] outline-offset-2 outline-blue-600;
+  @apply outline-neutral-focus shadow-none outline outline-[3px] outline-offset-2;
 }
 
 html {
   @apply bg-neutral-surface-100 text-neutral-text-100;
 }
 
-*:focus {
-  @apply focus;
-}
-
-/* layout */
-
-hr {
-  @apply border-neutral-border-200 my-2 border-0 border-t;
+*:focus,
+*:focus-visible {
+  @apply outline-neutral-focus shadow-none outline outline-[3px] outline-offset-2;
 }
 
 /* typography */
+
+ul {
+  @apply m-0 me-0 ms-0 list-none ps-0;
+}
 
 small {
   @apply text-neutral-text-200 text-sm;
 }
 
 code {
-  @apply bg-neutral-surface-200 overflow-scroll rounded-lg p-4;
+  @apply bg-neutral-surface-400 font-dank p4 inline-block max-w-full overflow-scroll rounded-lg font-mono;
 }
 
 /* forms */
 
 label {
-  @apply text-neutral-text-300 block text-sm font-bold uppercase;
+  @apply text-neutral-text-300 flex flex-col text-sm font-bold uppercase;
 }
 
 input:not([type='file']) {
-  @apply focus:focus bg-neutral-surface-400 text-neutral-text-400 placeholder:text-neutral-text-100 aria-[invalid=true]:border-danger-border aria-[invalid=true]:bg-danger-surface-100 mt-2 block h-10 w-full rounded-sm border-0 px-2 aria-[invalid=true]:border-2;
+  @apply bg-neutral-surface-100 b-neutral placeholder:(font-medium text-neutral-text-50) aria-[invalid="true"]:(bg-danger-surface-100 text-danger-text-200 b-2 border-danger-border) mt-1 rounded-sm;
 }
 
 input[type='file'] {
@@ -42,35 +41,51 @@ input[type='file'] {
 
 /* actions */
 
-a,
+a:not(> svg),
+a.inactive,
 .link {
-  @apply text-action-link decoration-action-link hover:text-action-link-hover hover:underline;
+  @apply text-action-link decoration-none hover:(text-action-link-hover decoration-action-link underline) transition-2;
 }
 
-button,
-.btn {
-  @apply inline-flex h-12 items-center justify-center gap-4 rounded-lg px-6 py-2 text-base transition ease-in-out;
+a.active {
+  @apply text-action-link-active decoration-action-link-active;
 }
 
-/* layout */
-
-.app-grid {
-  @apply grid h-screen w-screen overflow-hidden;
-  grid-template-areas: 'server-bar side-bar feature';
-  grid-template-columns: 4.5rem 15.5rem 1fr;
+button {
+  @apply inline-flex h-12 cursor-pointer items-center justify-center gap-4 rounded-lg px-6 py-2 text-base transition ease-in-out;
 }
 
-.server-bar {
-  @apply bg-neutral-surface-400 flex flex-col items-center justify-between p-2;
-  grid-area: server-bar;
+@layer components {
+  .app-grid {
+    @apply grid h-screen w-screen overflow-hidden;
+    grid-template-areas: 'server-bar side-bar feature';
+    grid-template-columns: 4.5rem 15.5rem 1fr;
+  }
+
+  .server-bar {
+    @apply bg-neutral-surface-400 flex flex-col items-center justify-between p-2;
+    grid-area: server-bar;
+  }
+
+  .side-bar {
+    @apply bg-neutral-surface-200;
+    grid-area: side-bar;
+  }
+
+  .feature {
+    @apply bg-neutral-surface-100 pe-8 ps-8;
+    grid-area: feature;
+  }
 }
 
-.side-bar {
-  @apply bg-neutral-surface-200;
-  grid-area: side-bar;
-}
+/* animation */
 
-.feature {
-  @apply bg-neutral-surface-100 pe-2 ps-2;
-  grid-area: feature;
+@keyframes growRadius {
+  0% {
+    border-radius: 50%;
+  }
+
+  100% {
+    border-radius: 33%;
+  }
 }

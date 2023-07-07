@@ -15,9 +15,9 @@ export default function Home() {
 
   return (
     <div class="h-full min-h-screen">
-      <div class="pb-2">
+      <div class="bg-action-bg-100 pb-2">
         <header class="flex-justify-between flex p-4 text-center">
-          <h1 class="self-center">
+          <h1 class="self-center text-sm">
             <A class="text-neutral-text-inverse" href="/">
               :crossed_swords: Virtual DnD
             </A>
@@ -28,7 +28,7 @@ export default function Home() {
             fallback={
               <A
                 class="bg-action-bg-100-inverse rounded-full px-6 py-2 hover:shadow-lg"
-                href="./signin"
+                href="signin"
               >
                 Sign in
               </A>
@@ -36,14 +36,14 @@ export default function Home() {
           >
             <A
               class="bg-action-bg-100-inverse rounded-full px-6 py-2 hover:shadow-lg"
-              href="./app"
+              href="app"
             >
               Open app
             </A>
           </Show>
         </header>
 
-        <main class="min-h-66vh sm:min-h-33vh px-4 py-12">
+        <main class="min-h-66vh px-4 py-12">
           <h1 class="font-display text-neutral-text-inverse text-6xl">HOME</h1>
           <p class="text-neutral-text-inverse">
             This will have some cool marketing stuff later...
@@ -62,9 +62,7 @@ export default function Home() {
         <h2 class="font-display text-neutral-text-400 text-2xl">
           Demo thing...
         </h2>
-        <code class="text-neutral-text-100 block py-4">
-          Here is a code snippet just in case you need it...
-        </code>
+        <code>Here is a code snippet just in case you need it...</code>
       </section>
 
       <footer class="min-h-33vh bg-neutral-surface-inverse px-4 py-12">
@@ -73,7 +71,7 @@ export default function Home() {
         </small>
         <ul>
           <li>
-            <A class="hover:text-action-text-100" href="./signin">
+            <A class="hover:text-action-text-100" href="signin">
               Sign in
             </A>
           </li>

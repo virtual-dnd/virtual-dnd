@@ -1,9 +1,10 @@
 import { colors } from 'unocss/preset-mini'
+import { generateTheme } from './utils/helpers.ts'
 
 const blurple = '#5764f2'
 
-export const lightTheme = {
-  nuetral: {
+export const light = {
+  neutral: {
     bg: {
       DEFAULT: colors.neutral[300],
       hover: 'transparent',
@@ -23,10 +24,11 @@ export const lightTheme = {
       inverse: colors.black,
     },
     text: {
+      50: '#a8a29e', // warmGray[400]
       100: '#44403c', // warmGray[700]
       200: '#292524', // warmGray[800]
       300: '#1c1917', // warmGray[900]
-      400: '#0c0a09', // coolGray[950]
+      400: '#0c0a09', // warmGray[950]
       inverse: colors.white,
     },
   },
@@ -107,3 +109,5 @@ export const lightTheme = {
     },
   },
 }
+
+export const lightTheme = generateTheme(light)

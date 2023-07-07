@@ -141,7 +141,7 @@ export default function Me() {
   return (
     <>
       <div class="side-bar relative">
-        <div class="h-20 bg-info-surface-100 p-2 text-neutral-text-inverse">
+        <div class="bg-info-surface-100 text-neutral-text-inverse h-20 p-2">
           Profile banner
         </div>
 
@@ -158,10 +158,10 @@ export default function Me() {
           </ul>
         </nav>
 
-        <div class="left-0flex absolute bottom-0 left-0 right-0 w-full justify-between bg-neutral-surface-300 p-2">
-          <Form>
+        <div class="bg-neutral-surface-300 absolute bottom-0 left-0 flex w-full justify-between p-2">
+          <Form class="w-full">
             <button
-              class="w-full bg-action-bg-200 fill-slate-300 text-action-text-200"
+              class="bg-action-bg-200 text-action-text-200 w-full fill-slate-300"
               type="submit"
             >
               Sign out
@@ -171,21 +171,21 @@ export default function Me() {
         </div>
       </div>
 
-      <main class="feature relative w-[46.25rem] overflow-y-auto px-12 pb-6 pt-10">
-        <h1 class="bolder text-xl text-neutral-text-400">User Profile</h1>
+      <main class="feature relative w-[46.25rem] overflow-y-auto px-12 pb-6">
+        <h1 class="text-neutral-text-400">User Profile</h1>
 
         <Show when={updating.error}>
           <FormErrorMessage error={updating.error} />
         </Show>
 
-        <div class="mt-6 ">
-          <div class="relative mb-6 rounded-lg bg-neutral-surface-400 p-2">
-            <div class="h-20 overflow-hidden rounded-sm bg-neutral-surface-100">
+        <div class="mt-6">
+          <div class="bg-neutral-surface-400 relative mb-6 rounded-lg p-2">
+            <div class="bg-neutral-surface-100 h-20 overflow-hidden rounded-sm">
               <Show when={data()?.profile?.profile_banner}>
                 <img alt="Profile banner" class="h-full w-full" src="" />
               </Show>
 
-              <div class=" absolute left-4 top-14 flex h-14 w-14 flex-col items-center justify-center overflow-hidden rounded-full border-2 bg-info-surface-100 fill-white">
+              <div class="bg-info-surface-100 absolute left-4 top-14 flex h-14 w-14 flex-col items-center justify-center overflow-hidden rounded-full border-2 fill-white">
                 <Show
                   when={data()?.profile?.avatar}
                   fallback={
@@ -205,11 +205,11 @@ export default function Me() {
               </div>
             </div>
 
-            <div class="px-4 pb-2 pt-8">
-              <p class="font-extrabold text-neutral-text-400">
+            <div class="px-4 pb-2 pt-6">
+              <p class="text-neutral-text-400 mb-none font-extrabold">
                 {data()?.profile?.display_name}
               </p>
-              <small class="text-neutral-text-200">
+              <small class="text-neutral-text-100">
                 {data()?.profile?.pronouns}
               </small>
             </div>
@@ -224,7 +224,7 @@ export default function Me() {
               value={Boolean(data()?.profile).toString()}
             />
 
-            <label class="block" for="display_name">
+            <label for="display_name">
               Display Name
               <input
                 aria-invalid={updating.error ? 'true' : 'false'}
@@ -236,11 +236,9 @@ export default function Me() {
                 value={data()?.profile?.display_name ?? ''}
               />
             </label>
-            <small class="text-help">
-              The name everyone in your party will see.
-            </small>
+            <small>The name everyone in your party will see.</small>
 
-            <label class="mt-4 block" for="pronouns">
+            <label class="mt-4" for="pronouns">
               Pronouns
               <input
                 aria-invalid={updating.error ? 'true' : 'false'}
@@ -252,19 +250,19 @@ export default function Me() {
                 value={data()?.profile?.pronouns ?? ''}
               />
             </label>
-            <small class="text-help">The pronouns you identify with.</small>
+            <small>The pronouns you identify with.</small>
 
             <Show when={showFooter.profile}>
               <FormFooter>
                 <button
-                  class="w-full text-action-bg-100  hover:text-action-text-inverse"
+                  class="text-action-bg-100 hover:text-action-text-inverse w-full  border-0"
                   onClick={() => setShowFooter('profile', false)}
                   type="button"
                 >
                   Cancel
                 </button>
                 <button
-                  class="w-full bg-action-bg-100 text-action-text-300 hover:bg-action-bg-100-hover"
+                  class="bg-action-bg-100 text-action-text-300 hover:bg-action-bg-100-hover w-full"
                   type="submit"
                 >
                   <Show when={updating?.pending} fallback={'Save Changes'}>
@@ -276,7 +274,7 @@ export default function Me() {
             </Show>
           </ProfileForm>
 
-          <hr class="my-8" />
+          <hr class="bg-neutral-border-300 h-2px my-8 w-full border-none" />
 
           <AvatarForm>
             <input type="hidden" id="id" name="id" value={data()?.user?.id} />
@@ -288,7 +286,7 @@ export default function Me() {
 
             <div class="flex items-center justify-start gap-2">
               <label
-                class="btn cursor-pointer rounded-lg bg-action-bg-100 normal-case text-action-text-100 hover:bg-action-bg-100-hover"
+                class="btn bg-action-bg-100 text-action-text-100 hover:bg-action-bg-100-hover normal-case"
                 for="avatar"
               >
                 Change Avatar
@@ -301,7 +299,7 @@ export default function Me() {
                 />
               </label>
               <button
-                class="text-action-bg-100 hover:text-action-text-inverse"
+                class="text-action-bg-100 hover:text-action-text-inverse border-0"
                 id="avatar"
                 name="avatar"
                 onClick={() => {
@@ -320,14 +318,14 @@ export default function Me() {
             <Show when={showFooter.avatar}>
               <FormFooter>
                 <button
-                  class="w-full text-action-bg-100  hover:text-action-text-inverse"
+                  class="text-action-bg-100 hover:text-action-text-inverse w-full  border-0"
                   onClick={() => setShowFooter({ avatar: false })}
                   type="button"
                 >
                   Cancel
                 </button>
                 <button
-                  class="w-full bg-action-bg-100 text-action-text-300 hover:bg-action-bg-100-hover"
+                  class="bg-action-bg-100 text-action-text-300 hover:bg-action-bg-100-hover w-full"
                   type="submit"
                 >
                   <Show
@@ -344,7 +342,7 @@ export default function Me() {
         </div>
 
         <Show when={searchParams.debug}>
-          <code class=" bg-surface-200 mt-10 block p-2">
+          <code class="mt-10 block">
             <pre>user: {JSON.stringify(data()?.user, null, 2)}</pre>
             <pre>profile: {JSON.stringify(data()?.profile, null, 2)}</pre>
           </code>
