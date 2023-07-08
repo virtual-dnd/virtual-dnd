@@ -1,4 +1,4 @@
-import { For, Suspense } from 'solid-js'
+import { For, Show, Suspense } from 'solid-js'
 import { A, ErrorBoundary, Outlet, useRouteData } from 'solid-start'
 import { createServerData$ } from 'solid-start/server'
 import { ErrorMessage } from '~/components/index.ts'
@@ -21,7 +21,7 @@ export default function App() {
   return (
     <div class="app-grid">
       <div class="server-bar">
-        <nav class="sm:(flex-col overflow-y-initial overflow-x-auto) flex gap-2 overflow-y-auto py-1">
+        <nav class="sm:(flex-col) flex gap-2 py-1">
           <A
             aria-label="Me page"
             activeClass="animate-grow-radius"
@@ -38,10 +38,16 @@ export default function App() {
               <A
                 aria-label={group.name}
                 activeClass="animate-grow-radius"
-                class="bg-info-surface-100 text-info-text-100 hover:animate-grow-radius aria-[current=page]:bg-action-link-active inline-flex h-12 w-12 items-center justify-center rounded-full p-2 transition ease-in-out"
+                class="bg-info-surface-100 text-info-text-100 hover:animate-grow-radius aria-[current=page]:bg-action-link-active inline-flex h-12 w-12 items-center justify-center overflow-hidden rounded-full transition ease-in-out"
                 href={`/app/${group.id}`}
               >
-                {group.name[0]}
+                <Show when={group.avatar} fallback={group.name[0]}>
+                  <img
+                    alt="Group avatar"
+                    class="h-full w-full"
+                    src={group.avatar}
+                  />
+                </Show>
               </A>
             )}
           </For>

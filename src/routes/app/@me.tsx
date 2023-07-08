@@ -284,21 +284,22 @@ export default function Me() {
             />
 
             <div class="flex items-center justify-start gap-2">
-              <label
-                class="btn bg-action-bg-100 text-action-text-100 hover:bg-action-bg-100-hover normal-case"
-                for="avatar"
-              >
-                Change Avatar
-                <input
-                  accept=".jp,.jpeg,.png,.gif,.svg"
-                  id="avatar"
-                  name="avatar"
-                  onChange={() => setShowFooter('avatar', true)}
-                  type="file"
-                />
+              <label for="avatar">
+                Avatar
+                <div class="btn bg-action-bg-100 text-action-text-100 hover:bg-action-bg-100-hover mt-1 normal-case">
+                  Change Avatar
+                  <input
+                    accept=".jp,.jpeg,.png,.gif,.svg"
+                    id="avatar"
+                    name="avatar"
+                    onChange={() => setShowFooter('avatar', true)}
+                    type="file"
+                  />
+                </div>
               </label>
+
               <button
-                class="text-action-bg-100 hover:text-action-text-inverse border-0"
+                class="text-action-bg-100 hover:text-action-text-inverse translate-y-3 border-0"
                 id="avatar"
                 name="avatar"
                 onClick={() => {

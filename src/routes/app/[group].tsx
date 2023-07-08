@@ -1,6 +1,6 @@
 import { A } from 'solid-start'
 
-export default function Party() {
+export default function Group() {
   return (
     <>
       <div class="side-bar relative">
@@ -21,7 +21,7 @@ export default function Party() {
           </ul>
         </nav>
 
-        <div class="left-0flex absolute bottom-0 left-0 right-0 w-full justify-between bg-surface-300 p-2">
+        <div class="left-0flex bg-surface-300 absolute bottom-0 left-0 right-0 w-full justify-between p-2">
           User settings for specific stuff
         </div>
       </div>
@@ -33,7 +33,7 @@ export default function Party() {
           <h1>Dashboard</h1>
         </section>
 
-        <footer class="absolute bottom-0 left-0 right-0 h-20 border-t-4 border-surface-200 bg-surface-100 p-4">
+        <footer class="border-surface-200 bg-surface-100 absolute bottom-0 left-0 right-0 h-20 border-t-4 p-4">
           Notes/discord
         </footer>
       </main>
