@@ -249,14 +249,7 @@ export default function Me() {
             <small id="pronouns:help">The pronouns you identify with.</small>
 
             <Show when={showFooter.profile}>
-              <FormFooter>
-                <button
-                  class="text-action-bg-100 hover:text-action-text-inverse w-full  border-0"
-                  onClick={() => setShowFooter('profile', false)}
-                  type="button"
-                >
-                  Cancel
-                </button>
+              <FormFooter onCancel={() => setShowFooter('profile', false)}>
                 <button
                   class="bg-action-bg-100 text-action-text-300 hover:bg-action-bg-100-hover w-full"
                   type="submit"
@@ -316,14 +309,7 @@ export default function Me() {
             </div>
 
             <Show when={showFooter.avatar}>
-              <FormFooter>
-                <button
-                  class="text-action-bg-100 hover:text-action-text-inverse w-full  border-0"
-                  onClick={() => setShowFooter({ avatar: false })}
-                  type="button"
-                >
-                  Cancel
-                </button>
+              <FormFooter onCancel={() => setShowFooter({ avatar: false })}>
                 <button
                   class="bg-action-bg-100 text-action-text-300 hover:bg-action-bg-100-hover w-full"
                   type="submit"
