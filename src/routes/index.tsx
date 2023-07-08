@@ -27,7 +27,7 @@ export default function Home() {
             when={session()?.user}
             fallback={
               <A
-                class="bg-action-bg-100-inverse rounded-full px-6 py-2 hover:shadow-lg"
+                class="bg-action-bg-100-inverse decoration-none hover:(text-action-link-hover decoration-action-link underline) rounded-full px-6 py-2 shadow-lg"
                 href="signin"
               >
                 Sign in
@@ -35,7 +35,7 @@ export default function Home() {
             }
           >
             <A
-              class="bg-action-bg-100-inverse rounded-full px-6 py-2 hover:shadow-lg"
+              class="bg-action-bg-100-inverse decoration-none hover:(text-action-link-hover decoration-action-link underline) rounded-full px-6 py-2 shadow-lg"
               href="app"
             >
               Open app
@@ -71,7 +71,10 @@ export default function Home() {
         </small>
         <ul>
           <li>
-            <A class="hover:text-action-text-100" href="signin">
+            <A
+              class=" text-action-link transition-2 decoration-none hover:(text-action-text-100 decoration-action-link underline)"
+              href="signin"
+            >
               Sign in
             </A>
           </li>

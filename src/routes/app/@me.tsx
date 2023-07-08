@@ -1,4 +1,4 @@
-import { OcCopilot2, OcSignout2 } from 'solid-icons/oc'
+// import { OcCopilot2, OcSignout2 } from 'solid-icons/oc'
 import { Show, createEffect } from 'solid-js'
 import { createStore } from 'solid-js/store'
 import {
@@ -8,7 +8,7 @@ import {
   useSearchParams,
 } from 'solid-start'
 import { createServerAction$, createServerData$ } from 'solid-start/server'
-import { Puff } from 'solid-spinner'
+// import { Puff } from 'solid-spinner'
 import { FormErrorMessage, FormFooter } from '~/components/index.ts'
 import {
   createUserProfile,
@@ -161,11 +161,11 @@ export default function Me() {
         <div class="bg-neutral-surface-300 absolute bottom-0 left-0 flex w-full justify-between p-2">
           <Form class="w-full">
             <button
-              class="bg-action-bg-200 text-action-text-200 w-full fill-slate-300"
+              class="bg-action-bg-200 text-action-text-200 hover:bg-action-bg-200-hover w-full transition"
               type="submit"
             >
               Sign out
-              <OcSignout2 aria-hidden="true" size={24} title="Sign out" />
+              <div aria-hidden="true" class="i-octicon:sign-out-16 text-xl" />
             </button>
           </Form>
         </div>
@@ -189,11 +189,7 @@ export default function Me() {
                 <Show
                   when={data()?.profile?.avatar}
                   fallback={
-                    <OcCopilot2
-                      aria-hidden="true"
-                      size={24}
-                      title="User Profile"
-                    />
+                    <div aria-hidden="true" class="i-octicon:person-24" />
                   }
                 >
                   <img
@@ -224,7 +220,7 @@ export default function Me() {
               value={Boolean(data()?.profile).toString()}
             />
 
-            <label for="display_name">
+            <label for="display_name" aria-describedby="display_name:help">
               Display Name
               <input
                 aria-invalid={updating.error ? 'true' : 'false'}
@@ -236,9 +232,11 @@ export default function Me() {
                 value={data()?.profile?.display_name ?? ''}
               />
             </label>
-            <small>The name everyone in your party will see.</small>
+            <small id="display_name:help">
+              The name everyone in your party will see.
+            </small>
 
-            <label class="mt-4" for="pronouns">
+            <label class="mt-4" for="pronouns" aria-describedby="pronouns:help">
               Pronouns
               <input
                 aria-invalid={updating.error ? 'true' : 'false'}
@@ -250,7 +248,7 @@ export default function Me() {
                 value={data()?.profile?.pronouns ?? ''}
               />
             </label>
-            <small>The pronouns you identify with.</small>
+            <small id="pronouns:help">The pronouns you identify with.</small>
 
             <Show when={showFooter.profile}>
               <FormFooter>
@@ -265,9 +263,12 @@ export default function Me() {
                   class="bg-action-bg-100 text-action-text-300 hover:bg-action-bg-100-hover w-full"
                   type="submit"
                 >
-                  <Show when={updating?.pending} fallback={'Save Changes'}>
+                  <Show when={updating?.pending} fallback={<>Save Changes</>}>
                     Updating
-                    <Puff aria-hidden="true" color="white" width="30" />
+                    <div
+                      aria-hidden="true"
+                      class="i-line-md:loading-twotone-loop scale-160"
+                    />
                   </Show>
                 </button>
               </FormFooter>
@@ -333,7 +334,10 @@ export default function Me() {
                     fallback={'Save Changes'}
                   >
                     Updating
-                    <Puff aria-hidden="true" color="white" width="30" />
+                    <div
+                      aria-hidden="true"
+                      class="i-line-md:loading-twotone-loop scale-160"
+                    />
                   </Show>
                 </button>
               </FormFooter>

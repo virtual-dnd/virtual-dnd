@@ -1,7 +1,3 @@
-.focus {
-  @apply outline-neutral-focus shadow-none outline outline-[3px] outline-offset-2;
-}
-
 html {
   @apply bg-neutral-surface-100 text-neutral-text-100;
 }
@@ -42,8 +38,7 @@ input[type='file'] {
 /* actions */
 
 a:not(> svg),
-a.inactive,
-.link {
+a.inactive {
   @apply text-action-link decoration-none hover:(text-action-link-hover decoration-action-link underline) transition-2;
 }
 

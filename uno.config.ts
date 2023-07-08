@@ -47,7 +47,13 @@ export default defineConfig({
 
   presets: [
     presetUno(),
-    presetIcons(),
+    presetIcons({
+      extraProperties: {
+        display: 'inline-block',
+        'vertical-align': 'middle',
+        fill: 'currentColor',
+      },
+    }),
     presetTypography(),
     presetWebFonts({
       fonts: {

@@ -12,9 +12,24 @@
     "test:ci": "vitest run --coverage"
   },
   "type": "module",
+  "dependencies": {
+    "@solidjs/meta": "^0.28.2",
+    "@solidjs/router": "^0.8.2",
+    "@supabase/auth-helpers-remix": "^0.2.1",
+    "@supabase/supabase-js": "^2.25.0",
+    "rollbar": "^2.26.2",
+    "sanitize.css": "^13.0.0",
+    "solid-js": "^1.7.7",
+    "solid-start": "^0.2.26",
+    "undici": "^5.15.1",
+    "yup": "^1.2.0"
+  },
   "devDependencies": {
     "@commitlint/cli": "^17.6.6",
     "@commitlint/config-conventional": "^17.6.6",
+    "@iconify-json/bxl": "^1.1.6",
+    "@iconify-json/line-md": "^1.1.25",
+    "@iconify-json/octicon": "^1.1.44",
     "@julr/unocss-preset-forms": "^0.0.5",
     "@solidjs/testing-library": "^0.8.4",
     "@testing-library/jest-dom": "^5.16.5",
@@ -49,20 +64,6 @@
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-solid": "^2.7.0",
     "vitest": "^0.33.0"
-  },
-  "dependencies": {
-    "@solidjs/meta": "^0.28.2",
-    "@solidjs/router": "^0.8.2",
-    "@supabase/auth-helpers-remix": "^0.2.1",
-    "@supabase/supabase-js": "^2.25.0",
-    "rollbar": "^2.26.2",
-    "sanitize.css": "^13.0.0",
-    "solid-icons": "^1.0.8",
-    "solid-js": "^1.7.7",
-    "solid-spinner": "^0.1.9",
-    "solid-start": "^0.2.26",
-    "undici": "^5.15.1",
-    "yup": "^1.2.0"
   },
   "engines": {
     "node": ">=16.8"
