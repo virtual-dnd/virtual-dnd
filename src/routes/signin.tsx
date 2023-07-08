@@ -1,8 +1,6 @@
 import { type Provider } from '@supabase/supabase-js'
 import { For, Show } from 'solid-js'
 import { createRouteAction } from 'solid-start'
-import { BsDiscord, BsGoogle } from 'solid-icons/bs'
-import { Puff } from 'solid-spinner'
 import { object, string } from 'yup'
 import { signInWithMagicLink, signInWithProvider } from '~/db/session.ts'
 
@@ -31,12 +29,12 @@ export default function Signin() {
 
   const providerData = [
     {
-      icon: <BsGoogle aria-hidden="true" />,
+      icon: <div aria-hidden="true" class="i-bxl:google text-2xl" />,
       id: 'google',
       name: 'Google',
     },
     {
-      icon: <BsDiscord aria-hidden="true" />,
+      icon: <div aria-hidden="true" class="i-bxl:discord-alt text-2xl" />,
       id: 'discord',
       name: 'Discord',
     },
@@ -92,7 +90,10 @@ export default function Signin() {
           >
             <Show when={submission.pending} fallback={'Sign in'}>
               Sending
-              <Puff aria-hidden="true" color="white" width="30" />
+              <div
+                aria-hidden="true"
+                class="i-line-md:loading-twotone-loop scale-160"
+              />
             </Show>
           </button>
         </Form>

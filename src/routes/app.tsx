@@ -1,7 +1,6 @@
 import { For, Suspense } from 'solid-js'
 import { A, ErrorBoundary, Outlet, useRouteData } from 'solid-start'
 import { createServerData$ } from 'solid-start/server'
-import { OcPlus2, OcCopilot2 } from 'solid-icons/oc'
 import { ErrorMessage } from '~/components/index.ts'
 import { getUser } from '~/db/session.ts'
 import { getUserGroups } from '~/db/groups.ts'
@@ -25,11 +24,11 @@ export default function App() {
         <nav class="flex flex-col gap-2 py-1">
           <A
             aria-label="Me page"
-            activeClass="animate-grow-radius text-action-text-300"
-            class="bg-neutral-surface-100 hover:(animate-grow-radius bg-action-link-hover text-action-text-300) aria-[current=page]:bg-action-link-active transition-2 inline-flex h-12 w-12 items-center justify-center rounded-full p-2"
+            activeClass="animate-grow-radius"
+            class="bg-neutral-surface-100 text-neutral-text-100 hover:(animate-grow-radius bg-action-link-active text-action-text-300) aria-[current=page]:(bg-action-link-active text-action-text-300) transition-2 inline-flex h-12 w-12 items-center justify-center rounded-full p-2"
             href="/app/@me"
           >
-            <OcCopilot2 aria-hidden="true" size={24} title="User Profile" />
+            <div aria-hidden="true" class="i-octicon:copilot-24 text-3xl" />
           </A>
 
           <hr class="bg-neutral-border-300 h-2px w-full border-none" />
@@ -53,7 +52,7 @@ export default function App() {
             class="bg-neutral-surface-100 text-success-text-inverse hover:(animate-grow-radius bg-success-bg-100 text-success-text-200) aria-[current=page]:(bg-success-bg-100 text-success-text-200) inline-flex h-12 w-12 items-center justify-center rounded-full p-2 transition ease-in-out"
             href="/app/create-group"
           >
-            <OcPlus2 aria-hidden="true" size={24} title="Add group" />
+            <div aria-hidden="true" class="i-octicon:plus-24 text-2xl" />
           </A>
         </nav>
       </div>
