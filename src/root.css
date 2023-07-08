@@ -50,26 +50,44 @@ button {
   @apply inline-flex h-12 cursor-pointer items-center justify-center gap-4 rounded-lg px-6 py-2 text-base transition ease-in-out;
 }
 
-@layer components {
+.app-grid {
+  @apply grid h-screen w-screen overflow-hidden;
+  grid-template-areas:
+    'feature feature'
+    'server-bar server-bar';
+  grid-template-columns: 4.5rem 1fr;
+  grid-template-rows: 1fr 4.5rem;
+}
+
+.server-bar {
+  @apply bg-neutral-surface-400 flex-col items-center justify-start p-2;
+  grid-area: server-bar;
+}
+
+.side-bar {
+  @apply bg-neutral-surface-200 absolute inset-0 z-10;
+  grid-area: side-bar;
+  transform: translateX(-100%);
+}
+
+.feature {
+  @apply bg-neutral-surface-100;
+  grid-area: feature;
+}
+
+@screen sm {
   .app-grid {
-    @apply grid h-screen w-screen overflow-hidden;
     grid-template-areas: 'server-bar side-bar feature';
     grid-template-columns: 4.5rem 15.5rem 1fr;
+    grid-template-rows: 1fr;
   }
 
   .server-bar {
     @apply bg-neutral-surface-400 flex flex-col items-center justify-between p-2;
-    grid-area: server-bar;
   }
 
   .side-bar {
-    @apply bg-neutral-surface-200;
-    grid-area: side-bar;
-  }
-
-  .feature {
-    @apply bg-neutral-surface-100 pe-8 ps-8;
-    grid-area: feature;
+    @apply transform-initial relative;
   }
 }
 
