@@ -143,11 +143,12 @@ export default function Me() {
           Profile banner
         </div>
 
-        <nav class="p-2">
+        <nav class="py-2 pe-4 ps-4">
           <ul>
             <li>
               <A
                 activeClass="text-action-link-hover decoration-action-link underline"
+                class="block px-2 font-medium"
                 href="/app/@me"
               >
                 Profile
