@@ -73,6 +73,23 @@ export async function createGroupAvatar(
   return { data, headers: response.headers }
 }
 
+// DELETE
+
+export async function deleteGroup(id: string, request: Request) {
+  const response = new Response()
+  const serverSupabase = createServerClient(
+    import.meta.env.VITE_SUPABASE_URL,
+    import.meta.env.VITE_SUPABASE_KEY,
+    { request, response }
+  )
+
+  const { error } = await serverSupabase.from('groups').delete().eq('id', id)
+
+  if (error) throw error
+
+  return { headers: response.headers }
+}
+
 // types
 
 export interface Group {
