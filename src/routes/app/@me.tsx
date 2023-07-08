@@ -1,4 +1,3 @@
-// import { OcCopilot2, OcSignout2 } from 'solid-icons/oc'
 import { Show, createEffect } from 'solid-js'
 import { createStore } from 'solid-js/store'
 import {
@@ -8,7 +7,6 @@ import {
   useSearchParams,
 } from 'solid-start'
 import { createServerAction$, createServerData$ } from 'solid-start/server'
-// import { Puff } from 'solid-spinner'
 import { FormErrorMessage, FormFooter } from '~/components/index.ts'
 import {
   createUserProfile,
@@ -171,7 +169,7 @@ export default function Me() {
         </div>
       </div>
 
-      <main class="feature relative w-[46.25rem] overflow-y-auto px-12 pb-6">
+      <main class="feature min-w-30ch max-w-80ch sm:(ps-12 pe-12) relative overflow-y-auto pb-6 pe-4 ps-4">
         <h1 class="text-neutral-text-400">User Profile</h1>
 
         <Show when={updating.error}>

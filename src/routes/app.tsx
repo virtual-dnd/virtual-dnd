@@ -21,7 +21,7 @@ export default function App() {
   return (
     <div class="app-grid">
       <div class="server-bar">
-        <nav class="flex flex-col gap-2 py-1">
+        <nav class="sm:(flex-col overflow-y-initial overflow-x-auto) flex gap-2 overflow-y-auto py-1">
           <A
             aria-label="Me page"
             activeClass="animate-grow-radius"
@@ -31,7 +31,7 @@ export default function App() {
             <div aria-hidden="true" class="i-octicon:copilot-24 text-3xl" />
           </A>
 
-          <hr class="bg-neutral-border-300 h-2px w-full border-none" />
+          <hr class="bg-neutral-border-300 h-2px sm:(block) hidden w-full border-none" />
 
           <For each={data()?.groups}>
             {(group) => (
