@@ -124,14 +124,7 @@ export default function CreateGroup() {
         </div>
 
         <Show when={showFooter()}>
-          <FormFooter>
-            <button
-              class="text-action-bg-100 hover:text-action-text-inverse w-full  border-0"
-              onClick={() => setShowFooter(false)}
-              type="button"
-            >
-              Cancel
-            </button>
+          <FormFooter onCancel={() => setShowFooter(false)}>
             <button
               class="bg-action-bg-100 text-action-text-300 hover:bg-action-bg-100-hover w-full"
               type="submit"
