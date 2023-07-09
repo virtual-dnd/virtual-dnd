@@ -15,11 +15,31 @@ export async function getUserGroups(id: string | undefined, request: Request) {
   const { data, error } = await serverSupabase
     .from('groups')
     .select('id,name,avatar')
-    .eq('user_id', id)
 
   if (error) throw error
 
   return { data, headers: response.headers }
+}
+
+export async function getGroup(id: string | undefined, request: Request) {
+  const response = new Response()
+  const serverSupabase = createServerClient(
+    import.meta.env.VITE_SUPABASE_URL,
+    import.meta.env.VITE_SUPABASE_KEY,
+    { request, response }
+  )
+
+  if (!id) throw new Error('No group id provided')
+
+  const { data, error } = await serverSupabase
+    .from('groups')
+    .select('id,name')
+    .eq('id', id)
+    .single()
+
+  if (error) throw error
+
+  return { group: data, headers: response.headers }
 }
 
 // CREATE

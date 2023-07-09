@@ -52,13 +52,13 @@ export async function getUser(request: Request) {
   )
 
   const {
-    data: { user },
+    data: { session },
     error,
-  } = await serverSupabase.auth.getUser()
+  } = await serverSupabase.auth.getSession()
 
   if (error) throw error
 
-  return { user, headers: response.headers }
+  return { user: session?.user, headers: response.headers }
 }
 
 export async function getUserSession(request: Request) {

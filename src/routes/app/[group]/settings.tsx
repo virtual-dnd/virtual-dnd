@@ -1,5 +1,16 @@
 import { Show } from 'solid-js'
 import { A, useSearchParams } from 'solid-start'
+import { createServerData$ } from 'solid-start/server'
+import { getUser } from '~/db/session.ts'
+
+export function routeData() {
+  return createServerData$(async (_, { request }) => {
+    const { user } = await getUser(request)
+    return {
+      user,
+    }
+  })
+}
 
 export default function Settings() {
   const [searchParams] = useSearchParams()
