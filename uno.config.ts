@@ -14,7 +14,7 @@ import { presetExtra } from 'unocss-preset-extra'
 import presetAutoprefixer from 'unocss-preset-autoprefixer'
 import { darkTheme, lightTheme } from './themes/index.ts'
 
-export default defineConfig({
+export default defineConfig<Theme>({
   theme: {
     colors: lightTheme,
   },

@@ -1,13 +1,30 @@
-import { A } from 'solid-start'
+import { A, type RouteDataArgs, useRouteData } from 'solid-start'
+import { createServerData$ } from 'solid-start/server'
+import { getGroup } from '~/db/groups.ts'
+import { getUser } from '~/db/session.ts'
 
-// TODO: Fetch user and group data from server
+export function routeData({ params }: RouteDataArgs<{ group: string }>) {
+  return createServerData$(
+    async (groupId, { request }) => {
+      const { user } = await getUser(request)
+      const { group } = await getGroup(groupId, request)
+      return {
+        user,
+        group,
+      }
+    },
+    { key: () => params.group }
+  )
+}
 
 export default function Group() {
+  const data = useRouteData<typeof routeData>()
+
   return (
     <>
       <div class="side-bar relative">
         <div class="bg-neutral-surface-300 flex items-center justify-between pe-4 ps-4 font-bold">
-          <p class="text-neutral-text-400">Party banner</p>
+          <p class="text-neutral-text-400">{data()?.group?.name}</p>
           <A aria-label="settings page" href={`/app/${8}/settings`}>
             <div
               aria-hidden="true"
@@ -39,8 +56,8 @@ export default function Group() {
           </ul>
         </nav>
 
-        <div class="absolute bottom-0 left-0 left-0 right-0 flex w-full justify-between p-2">
-          User settings for specific stuff
+        <div class="bg-neutral-surface-300 absolute bottom-0 left-0 left-0 right-0 flex h-1/2 w-full justify-between rounded-md p-2">
+          Group members - show online/offline
         </div>
       </div>
 
