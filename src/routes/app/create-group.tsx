@@ -119,7 +119,10 @@ export default function CreateGroup() {
           </label>
 
           <Show when={avatar()}>
-            <p class="translate-y-3">{avatar()}</p>
+            <div class="flex items-center gap-2">
+              <div class="i-line-md:clipboard-twotone-to-clipboard-twotone-check-transition text-success-text-inverse scale-160" />
+              <p class="text-neutral-text-300">{avatar()}</p>
+            </div>
           </Show>
         </div>
 
