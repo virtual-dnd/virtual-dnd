@@ -12,7 +12,13 @@ import {
   redirect,
 } from 'solid-start/server'
 import { FormErrorMessage, FormFooter } from '~/components/index.ts'
-import { deleteGroup, getGroup, updateGroup } from '~/db/groups.ts'
+import {
+  deleteGroup,
+  deleteGroupAvatar,
+  getGroup,
+  updateGroup,
+  updateGroupAvatar,
+} from '~/db/groups.ts'
 import { getUser } from '~/db/session.ts'
 
 export function routeData({ params }: RouteDataArgs<{ group: string }>) {
@@ -32,6 +38,7 @@ export function routeData({ params }: RouteDataArgs<{ group: string }>) {
 export default function Settings() {
   const data = useRouteData<typeof routeData>()
   const [searchParams] = useSearchParams()
+  const [avatar, setAvatar] = createSignal<string>('')
   const [showDeleteGroup, setShowDeleteGroup] = createSignal(false)
   const [showFooter, setShowFooter] = createStore({
     avatar: false,
@@ -55,6 +62,66 @@ export default function Settings() {
     }
   )
 
+  const [updatingAvatar, { Form: AvatarForm }] = createServerAction$(
+    async (formData: FormData, { request }) => {
+      const user_id = formData.get('user_id') as string
+      const id = formData.get('group') as string
+      const name = formData.get('name') as string
+      const currentAvatar = formData.get('current_avatar') as string
+      const avatar = formData.get('avatar') as File
+      let avatarUrl = ''
+
+      if (currentAvatar.includes(avatar.name)) {
+        return 'same avatar'
+      }
+
+      if (avatar?.name) {
+        const avatarResponse = await updateGroupAvatar(
+          { avatar, user_id, name },
+          request
+        )
+        avatarUrl = `${
+          import.meta.env.VITE_SUPABASE_URL
+        }/storage/v1/object/public/avatars/${avatarResponse.data.path}`
+      }
+
+      const response = await updateGroup(
+        {
+          id,
+          avatar: avatarUrl ?? null,
+        },
+        request
+      )
+
+      return response.data
+    }
+  )
+
+  const [removingAvatar, handleRemoveAvatar] = createServerAction$(
+    async (
+      options: {
+        path: string | null | undefined
+        id: string
+      },
+      { request }
+    ) => {
+      const { path, id } = options
+
+      if (!path) return
+
+      await updateGroup(
+        {
+          id,
+          avatar: null,
+        },
+        request
+      )
+      await deleteGroupAvatar(path.split('avatars/').pop() as string, request)
+
+      return 'avatar deleted'
+    }
+  )
+
   const [deletingGroup, { Form: DeleteGroupForm }] = createServerAction$(
     async (formData: FormData, { request }) => {
       const id = formData.get('group') as string
@@ -68,14 +135,26 @@ export default function Settings() {
     }
   )
 
+  function handleAvatarChange(event: Event) {
+    const target = event.target as HTMLInputElement
+    const file = target.files?.[0]
+
+    if (file) {
+      setAvatar(file?.name)
+    }
+
+    setShowFooter('avatar', true)
+  }
+
   createEffect(() => {
     if (updating.result) {
       setShowFooter('profile', false)
     }
 
-    // if (updatingAvatar.result || removingAvatar.result) {
-    //   setShowFooter('avatar', false)
-    // }
+    if (updatingAvatar.result || removingAvatar.result) {
+      setAvatar('')
+      setShowFooter('avatar', false)
+    }
   })
 
   return (
@@ -137,6 +216,78 @@ export default function Settings() {
             </FormFooter>
           </Show>
         </GroupProfileForm>
+
+        <hr class="bg-neutral-border-300 h-2px my-8 w-full border-none" />
+
+        <AvatarForm>
+          <Show when={updatingAvatar.error}>
+            <FormErrorMessage error={updatingAvatar.error} />
+          </Show>
+
+          <input type="hidden" name="user_id" value={data()?.user?.id} />
+          <input
+            type="hidden"
+            name="current_avatar"
+            value={data()?.group?.avatar ?? ''}
+          />
+          <input type="hidden" name="group" value={data()?.group?.id} />
+          <input type="hidden" name="name" value={data()?.group?.name} />
+
+          <div class="flex items-center justify-start gap-2">
+            <label for="avatar">
+              Avatar
+              <div class="btn bg-action-bg-100 text-action-text-100 hover:bg-action-bg-100-hover mt-1 normal-case">
+                Change Avatar
+                <input
+                  accept=".jp,.jpeg,.png,.gif,.svg"
+                  id="avatar"
+                  name="avatar"
+                  onChange={handleAvatarChange}
+                  type="file"
+                />
+              </div>
+            </label>
+
+            <button
+              class="text-action-bg-100 hover:text-action-text-inverse translate-y-3 border-0"
+              id="avatar"
+              name="avatar"
+              onClick={() => {
+                handleRemoveAvatar({
+                  id: data()?.group?.id ?? '',
+                  path: data()?.group?.avatar,
+                })
+              }}
+              type="button"
+            >
+              Remove Avatar
+            </button>
+          </div>
+
+          <Show when={avatar()}>
+            <div class="flex items-center gap-2">
+              <div class="i-line-md:clipboard-twotone-to-clipboard-twotone-check-transition text-success-text-inverse scale-160" />
+              <p class="text-neutral-text-300">{avatar()}</p>
+            </div>
+          </Show>
+
+          <Show when={showFooter.avatar}>
+            <FormFooter onCancel={() => setShowFooter({ avatar: false })}>
+              <button
+                class="bg-action-bg-100 text-action-text-300 hover:bg-action-bg-100-hover w-full"
+                type="submit"
+              >
+                <Show when={updatingAvatar?.pending} fallback={'Save Changes'}>
+                  Updating
+                  <div
+                    aria-hidden="true"
+                    class="i-line-md:loading-twotone-loop scale-160"
+                  />
+                </Show>
+              </button>
+            </FormFooter>
+          </Show>
+        </AvatarForm>
 
         <hr class="bg-neutral-border-300 h-2px my-8 w-full border-none" />
 

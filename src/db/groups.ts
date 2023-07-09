@@ -21,7 +21,13 @@ export async function getUserGroups(id: string | undefined, request: Request) {
   return { data, headers: response.headers }
 }
 
-export async function getGroup(id: string | undefined, request: Request) {
+export async function getGroup(
+  id: string | undefined,
+  request: Request
+): Promise<{
+  group: Omit<Group, 'user_id' | 'created_at'>
+  headers: Headers
+}> {
   const response = new Response()
   const serverSupabase = createServerClient(
     import.meta.env.VITE_SUPABASE_URL,
@@ -33,7 +39,7 @@ export async function getGroup(id: string | undefined, request: Request) {
 
   const { data, error } = await serverSupabase
     .from('groups')
-    .select('id,name')
+    .select('id,name,avatar')
     .eq('id', id)
     .single()
 
@@ -115,7 +121,33 @@ export async function updateGroup(
     .select()
     .single()
 
-  console.log(data)
+  if (error) throw error
+
+  return { data, headers: response.headers }
+}
+
+export async function updateGroupAvatar(
+  payload: GroupAvatarPayload,
+  request: Request
+) {
+  const response = new Response()
+  const serverSupabase = createServerClient(
+    import.meta.env.VITE_SUPABASE_URL,
+    import.meta.env.VITE_SUPABASE_KEY,
+    { request, response }
+  )
+  const { avatar } = payload
+
+  const { data, error } = await serverSupabase.storage
+    .from('avatars')
+    .upload(
+      `${payload.user_id}/group-${payload.name}/avatar-${avatar?.name}`,
+      avatar,
+      {
+        cacheControl: '3600',
+        upsert: false,
+      }
+    )
 
   if (error) throw error
 
@@ -139,6 +171,23 @@ export async function deleteGroup(id: string, request: Request) {
   return { headers: response.headers }
 }
 
+export async function deleteGroupAvatar(payload: string, request: Request) {
+  const response = new Response()
+  const serverSupabase = createServerClient(
+    import.meta.env.VITE_SUPABASE_URL,
+    import.meta.env.VITE_SUPABASE_KEY,
+    { request, response }
+  )
+
+  const { data, error } = await serverSupabase.storage
+    .from('avatars')
+    .remove([payload])
+
+  if (error) throw error
+
+  return { data, headers: response.headers }
+}
+
 // types
 
 export interface Group {
@@ -157,7 +206,7 @@ export interface GroupProfileForm {
 
 export interface GroupProfilePayload {
   avatar: Group['avatar']
-  name: Group['name']
+  name?: Group['name']
   id: Group['id']
 }
 
