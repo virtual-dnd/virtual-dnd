@@ -93,6 +93,35 @@ export async function createGroupAvatar(
   return { data, headers: response.headers }
 }
 
+// UPDATE
+
+export async function updateGroup(
+  payload: GroupProfilePayload,
+  request: Request
+) {
+  const response = new Response()
+  const serverSupabase = createServerClient(
+    import.meta.env.VITE_SUPABASE_URL,
+    import.meta.env.VITE_SUPABASE_KEY,
+    { request, response }
+  )
+
+  const { id, ...profileForm } = payload
+
+  const { data, error } = await serverSupabase
+    .from('groups')
+    .update({ ...profileForm })
+    .eq('id', id)
+    .select()
+    .single()
+
+  console.log(data)
+
+  if (error) throw error
+
+  return { data, headers: response.headers }
+}
+
 // DELETE
 
 export async function deleteGroup(id: string, request: Request) {
@@ -116,18 +145,24 @@ export interface Group {
   id: string
   created_at: string
   name: string
-  avatar: string
+  avatar: string | null
   user_id: string
 }
 
 export interface GroupProfileForm {
-  avatar: string
-  name: string
-  user_id: string
+  avatar: Group['avatar']
+  name: Group['name']
+  user_id: Group['user_id']
+}
+
+export interface GroupProfilePayload {
+  avatar: Group['avatar']
+  name: Group['name']
+  id: Group['id']
 }
 
 export interface GroupAvatarPayload {
   avatar: File
   name: GroupProfileForm['name']
-  user_id: string
+  user_id: GroupProfileForm['user_id']
 }
