@@ -56,7 +56,7 @@ export default function App() {
             aria-label="Add group"
             activeClass="animate-grow-radius text-success-text-200 active-server-item"
             class="bg-neutral-surface-100 text-success-text-inverse hover:(animate-grow-radius bg-success-bg-100 text-success-text-200) aria-[current=page]:(bg-success-bg-100 text-success-text-200) relative inline-flex h-12 w-12 items-center justify-center rounded-full p-2 transition ease-in-out"
-            href="/app/create-group"
+            href="/app/add-group"
           >
             <div aria-hidden="true" class="i-octicon:plus-16 text-2xl" />
           </A>

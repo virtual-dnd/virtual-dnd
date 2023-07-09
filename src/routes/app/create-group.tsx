@@ -136,7 +136,7 @@ export default function CreateGroup() {
                 Updating
                 <div
                   aria-hidden="true"
-                  class="i-line-md:loading-twotone-loop"
+                  class="i-line-md:loading-twotone-loop scale-150"
                 />
               </Show>
             </button>
