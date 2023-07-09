@@ -24,8 +24,8 @@ export default function App() {
         <nav class="sm:(flex-col) flex gap-2 py-1">
           <A
             aria-label="Me page"
-            activeClass="animate-grow-radius"
-            class="bg-neutral-surface-100 text-neutral-text-100 hover:(animate-grow-radius bg-action-link-active text-action-text-300) aria-[current=page]:(bg-action-link-active text-action-text-300) transition-2 inline-flex h-12 w-12 items-center justify-center rounded-full p-2"
+            activeClass="animate-grow-radius active-server-item"
+            class="server-item bg-neutral-surface-100 text-neutral-text-100 hover:(animate-grow-radius bg-action-link-active text-action-text-300) aria-[current=page]:(bg-action-link-active text-action-text-300) transition-2 relative relative inline-flex h-12 w-12 items-center justify-center rounded-full p-2"
             href="/app/@me"
           >
             <div aria-hidden="true" class="i-octicon:copilot-24 text-3xl" />
@@ -37,8 +37,8 @@ export default function App() {
             {(group) => (
               <A
                 aria-label={group.name}
-                activeClass="animate-grow-radius"
-                class="bg-info-surface-100 text-info-text-100 hover:animate-grow-radius aria-[current=page]:bg-action-link-active inline-flex h-12 w-12 items-center justify-center overflow-hidden rounded-full transition ease-in-out"
+                activeClass="animate-grow-radius active-server-item"
+                class="bg-info-surface-100 text-info-text-100 hover:animate-grow-radius aria-[current=page]:(bg-action-link-active) relative inline-flex h-12 w-12 items-center justify-center overflow-hidden rounded-full transition ease-in-out"
                 href={`/app/${group.id}`}
               >
                 <Show when={group.avatar} fallback={group.name[0]}>
@@ -54,11 +54,11 @@ export default function App() {
 
           <A
             aria-label="Add group"
-            activeClass="animate-grow-radius text-success-text-200"
-            class="bg-neutral-surface-100 text-success-text-inverse hover:(animate-grow-radius bg-success-bg-100 text-success-text-200) aria-[current=page]:(bg-success-bg-100 text-success-text-200) inline-flex h-12 w-12 items-center justify-center rounded-full p-2 transition ease-in-out"
+            activeClass="animate-grow-radius text-success-text-200 active-server-item"
+            class="bg-neutral-surface-100 text-success-text-inverse hover:(animate-grow-radius bg-success-bg-100 text-success-text-200) aria-[current=page]:(bg-success-bg-100 text-success-text-200) relative inline-flex h-12 w-12 items-center justify-center rounded-full p-2 transition ease-in-out"
             href="/app/create-group"
           >
-            <div aria-hidden="true" class="i-octicon:plus-24 text-2xl" />
+            <div aria-hidden="true" class="i-octicon:plus-16 text-2xl" />
           </A>
         </nav>
       </div>

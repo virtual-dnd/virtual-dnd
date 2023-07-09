@@ -50,6 +50,14 @@ button {
   @apply inline-flex h-12 cursor-pointer items-center justify-center gap-4 rounded-lg px-6 py-2 text-base transition ease-in-out;
 }
 
+.active-server-item::before {
+  @apply bg-neutral-surface-inverse b-rd-1 absolute bottom-[-0.8rem] left-0 block h-1.5 w-full;
+  animation: growIn 200ms ease-in-out forwards;
+  content: '';
+}
+
+/* components */
+
 .app-grid {
   @apply grid h-screen w-screen overflow-hidden;
   grid-template-areas:
@@ -89,6 +97,11 @@ button {
   .side-bar {
     @apply transform-initial relative;
   }
+
+  .active-server-item::before {
+    @apply bottom-initial left-[-0.8rem] top-0 h-full w-1.5;
+    content: '';
+  }
 }
 
 /* animation */
@@ -100,5 +113,15 @@ button {
 
   100% {
     border-radius: 33%;
+  }
+}
+
+@keyframes growIn {
+  0% {
+    transform: scale(0);
+  }
+
+  100% {
+    transform: scale(1);
   }
 }

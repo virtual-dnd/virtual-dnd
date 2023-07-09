@@ -141,7 +141,7 @@ devDependencies:
     version: 0.5.2(unocss@0.53.4)
   unocss-preset-theme:
     specifier: ^0.7.0
-    version: 0.7.0(@unocss/core@0.53.4)
+    version: 0.7.0(@unocss/core@0.53.5)
   vite:
     specifier: ^4.1.4
     version: 4.1.4(@types/node@18.11.18)
@@ -3707,6 +3707,13 @@ packages:
     resolution:
       {
         integrity: sha512-JvmpuFOiJ8NkGzRmh0dCUmNdYjr8MmMtCX+czCmSnX2kvKyQjJIw3RIu84/DQbd/M/yxZmPjle8DrcZ1Ql86rQ==,
+      }
+    dev: true
+
+  /@unocss/core@0.53.5:
+    resolution:
+      {
+        integrity: sha512-jBvk4FeUAALAomGfMFFmrXLy01/5DjugdnWgawFAQpSToFTxbMHS7x+pXKu/18cq+YLS8uyl9S0Ywy1jNbfS3Q==,
       }
     dev: true
 
@@ -10710,7 +10717,7 @@ packages:
       unocss: 0.53.4(postcss@8.4.24)(rollup@3.26.2)(vite@4.1.4)
     dev: true
 
-  /unocss-preset-theme@0.7.0(@unocss/core@0.53.4):
+  /unocss-preset-theme@0.7.0(@unocss/core@0.53.5):
     resolution:
       {
         integrity: sha512-dzfbvKHTLc+eAobYbTKrKBHH689o3oBURdpA9I22yVsJW1UjfKjnrwFzZd0DPb3pux2VRv4zj/DLX5tY3EiFvg==,
@@ -10718,7 +10725,7 @@ packages:
     peerDependencies:
       '@unocss/core': '>= 0.52.0'
     dependencies:
-      '@unocss/core': 0.53.4
+      '@unocss/core': 0.53.5
       '@unocss/preset-mini': 0.52.7
     dev: true
 
