@@ -23,7 +23,7 @@ export default function Group() {
   return (
     <>
       <div class="side-bar relative">
-        <div class="bg-neutral-surface-300 flex items-center justify-between pe-4 ps-4 font-bold">
+        <div class="bg-neutral-surface-300 flex items-center justify-between pe-4 ps-4 font-bold shadow-md">
           <p class="text-neutral-text-400">{data()?.group?.name}</p>
           <A
             aria-label="settings page"

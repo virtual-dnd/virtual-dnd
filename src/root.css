@@ -1,5 +1,5 @@
 html {
-  @apply bg-neutral-surface-100 text-neutral-text-100;
+  @apply bg-neutral-surface-100 text-neutral-text-400;
 }
 
 *:focus,
