@@ -1,5 +1,5 @@
-import { Title } from "solid-start";
-import { HttpStatusCode } from "solid-start/server";
+import { Title } from 'solid-start'
+import { HttpStatusCode } from 'solid-start/server'
 
 export default function NotFound() {
   return (
@@ -7,13 +7,11 @@ export default function NotFound() {
       <Title>Not Found</Title>
       <HttpStatusCode code={404} />
       <h1>Page Not Found</h1>
+      <p>Sorry, we couldn't find the page you were looking for.</p>
+
       <p>
-        Visit{" "}
-        <a href="https://start.solidjs.com" target="_blank">
-          start.solidjs.com
-        </a>{" "}
-        to learn how to build SolidStart apps.
+        <a href="/">Return to the homepage</a>
       </p>
     </main>
-  );
+  )
 }

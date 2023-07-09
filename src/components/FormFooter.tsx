@@ -12,7 +12,7 @@ export function FormFooter(props: ParentProps<FormFooterProps>) {
       <div class="align-center flex grow justify-center gap-2 px-2">
         <button
           class="text-action-bg-100 hover:text-action-text-inverse w-full  border-0"
-          onClick={() => props.onCancel}
+          onClick={() => props.onCancel()}
           type="button"
         >
           Cancel

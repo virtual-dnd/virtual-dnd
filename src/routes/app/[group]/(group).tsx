@@ -25,7 +25,10 @@ export default function Group() {
       <div class="side-bar relative">
         <div class="bg-neutral-surface-300 flex items-center justify-between pe-4 ps-4 font-bold">
           <p class="text-neutral-text-400">{data()?.group?.name}</p>
-          <A aria-label="settings page" href={`/app/${8}/settings`}>
+          <A
+            aria-label="settings page"
+            href={`/app/${data()?.group?.id}/settings`}
+          >
             <div
               aria-hidden="true"
               class="i-octicon:gear-16 text-neutral-text-300 hover:(text-action-link) text-xl transition-colors duration-200 ease-in-out"
