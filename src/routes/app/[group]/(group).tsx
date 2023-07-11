@@ -1,16 +1,21 @@
+import { For } from 'solid-js'
 import { A, type RouteDataArgs, useRouteData } from 'solid-start'
 import { createServerData$ } from 'solid-start/server'
 import { getGroup } from '~/db/groups.ts'
+import { getGroupPlayers } from '~/db/players.ts'
 import { getUser } from '~/db/session.ts'
 
 export function routeData({ params }: RouteDataArgs<{ group: string }>) {
   return createServerData$(
     async (groupId, { request }) => {
-      const { user } = await getUser(request)
+      const { id } = await getUser(request)
       const { group } = await getGroup(groupId, request)
+      const { players } = await getGroupPlayers(groupId, request)
+
       return {
-        user,
+        user: { id },
         group,
+        players,
       }
     },
     { key: () => params.group }
@@ -60,7 +65,14 @@ export default function Group() {
         </nav>
 
         <div class="bg-neutral-surface-300 absolute bottom-0 left-0 left-0 right-0 flex h-1/2 w-full justify-between rounded-md p-2">
-          Group members - show online/offline
+          <For each={data()?.players}>
+            {(player) => (
+              <div>
+                <p>{player.user_id}</p>
+                <small>online: {player.online?.toString() ?? 'false'}</small>
+              </div>
+            )}
+          </For>
         </div>
       </div>
 

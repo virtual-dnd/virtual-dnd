@@ -7,9 +7,9 @@ import { getGroup } from '~/db/groups.ts'
 
 export function routeData() {
   return createServerData$(async (_, { request }) => {
-    const { user } = await getUser(request)
+    const { id } = await getUser(request)
     return {
-      user,
+      user: { id },
     }
   })
 }
@@ -30,7 +30,6 @@ export default function JoinGroup() {
         groupId = invite
       }
 
-      // 2. validate group actually exists
       await getGroup(groupId, request)
 
       // 3. insert new player record with user_id & group_id

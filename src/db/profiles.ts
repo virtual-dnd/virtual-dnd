@@ -1,4 +1,4 @@
-import { createServerClient } from '@supabase/auth-helpers-remix'
+import { type User, createServerClient } from '@supabase/auth-helpers-remix'
 
 // READ
 
@@ -113,13 +113,18 @@ export async function removeUserAvatar(payload: string, request: Request) {
 // TYPES
 
 export interface UserProfile {
+  avatar: string | null
+  created_at: string
+  display_name: string | null
+  id: User['id']
+  profile_banner: string | null
+  pronouns?: string | null
+}
+
+export interface UserProfileForm {
   avatar?: string | null
   display_name?: string | null
   id: string
   profile_banner?: string | null
   pronouns?: string | null
 }
-
-// types
-
-export type UserProfileForm = Omit<UserProfile, 'email' | 'user_name'>

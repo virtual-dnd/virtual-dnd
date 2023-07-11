@@ -58,7 +58,7 @@ export async function getUser(request: Request) {
 
   if (error) throw error
 
-  return { user: session?.user, headers: response.headers }
+  return { id: session?.user?.id, headers: response.headers }
 }
 
 export async function getUserSession(request: Request) {

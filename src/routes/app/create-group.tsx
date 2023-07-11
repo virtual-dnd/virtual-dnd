@@ -15,9 +15,11 @@ import { getUser } from '~/db/session.ts'
 
 export function routeData() {
   return createServerData$(async (_, { request }) => {
-    const { user } = await getUser(request)
+    const { id } = await getUser(request)
     return {
-      user,
+      user: {
+        id,
+      },
     }
   })
 }
