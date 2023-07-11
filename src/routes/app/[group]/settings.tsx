@@ -24,10 +24,10 @@ import { getUser } from '~/db/session.ts'
 export function routeData({ params }: RouteDataArgs<{ group: string }>) {
   return createServerData$(
     async (groupId, { request }) => {
-      const { user } = await getUser(request)
+      const { id } = await getUser(request)
       const { group } = await getGroup(groupId, request)
       return {
-        user,
+        user: { id },
         group,
       }
     },

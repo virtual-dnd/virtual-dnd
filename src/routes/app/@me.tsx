@@ -14,16 +14,18 @@ import {
   removeUserAvatar,
   updateUserAvatar,
   updateUserProfile,
-  type UserProfileForm,
 } from '~/db/profiles.ts'
 import { getUser, signOut } from '~/db/session.ts'
 
 export function routeData() {
   return createServerData$(async (_, { request }) => {
-    const { user } = await getUser(request)
+    const { id } = await getUser(request)
     const profile = await getUserProfile(request)
     return {
-      user,
+      user: {
+        id,
+        fallbackDisplayName: `#${id?.substring(0, 7)}` || '',
+      },
       profile: profile.data ?? null,
     }
   })
@@ -37,7 +39,7 @@ export default function Me() {
     avatar: false,
   })
 
-  const [, { Form }] = createRouteAction(async () => {
+  const [, { Form: SignOutForm }] = createRouteAction(async () => {
     return signOut()
   })
 
@@ -45,7 +47,9 @@ export default function Me() {
     async (formData: FormData, { request }) => {
       const id = formData.get('id') as string
       const hasProfile = formData.get('has_profile') as string
-      const fallbackDisplayName = `#${id.substring(0, 7)}`
+      const fallbackDisplayName = formData.get(
+        'fallback_display_name'
+      ) as string
 
       if (hasProfile === 'false') {
         await createUserProfile(
@@ -54,7 +58,7 @@ export default function Me() {
             avatar: null,
             display_name: fallbackDisplayName,
             pronouns: null,
-          } as UserProfileForm,
+          },
           request
         )
         return
@@ -63,9 +67,10 @@ export default function Me() {
       const response = await updateUserProfile(
         {
           id,
-          display_name: formData.get('display_name') || fallbackDisplayName,
-          pronouns: formData.get('pronouns'),
-        } as UserProfileForm,
+          display_name:
+            (formData.get('display_name') as string) || fallbackDisplayName,
+          pronouns: formData.get('pronouns') as string,
+        },
         request
       )
 
@@ -95,7 +100,7 @@ export default function Me() {
         {
           id,
           avatar: avatarUrl ?? null,
-        } as UserProfileForm,
+        },
         request
       )
 
@@ -119,7 +124,7 @@ export default function Me() {
         {
           id,
           avatar: null,
-        } as UserProfileForm,
+        },
         request
       )
       await removeUserAvatar(path.split('avatars/').pop() as string, request)
@@ -158,7 +163,7 @@ export default function Me() {
         </nav>
 
         <div class="bg-neutral-surface-300 absolute bottom-0 left-0 flex w-full justify-between p-2">
-          <Form class="w-full">
+          <SignOutForm class="w-full">
             <button
               class="bg-action-bg-200 text-action-text-200 hover:bg-action-bg-200-hover w-full transition"
               type="submit"
@@ -166,7 +171,7 @@ export default function Me() {
               Sign out
               <div aria-hidden="true" class="i-octicon:sign-out-16 text-xl" />
             </button>
-          </Form>
+          </SignOutForm>
         </div>
       </div>
 
@@ -214,6 +219,12 @@ export default function Me() {
             <input type="hidden" id="id" name="id" value={data()?.user?.id} />
             <input
               type="hidden"
+              name="fallback_display_name"
+              value={data()?.user?.fallbackDisplayName}
+            />
+
+            <input
+              type="hidden"
               id="has_profile"
               name="has_profile"
               value={Boolean(data()?.profile).toString()}
@@ -227,7 +238,7 @@ export default function Me() {
                 type="text"
                 name="display_name"
                 onKeyPress={() => setShowFooter('profile', true)}
-                placeholder={data()?.user?.email ?? ''}
+                placeholder={data()?.user?.fallbackDisplayName}
                 value={data()?.profile?.display_name ?? ''}
               />
             </label>

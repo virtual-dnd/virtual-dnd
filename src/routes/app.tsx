@@ -7,8 +7,8 @@ import { getUserGroups } from '~/db/groups.ts'
 
 export function routeData() {
   return createServerData$(async (_, { request }) => {
-    const { user } = await getUser(request)
-    const groups = await getUserGroups(user?.id, request)
+    const { id } = await getUser(request)
+    const groups = await getUserGroups(id, request)
     return {
       groups: groups.data ?? [],
     }
