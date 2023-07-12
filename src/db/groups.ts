@@ -25,7 +25,7 @@ export async function getUserGroups(
 }
 
 export async function getGroup(
-  id: string | undefined,
+  id: Group['id'] | undefined,
   request: Request
 ): Promise<{
   group: Omit<Group, 'user_id' | 'created_at'>
