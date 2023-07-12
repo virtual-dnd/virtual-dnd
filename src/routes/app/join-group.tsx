@@ -1,9 +1,14 @@
 import { Show } from 'solid-js'
 import { useRouteData, useSearchParams } from 'solid-start'
-import { createServerAction$, createServerData$ } from 'solid-start/server'
+import {
+  createServerAction$,
+  createServerData$,
+  redirect,
+} from 'solid-start/server'
 import { FormErrorMessage } from '~/components/index.ts'
 import { getUser } from '~/db/session.ts'
 import { getGroup } from '~/db/groups.ts'
+import { createPlayer } from '~/db/players.ts'
 
 export function routeData() {
   return createServerData$(async (_, { request }) => {
@@ -30,12 +35,17 @@ export default function JoinGroup() {
         groupId = invite
       }
 
-      await getGroup(groupId, request)
+      const { group } = await getGroup(groupId, request)
+      await createPlayer(
+        {
+          admin: false,
+          group_id: groupId,
+          user_id: id,
+        },
+        request
+      )
 
-      // 3. insert new player record with user_id & group_id
-      // 4. redirect to group page
-
-      // return redirect(`/app/${data?.id}`)
+      return redirect(`/app/${group.id}`)
     }
   )
 

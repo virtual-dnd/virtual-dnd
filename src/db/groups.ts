@@ -1,8 +1,11 @@
-import { createServerClient } from '@supabase/auth-helpers-remix'
+import { type User, createServerClient } from '@supabase/auth-helpers-remix'
 
 // READ
 
-export async function getUserGroups(id: string | undefined, request: Request) {
+export async function getUserGroups(
+  id: User['id'] | undefined,
+  request: Request
+) {
   const response = new Response()
   const serverSupabase = createServerClient(
     import.meta.env.VITE_SUPABASE_URL,

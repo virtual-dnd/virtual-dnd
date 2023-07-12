@@ -64,12 +64,12 @@ export default function Group() {
           </ul>
         </nav>
 
-        <div class="bg-neutral-surface-300 absolute bottom-0 left-0 left-0 right-0 flex h-1/2 w-full justify-between rounded-md p-2">
+        <div class="bg-neutral-surface-300 absolute bottom-0 left-0 right-0 flex h-1/2 w-full flex-col justify-start rounded-md p-2">
           <For each={data()?.players}>
             {(player) => (
               <div>
                 <p>{player.user_id}</p>
-                <small>online: {player.online?.toString() ?? 'false'}</small>
+                <small>online: {'false'}</small>
               </div>
             )}
           </For>

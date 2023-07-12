@@ -5,7 +5,7 @@ import { type UserProfile } from './profiles.ts'
 // READ
 
 export async function getGroupPlayers(
-  group_id: string | undefined,
+  group_id: Group['id'] | undefined,
   request: Request
 ) {
   const response = new Response()
@@ -19,12 +19,35 @@ export async function getGroupPlayers(
 
   const { data, error } = await serverSupabase
     .from('players')
-    .select('user_id,online,admin')
+    .select('user_id,avatar,nickname')
     .eq('group_id', group_id)
 
   if (error) throw error
 
   return { players: data, headers: response.headers }
+}
+
+// CREATE
+
+export async function createPlayer(
+  payload: CreatePlayerPayload,
+  request: Request
+) {
+  const response = new Response()
+  const serverSupabase = createServerClient(
+    import.meta.env.VITE_SUPABASE_URL,
+    import.meta.env.VITE_SUPABASE_KEY,
+    { request, response }
+  )
+
+  const { data, error } = await serverSupabase
+    .from('players')
+    .insert([payload])
+    .select()
+
+  if (error) throw error
+
+  return { player: data, headers: response.headers }
 }
 
 // types
@@ -35,5 +58,11 @@ export interface Player {
   group_id: Group['id']
   id: string
   online: boolean | null
+  user_id: UserProfile['id']
+}
+
+export interface CreatePlayerPayload {
+  admin: boolean
+  group_id: Group['id']
   user_id: UserProfile['id']
 }
