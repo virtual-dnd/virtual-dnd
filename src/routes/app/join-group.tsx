@@ -35,17 +35,30 @@ export default function JoinGroup() {
         groupId = invite
       }
 
-      const { group } = await getGroup(groupId, request)
-      await createPlayer(
-        {
-          admin: false,
-          group_id: groupId,
-          user_id: id,
-        },
-        request
-      )
+      console.log({ id, invite, groupId, request })
 
-      return redirect(`/app/${group.id}`)
+      // TODO: create group permissions and invite codes (OTP)
+      // const { group } = await getGroup(groupId, request)
+
+      // if (!group) {
+      //   return {
+      //     error: 'Group not found',
+      //   }
+      // }
+
+      // TODO: create group for user using group data with user_id & admin false
+
+      // TODO: create player for user in group
+      // await createPlayer(
+      //   {
+      //     admin: false,
+      //     group_id: groupId,
+      //     user_id: id,
+      //   },
+      //   request
+      // )
+
+      // return redirect(`/app/${group.id}`)
     }
   )
 
