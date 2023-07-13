@@ -3,12 +3,12 @@ import { useRouteData, useSearchParams } from 'solid-start'
 import {
   createServerAction$,
   createServerData$,
-  redirect,
+  // redirect,
 } from 'solid-start/server'
 import { FormErrorMessage } from '~/components/index.ts'
 import { getUser } from '~/db/session.ts'
-import { getGroup } from '~/db/groups.ts'
-import { createPlayer } from '~/db/players.ts'
+// import { getGroup } from '~/db/groups.ts'
+// import { createPlayer } from '~/db/players.ts'
 
 export function routeData() {
   return createServerData$(async (_, { request }) => {
