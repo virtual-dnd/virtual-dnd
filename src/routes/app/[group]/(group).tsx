@@ -68,7 +68,7 @@ export default function Group() {
           <For each={data()?.players}>
             {(player) => (
               <div>
-                <p>{player.user_id}</p>
+                <p>{player.nickname}</p>
                 <small>online: {'false'}</small>
               </div>
             )}
