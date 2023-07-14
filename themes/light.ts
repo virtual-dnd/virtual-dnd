@@ -71,6 +71,7 @@ export const light = {
     border: colors.green[600],
     bg: {
       100: colors.green[600],
+      200: '#34a55a',
     },
     surface: {
       100: colors.green[700],

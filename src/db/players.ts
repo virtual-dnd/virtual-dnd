@@ -17,7 +17,7 @@ export async function getGroupPlayers(
 
   const { data, error } = await serverSupabase
     .from('players')
-    .select('user_id,avatar,nickname')
+    .select('id,avatar,nickname,admin')
     .eq('group_id', group_id)
 
   if (error) throw error

@@ -1,4 +1,4 @@
-import { For } from 'solid-js'
+import { For, Show } from 'solid-js'
 import { A, type RouteDataArgs, useRouteData } from 'solid-start'
 import { createServerData$ } from 'solid-start/server'
 import { getGroup } from '~/db/groups.ts'
@@ -9,9 +9,8 @@ export function routeData({ params }: RouteDataArgs<{ group: string }>) {
   return createServerData$(
     async (groupId, { request }) => {
       const { id } = await getUser(request)
-      const { group } = await getGroup(groupId, request)
-      const { players } = await getGroupPlayers(groupId, request)
-
+      const { group } = await getGroup(parseInt(groupId), request)
+      const { players } = await getGroupPlayers(parseInt(groupId), request)
       return {
         user: { id },
         group,
@@ -64,15 +63,48 @@ export default function Group() {
           </ul>
         </nav>
 
-        <div class="bg-neutral-surface-300 absolute bottom-0 left-0 right-0 flex h-1/2 w-full flex-col justify-start rounded-md p-2">
-          <For each={data()?.players}>
-            {(player) => (
-              <div>
-                <p>{player.nickname}</p>
-                <small>online: {'false'}</small>
-              </div>
-            )}
-          </For>
+        <div class="bg-neutral-surface-300 absolute bottom-0 left-0 right-0 h-1/2 w-full rounded-md p-2">
+          <ul class="flex flex-col justify-start space-y-1">
+            <For each={data()?.players}>
+              {(player) => (
+                <li class="flex items-center">
+                  <button
+                    data-player={player.id}
+                    class="hover:(bg-neutral-surface-400) w-full justify-start gap-1.5 border-none"
+                  >
+                    <div class="relative">
+                      <div class="bg-info-surface-100 h-7 w-7 rounded-full">
+                        <Show
+                          when={player.avatar}
+                          fallback={
+                            <div
+                              aria-hidden
+                              class="i-line-md:emoji-smile text-info-text-100"
+                            />
+                          }
+                        >
+                          <img
+                            alt="player avatar"
+                            class="rounded-full"
+                            src={player.avatar ?? ''}
+                          />
+                        </Show>
+                      </div>
+
+                      <span
+                        aria-label="online"
+                        classList={{
+                          online: true,
+                        }}
+                      />
+                    </div>
+
+                    {player.nickname}
+                  </button>
+                </li>
+              )}
+            </For>
+          </ul>
         </div>
       </div>
 

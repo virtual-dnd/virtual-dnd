@@ -32,7 +32,7 @@ export default function Me() {
               <img alt="Profile banner" class="h-full w-full" src="" />
             </Show>
 
-            <div class="bg-info-surface-100 absolute left-4 top-14 flex h-14 w-14 flex-col items-center justify-center overflow-hidden rounded-full border-2 fill-white">
+            <div class="bg-info-surface-100 border-neutral-surface-400 absolute left-4 top-14 flex h-14 w-14 flex-col items-center justify-center overflow-hidden rounded-full border-4 border-solid fill-white">
               <Show
                 when={data()?.profile?.avatar}
                 fallback={
