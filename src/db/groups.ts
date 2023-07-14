@@ -1,4 +1,4 @@
-import { type User, createServerClient } from '@supabase/auth-helpers-remix'
+import { createServerClient } from '@supabase/auth-helpers-remix'
 
 // READ
 
@@ -7,7 +7,7 @@ export async function getUserGroups(
   request: Request
 ) {
   const response = new Response()
-  const serverSupabase = createServerClient(
+  const serverSupabase = createServerClient<DB>(
     import.meta.env.VITE_SUPABASE_URL,
     import.meta.env.VITE_SUPABASE_KEY,
     { request, response }
@@ -32,7 +32,7 @@ export async function getGroup(
   headers: Headers
 }> {
   const response = new Response()
-  const serverSupabase = createServerClient(
+  const serverSupabase = createServerClient<DB>(
     import.meta.env.VITE_SUPABASE_URL,
     import.meta.env.VITE_SUPABASE_KEY,
     { request, response }
@@ -58,7 +58,7 @@ export async function createGroup(
   request: Request
 ): Promise<{ data: Group; headers: Headers }> {
   const response = new Response()
-  const serverSupabase = createServerClient(
+  const serverSupabase = createServerClient<DB>(
     import.meta.env.VITE_SUPABASE_URL,
     import.meta.env.VITE_SUPABASE_KEY,
     { request, response }
@@ -79,7 +79,7 @@ export async function createGroupAvatar(
   request: Request
 ) {
   const response = new Response()
-  const serverSupabase = createServerClient(
+  const serverSupabase = createServerClient<DB>(
     import.meta.env.VITE_SUPABASE_URL,
     import.meta.env.VITE_SUPABASE_KEY,
     { request, response }
@@ -109,7 +109,7 @@ export async function updateGroup(
   request: Request
 ) {
   const response = new Response()
-  const serverSupabase = createServerClient(
+  const serverSupabase = createServerClient<DB>(
     import.meta.env.VITE_SUPABASE_URL,
     import.meta.env.VITE_SUPABASE_KEY,
     { request, response }
@@ -134,7 +134,7 @@ export async function updateGroupAvatar(
   request: Request
 ) {
   const response = new Response()
-  const serverSupabase = createServerClient(
+  const serverSupabase = createServerClient<DB>(
     import.meta.env.VITE_SUPABASE_URL,
     import.meta.env.VITE_SUPABASE_KEY,
     { request, response }
@@ -161,7 +161,7 @@ export async function updateGroupAvatar(
 
 export async function deleteGroup(id: string, request: Request) {
   const response = new Response()
-  const serverSupabase = createServerClient(
+  const serverSupabase = createServerClient<DB>(
     import.meta.env.VITE_SUPABASE_URL,
     import.meta.env.VITE_SUPABASE_KEY,
     { request, response }
@@ -176,7 +176,7 @@ export async function deleteGroup(id: string, request: Request) {
 
 export async function deleteGroupAvatar(payload: string, request: Request) {
   const response = new Response()
-  const serverSupabase = createServerClient(
+  const serverSupabase = createServerClient<DB>(
     import.meta.env.VITE_SUPABASE_URL,
     import.meta.env.VITE_SUPABASE_KEY,
     { request, response }
@@ -192,14 +192,6 @@ export async function deleteGroupAvatar(payload: string, request: Request) {
 }
 
 // types
-
-export interface Group {
-  id: string
-  created_at: string
-  name: string
-  avatar: string | null
-  user_id: string
-}
 
 export interface GroupProfileForm {
   avatar: Group['avatar']

@@ -26,7 +26,7 @@ export function routeData() {
   })
 }
 
-export default function Me() {
+export default function Profile() {
   const data = useRouteData<typeof routeData>()
   const [searchParams] = useSearchParams()
   const [showFooter, setShowFooter] = createStore({

@@ -36,16 +36,16 @@ export default function App() {
           <For each={data()?.groups}>
             {(group) => (
               <A
-                aria-label={group.name}
+                aria-label={group.name ?? 'Group'}
                 activeClass="animate-grow-radius active-server-item"
                 class="bg-info-surface-100 text-info-text-100 hover:animate-grow-radius aria-[current=page]:(bg-action-link-active) relative inline-flex h-12 w-12 items-center justify-center overflow-hidden rounded-full transition ease-in-out"
                 href={`/app/${group.id}`}
               >
-                <Show when={group.avatar} fallback={group.name[0]}>
+                <Show when={group.avatar} fallback={group.name?.[0]}>
                   <img
                     alt="Group avatar"
                     class="h-full w-full"
-                    src={group.avatar}
+                    src={group.avatar ?? ''}
                   />
                 </Show>
               </A>
