@@ -140,6 +140,13 @@ export default function Profile() {
         <FormErrorMessage error={updating.error} />
       </Show>
 
+      <Show when={updating.result || updatingAvatar.result}>
+        <div class="bg-success-surface-100 text-success-text-200 mb-4 flex items-center gap-2 rounded-md p-4">
+          <div class="i-line-md:confirm text-2xl text-white" />
+          Your user profile has been updated!
+        </div>
+      </Show>
+
       <div class="mt-6">
         <div class="bg-neutral-surface-400 relative mb-6 rounded-lg p-2">
           <div class="bg-neutral-surface-100 h-20 overflow-hidden rounded-sm">
