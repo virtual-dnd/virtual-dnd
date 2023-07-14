@@ -7,41 +7,28 @@ import {
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss'
-import type { Theme } from 'unocss/preset-uno'
 import presetTheme from 'unocss-preset-theme'
 import { presetForms } from '@julr/unocss-preset-forms'
 import { presetExtra } from 'unocss-preset-extra'
 import presetAutoprefixer from 'unocss-preset-autoprefixer'
 import { darkTheme, lightTheme } from './themes/index.ts'
 
-export default defineConfig<Theme>({
+const config = {
   theme: {
     colors: lightTheme,
   },
 
-  rules: [
-    [
-      'animate-grow-radius',
-      { animation: 'growRadius 300ms ease-in-out forwards' },
-    ],
-    [
-      'btn',
-      {
-        cursor: 'pointer',
-        display: 'inline-flex',
-        gap: '1rem',
-        height: '3rem',
-        transition: 'all 300ms ease-in-out',
-        'align-items': 'center',
-        'justify-content': 'center',
-        'border-radius': '0.5rem',
-        'padding-inline-start': '1.5rem',
-        'padding-inline-end': '1.5rem',
-        'padding-bottom': '0.5rem',
-        'padding-top': '0.5rem',
-      },
-    ],
-  ],
+  shortcuts: {
+    'animate-grow-radius': 'animate-growRadius 300ms ease-in-out forwards',
+
+    btn: 'cursor-pointer inline-flex gap-1 h-12 transition-all rounded-md items-center justify-center ps-6 pe-6 py-2',
+
+    'online-indicator':
+      'border-2 border-solid border-neutral-surface-300 rounded-full h-3 w-3 absolute bottom-0 right-0',
+
+    online: 'online-indicator bg-success-bg-200',
+    offline: 'online-indicator opacity-50',
+  },
 
   transformers: [transformerDirectives(), transformerVariantGroup()],
 
@@ -66,7 +53,7 @@ export default defineConfig<Theme>({
     presetAutoprefixer(),
     presetForms(),
     presetExtra(),
-    presetTheme<Theme>({
+    presetTheme({
       theme: {
         dark: {
           colors: darkTheme,
@@ -74,4 +61,6 @@ export default defineConfig<Theme>({
       },
     }),
   ],
-})
+}
+
+export default defineConfig<typeof config>(config)

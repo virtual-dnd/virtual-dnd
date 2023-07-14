@@ -1,4 +1,5 @@
 import { createServerClient } from '@supabase/auth-helpers-remix'
+import { supabase } from '~/lib/solidbaseClient.ts'
 
 // READ
 
@@ -108,6 +109,31 @@ export async function removeUserAvatar(payload: string, request: Request) {
   if (error) throw error
 
   return { data, headers: response.headers }
+}
+
+// SUBSCRIPTIONS
+
+export async function subscribeToProfileOnlineStatus(
+  group_id: Group['id'] | undefined
+) {
+  if (!group_id) return
+
+  return supabase
+    .channel('vdd:public:profiles')
+    .on(
+      'postgres_changes',
+      {
+        event: 'UPDATE',
+        schema: 'public',
+        table: 'profiles',
+        filter: `group_id=eq.${group_id}`,
+      },
+      () => ({
+        event: 'UPDATE',
+        group_id,
+      })
+    )
+    .subscribe()
 }
 
 // TYPES
