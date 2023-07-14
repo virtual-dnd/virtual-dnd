@@ -1,8 +1,12 @@
-import { For, Show, createMemo, createSignal } from 'solid-js'
+import { For, Show, createEffect, createMemo, createSignal } from 'solid-js'
 import { createStore } from 'solid-js/store'
 import { useRouteData, useSearchParams } from 'solid-start'
 import { createServerAction$, createServerData$ } from 'solid-start/server'
-import { FormErrorMessage, FormFooter } from '~/components/index.ts'
+import {
+  FormErrorMessage,
+  FormFooter,
+  NoGroupsMessage,
+} from '~/components/index.ts'
 import { getUserGroups } from '~/db/groups.ts'
 import { getUserPlayers, updatePlayer } from '~/db/players.ts'
 import { getUser } from '~/db/session.ts'
@@ -46,8 +50,15 @@ export default function GroupProfiles() {
         },
         request
       )
+      return true
     }
   )
+
+  createEffect(() => {
+    if (updating.result) {
+      setShowFooter('profile', false)
+    }
+  })
 
   return (
     <>
@@ -60,72 +71,81 @@ export default function GroupProfiles() {
         <FormErrorMessage error={updating.error} />
       </Show>
 
-      <label for="group" aria-describedby="group:help">
-        Choose a group
-        <select
-          class="mt-2"
-          id="group"
-          onChange={(e) => setSelectedGroup(parseInt(e.target.value))}
-          name="group"
-        >
-          <For each={data()?.groups}>
-            {(group) => <option value={group.id}>{group.name}</option>}
-          </For>
-        </select>
-      </label>
+      <Show when={updating.result}>
+        <div class="bg-success-surface-100 text-success-text-200 mb-4 flex items-center gap-2 rounded-md p-4">
+          <div class="i-line-md:confirm text-2xl text-white" />
+          Your player profile has been updated!
+        </div>
+      </Show>
 
-      <hr class="bg-neutral-border-300 h-2px my-8 w-full border-none" />
-
-      <ProfileForm>
-        <input type="hidden" name="id" value={player()?.id ?? ''} />
-
-        <label for="nickname" aria-describedby="nickname:help">
-          Player Nickname (required)
-          <input
-            id="nickname"
-            onKeyPress={() => setShowFooter('profile', true)}
-            placeholder='e.g. "The Great and Powerful Oz"'
-            maxlength={32}
-            name="nickname"
-            required
-            type="text"
-            value={player()?.nickname ?? ''}
-          />
+      <Show when={data()?.groups?.length !== 0} fallback={<NoGroupsMessage />}>
+        <label for="group" aria-describedby="group:help">
+          Choose a group
+          <select
+            class="mt-2"
+            id="group"
+            onChange={(e) => setSelectedGroup(parseInt(e.target.value))}
+            name="group"
+          >
+            <For each={data()?.groups}>
+              {(group) => <option value={group.id}>{group.name}</option>}
+            </For>
+          </select>
         </label>
-        <small id="nickname:help">
-          The name everyone in your group will see.
-        </small>
 
-        <label class="mt-4" for="pronouns" aria-describedby="pronouns:help">
-          Pronouns
-          <input
-            id="pronouns"
-            onKeyPress={() => setShowFooter('profile', true)}
-            placeholder="Add your pronouns"
-            name="pronouns"
-            type="text"
-            value={player()?.pronouns ?? ''}
-          />
-        </label>
-        <small id="pronouns:help">The pronouns you identify with.</small>
+        <hr class="bg-neutral-border-300 h-2px my-8 w-full border-none" />
 
-        <Show when={showFooter.profile}>
-          <FormFooter onCancel={() => setShowFooter('profile', false)}>
-            <button
-              class="bg-action-bg-100 text-action-text-300 hover:bg-action-bg-100-hover w-full"
-              type="submit"
-            >
-              <Show when={updating?.pending} fallback={<>Save Changes</>}>
-                Updating
-                <div
-                  aria-hidden="true"
-                  class="i-line-md:loading-twotone-loop scale-160"
-                />
-              </Show>
-            </button>
-          </FormFooter>
-        </Show>
-      </ProfileForm>
+        <ProfileForm>
+          <input type="hidden" name="id" value={player()?.id ?? ''} />
+
+          <label for="nickname" aria-describedby="nickname:help">
+            Player Nickname (required)
+            <input
+              id="nickname"
+              onKeyPress={() => setShowFooter('profile', true)}
+              placeholder='e.g. "The Great and Powerful Oz"'
+              maxlength={32}
+              name="nickname"
+              required
+              type="text"
+              value={player()?.nickname ?? ''}
+            />
+          </label>
+          <small id="nickname:help">
+            The name everyone in your group will see.
+          </small>
+
+          <label class="mt-4" for="pronouns" aria-describedby="pronouns:help">
+            Pronouns
+            <input
+              id="pronouns"
+              onKeyPress={() => setShowFooter('profile', true)}
+              placeholder="Add your pronouns"
+              name="pronouns"
+              type="text"
+              value={player()?.pronouns ?? ''}
+            />
+          </label>
+          <small id="pronouns:help">The pronouns you identify with.</small>
+
+          <Show when={showFooter.profile}>
+            <FormFooter onCancel={() => setShowFooter('profile', false)}>
+              <button
+                class="bg-action-bg-100 text-action-text-300 hover:bg-action-bg-100-hover w-full"
+                type="submit"
+              >
+                <Show when={updating?.pending} fallback={<>Save Changes</>}>
+                  Updating
+                  <div
+                    aria-hidden="true"
+                    class="i-line-md:loading-twotone-loop scale-160"
+                  />
+                </Show>
+              </button>
+            </FormFooter>
+          </Show>
+        </ProfileForm>
+      </Show>
 
       <Show when={searchParams.debug}>
         <code class="mt-10 block">

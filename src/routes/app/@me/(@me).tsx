@@ -59,7 +59,7 @@ export default function Me() {
         </div>
 
         <A
-          href="/app/@me/profiles"
+          href="/app/@me/profile"
           class="decoration-none btn text-action-text-100 bg-action-link"
         >
           Edit User Profile
