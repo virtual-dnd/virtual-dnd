@@ -344,7 +344,10 @@ export default function Settings() {
                 class="bg-danger-bg-100 text-danger-text-200 hover:bg-danger-bg-100-hover"
                 type="submit"
               >
-                <Show when={updating?.pending} fallback={<>Delete Group</>}>
+                <Show
+                  when={deletingGroup?.pending}
+                  fallback={<>Delete Group</>}
+                >
                   Deleting
                   <div
                     aria-hidden="true"

@@ -12,8 +12,12 @@ export function routeData() {
         label: 'Account',
       },
       {
-        href: '/app/@me/profiles',
-        label: 'Profiles',
+        href: '/app/@me/profile',
+        label: 'User Profile',
+      },
+      {
+        href: '/app/@me/group-profiles',
+        label: 'Group Profiles',
       },
     ]
     return navLinks

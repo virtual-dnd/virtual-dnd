@@ -1,6 +1,4 @@
 import { createServerClient } from '@supabase/auth-helpers-remix'
-import { type Group } from './groups.ts'
-import { type UserProfile } from './profiles.ts'
 
 // READ
 
@@ -9,7 +7,7 @@ export async function getGroupPlayers(
   request: Request
 ) {
   const response = new Response()
-  const serverSupabase = createServerClient(
+  const serverSupabase = createServerClient<DB>(
     import.meta.env.VITE_SUPABASE_URL,
     import.meta.env.VITE_SUPABASE_KEY,
     { request, response }
@@ -27,6 +25,29 @@ export async function getGroupPlayers(
   return { players: data, headers: response.headers }
 }
 
+export async function getUserPlayers(
+  user_id: User['id'] | undefined,
+  request: Request
+) {
+  const response = new Response()
+  const serverSupabase = createServerClient<DB>(
+    import.meta.env.VITE_SUPABASE_URL,
+    import.meta.env.VITE_SUPABASE_KEY,
+    { request, response }
+  )
+
+  if (!user_id) throw new Error('Unable to get player without user_id')
+
+  const { data, error } = await serverSupabase
+    .from('players')
+    .select('*')
+    .eq('user_id', user_id)
+
+  if (error) throw error
+
+  return { players: data, headers: response.headers }
+}
+
 // CREATE
 
 export async function createPlayer(
@@ -34,7 +55,7 @@ export async function createPlayer(
   request: Request
 ) {
   const response = new Response()
-  const serverSupabase = createServerClient(
+  const serverSupabase = createServerClient<DB>(
     import.meta.env.VITE_SUPABASE_URL,
     import.meta.env.VITE_SUPABASE_KEY,
     { request, response }
@@ -50,19 +71,34 @@ export async function createPlayer(
   return { player: data, headers: response.headers }
 }
 
-// types
+// UPDATE
 
-export interface Player {
-  admin: boolean | null
-  avatar: UserProfile['avatar']
-  group_id: Group['id']
-  id: string
-  online: boolean | null
-  user_id: UserProfile['id']
+export async function updatePlayer(payload: Partial<Player>, request: Request) {
+  const response = new Response()
+  const serverSupabase = createServerClient<DB>(
+    import.meta.env.VITE_SUPABASE_URL,
+    import.meta.env.VITE_SUPABASE_KEY,
+    { request, response }
+  )
+  const { id, ...playerForm } = payload
+
+  if (!id) throw new Error('Unable to update player without id')
+
+  const { data, error } = await serverSupabase
+    .from('players')
+    .update(playerForm)
+    .eq('id', id)
+    .select()
+
+  if (error) throw error
+
+  return { player: data, headers: response.headers }
 }
+
+// types
 
 export interface CreatePlayerPayload {
   admin: boolean
   group_id: Group['id']
-  user_id: UserProfile['id']
+  user_id: User['id']
 }
