@@ -18,9 +18,16 @@ const config = {
     colors: lightTheme,
   },
 
-  shortcuts: {
-    'animate-grow-radius': 'animate-growRadius 300ms ease-in-out forwards',
+  rules: [
+    [
+      'animate-grow-radius',
+      {
+        animation: 'growRadius 300ms ease-in-out forwards',
+      },
+    ],
+  ],
 
+  shortcuts: {
     btn: 'cursor-pointer inline-flex gap-1 h-12 transition-all rounded-md items-center justify-center ps-6 pe-6 py-2',
 
     'online-indicator':
@@ -50,7 +57,6 @@ const config = {
       },
     }),
     // unnoficial presets
-    presetAutoprefixer(),
     presetForms(),
     presetExtra(),
     presetTheme({
@@ -60,6 +66,7 @@ const config = {
         },
       },
     }),
+    presetAutoprefixer(),
   ],
 }
 
