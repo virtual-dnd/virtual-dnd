@@ -70,7 +70,7 @@ export default function Group() {
                 <li class="flex items-center">
                   <button
                     data-player={player.id}
-                    class="hover:(bg-neutral-surface-400) w-full justify-start gap-1.5 border-none"
+                    class="hover:(bg-neutral-surface-400) w-full justify-start gap-1.5 border-none font-bold"
                   >
                     <div class="relative">
                       <div class="bg-info-surface-100 h-7 w-7 rounded-full">
